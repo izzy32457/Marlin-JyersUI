@@ -193,7 +193,7 @@
   //#define CHAMBER_FAN               // Enable a fan on the chamber
   #if ENABLED(CHAMBER_FAN)
     //#define CHAMBER_FAN_INDEX   2   // Index of a fan to repurpose as the chamber fan. (Default: first unused fan)
-    #define CHAMBER_FAN_MODE      2   // Fan control mode: 0=Static; 1=Linear increase when temp is higher than target; 2=V-shaped curve; 3=similar to 1 but fan is always on.
+    #define CHAMBER_FAN_MODE 2        // Fan control mode: 0=Static; 1=Linear increase when temp is higher than target; 2=V-shaped curve; 3=similar to 1 but fan is always on.
     #if CHAMBER_FAN_MODE == 0
       #define CHAMBER_FAN_BASE  255   // Chamber fan PWM (0-255)
     #elif CHAMBER_FAN_MODE == 1
@@ -300,21 +300,21 @@
    * and/or decrease WATCH_TEMP_INCREASE. WATCH_TEMP_INCREASE should not be set
    * below 2.
    */
-  #define WATCH_TEMP_PERIOD  40               // Seconds
-  #define WATCH_TEMP_INCREASE 2               // Degrees Celsius
+  #define WATCH_TEMP_PERIOD  30               // Seconds
+  #define WATCH_TEMP_INCREASE 3               // Degrees Celsius
 #endif
 
 /**
  * Thermal Protection parameters for the bed are just as above for hotends.
  */
 #if ENABLED(THERMAL_PROTECTION_BED)
-  #define THERMAL_PROTECTION_BED_PERIOD       180 // Seconds
+  #define THERMAL_PROTECTION_BED_PERIOD       120 // Seconds
   #define THERMAL_PROTECTION_BED_HYSTERESIS     2 // Degrees Celsius
 
   /**
    * As described above, except for the bed (M140/M190/M303).
    */
-  #define WATCH_BED_TEMP_PERIOD               180 // Seconds
+  #define WATCH_BED_TEMP_PERIOD               120 // Seconds
   #define WATCH_BED_TEMP_INCREASE               2 // Degrees Celsius
 #endif
 
@@ -336,8 +336,8 @@
  * Thermal Protection parameters for the laser cooler.
  */
 #if ENABLED(THERMAL_PROTECTION_COOLER)
-  #define THERMAL_PROTECTION_COOLER_PERIOD     10 // Seconds
-  #define THERMAL_PROTECTION_COOLER_HYSTERESIS  3 // Degrees Celsius
+  #define THERMAL_PROTECTION_COOLER_PERIOD    10 // Seconds
+  #define THERMAL_PROTECTION_COOLER_HYSTERESIS 3 // Degrees Celsius
 
   /**
    * Laser cooling watch settings (M143/M193).
@@ -347,7 +347,11 @@
 #endif
 
 #if ANY(THERMAL_PROTECTION_HOTENDS, THERMAL_PROTECTION_BED, THERMAL_PROTECTION_CHAMBER, THERMAL_PROTECTION_COOLER)
-  #define THERMAL_PROTECTION_VARIANCE_MONITOR     // Detect a sensor malfunction preventing temperature updates
+  /**
+   * Thermal Protection Variance Monitor - EXPERIMENTAL.
+   * Kill the machine on a stuck temperature sensor. Disable if you get false positives.
+   */
+  //#define THERMAL_PROTECTION_VARIANCE_MONITOR   // Detect a sensor malfunction preventing temperature updates
 #endif
 
 #if ENABLED(PIDTEMP)
@@ -807,18 +811,17 @@
  */
 //#define DUAL_X_CARRIAGE
 #if ENABLED(DUAL_X_CARRIAGE)
-  #define X1_MIN_POS X_MIN_POS   // Set to X_MIN_POS
-  #define X1_MAX_POS X_BED_SIZE  // Set a maximum so the first X-carriage can't hit the parked second X-carriage
-  #define X2_MIN_POS    80       // Set a minimum to ensure the  second X-carriage can't hit the parked first X-carriage
-  #define X2_MAX_POS   353       // Set this to the distance between toolheads when both heads are homed
-  #define X2_HOME_DIR    1       // Set to 1. The second X-carriage always homes to the maximum endstop position
-  #define X2_HOME_POS X2_MAX_POS // Default X2 home position. Set to X2_MAX_POS.
-                      // However: In this mode the HOTEND_OFFSET_X value for the second extruder provides a software
-                      // override for X2_HOME_POS. This also allow recalibration of the distance between the two endstops
-                      // without modifying the firmware (through the "M218 T1 X???" command).
-                      // Remember: you should set the second extruder x-offset to 0 in your slicer.
+  #define X1_MIN_POS X_MIN_POS    // Set to X_MIN_POS
+  #define X1_MAX_POS X_BED_SIZE   // A max coordinate so the X1 carriage can't hit the parked X2 carriage
+  #define X2_MIN_POS    80        // A min coordinate so the X2 carriage can't hit the parked X1 carriage
+  #define X2_MAX_POS   353        // The max position of the X2 carriage, typically also the home position
+  #define X2_HOME_DIR    1        // Set to 1. The X2 carriage always homes to the max endstop position
+  #define X2_HOME_POS X2_MAX_POS  // Default X2 home position. Set to X2_MAX_POS.
+                                  // NOTE: For Dual X Carriage use M218 T1 Xn to override the X2_HOME_POS.
+                                  // This allows recalibration of endstops distance without a rebuild.
+                                  // Remember to set the second extruder's X-offset to 0 in your slicer.
 
-  // This is the default power-up mode which can be later using M605.
+  // This is the default power-up mode which can be later changed later using M605 S<mode>.
   #define DEFAULT_DUAL_X_CARRIAGE_MODE DXC_AUTO_PARK_MODE
 
   // Default x offset in duplication mode (typically set to half print bed width)
@@ -916,7 +919,7 @@
    *
    * Set the default state here, change with 'M401 S' or UI, use M500 to save, M502 to reset.
    */
-  //#define BLTOUCH_HS_MODE true
+  #define BLTOUCH_HS_MODE false
 
   // Safety: Enable voltage mode settings in the LCD menu.
   //#define BLTOUCH_LCD_VOLTAGE_MENU
@@ -959,15 +962,17 @@
     //#define Z_STEPPERS_ORIENTATION 0
   #endif
 
-  // Provide Z stepper positions for more rapid convergence in bed alignment.
-  // Requires triple stepper drivers (i.e., set NUM_Z_STEPPER_DRIVERS to 3)
-  //#define Z_STEPPER_ALIGN_KNOWN_STEPPER_POSITIONS
-  #if ENABLED(Z_STEPPER_ALIGN_KNOWN_STEPPER_POSITIONS)
-    // Define Stepper XY positions for Z1, Z2, Z3 corresponding to
-    // the Z screw positions in the bed carriage.
-    // Define one position per Z stepper in stepper driver order.
-    #define Z_STEPPER_ALIGN_STEPPER_XY { { 210.7, 102.5 }, { 152.6, 220.0 }, { 94.5, 102.5 } }
-  #else
+  /**
+   * Z Stepper positions for more rapid convergence in bed alignment.
+   * Requires NUM_Z_STEPPER_DRIVERS to be 3 or 4.
+   *
+   * Define Stepper XY positions for Z1, Z2, Z3... corresponding to the screw
+   * positions in the bed carriage, with one position per Z stepper in stepper
+   * driver order.
+   */
+  //#define Z_STEPPER_ALIGN_STEPPER_XY { { 210.7, 102.5 }, { 152.6, 220.0 }, { 94.5, 102.5 } }
+
+  #ifndef Z_STEPPER_ALIGN_STEPPER_XY
     // Amplification factor. Used to scale the correction step up or down in case
     // the stepper (spindle) position is farther out than the test point.
     #define Z_STEPPER_ALIGN_AMP 1.0       // Use a value > 1.0 NOTE: This may cause instability!
@@ -1278,6 +1283,11 @@
   #define FEEDRATE_CHANGE_BEEP_FREQUENCY 440
 #endif
 
+//
+// LCD Backlight Timeout
+//
+//#define LCD_BACKLIGHT_TIMEOUT 30 // (s) Timeout before turning off the backlight
+
 #if HAS_BED_PROBE && EITHER(HAS_MARLINUI_MENU, HAS_TFT_LVGL_UI)
   //#define PROBE_OFFSET_WIZARD       // Add a Probe Z Offset calibration option to the LCD menu
   #if ENABLED(PROBE_OFFSET_WIZARD)
@@ -1295,7 +1305,7 @@
 
 #if HAS_MARLINUI_MENU
 
-  #if BOTH(HAS_BED_PROBE, AUTO_BED_LEVELING_BILINEAR)
+  #if HAS_BED_PROBE
     // Add calibration in the Probe Offsets menu to compensate for X-axis twist.
     //#define X_AXIS_TWIST_COMPENSATION
     #if ENABLED(X_AXIS_TWIST_COMPENSATION)
@@ -1307,6 +1317,7 @@
       #define XATC_START_Z 0.0
       #define XATC_MAX_POINTS 3             // Number of points to probe in the wizard
       #define XATC_Y_POSITION Y_CENTER      // (mm) Y position to probe
+      #define XATC_Z_OFFSETS { 0, 0, 0 }    // Z offsets for X axis sample points
     #endif
   #endif
 
@@ -1324,11 +1335,11 @@
 
 #endif // HAS_MARLINUI_MENU
 
-#if ANY(HAS_DISPLAY, DWIN_CREALITY_LCD_ENHANCED, DWIN_CREALITY_LCD_JYERSUI)
-  //#define SOUND_MENU_ITEM   // Add a mute option to the LCD menu
+#if ANY(HAS_DISPLAY, DWIN_LCD_PROUI, DWIN_CREALITY_LCD_JYERSUI)
+  #define SOUND_MENU_ITEM   // Add a mute option to the LCD menu
 #endif
 
-#if EITHER(HAS_DISPLAY, DWIN_CREALITY_LCD_ENHANCED)
+#if ANY(HAS_DISPLAY, DWIN_LCD_PROUI, DWIN_CREALITY_LCD_JYERSUI)
   // The timeout (in ms) to return to the status screen from sub-menus
   //#define LCD_TIMEOUT_TO_STATUS 15000
 
@@ -1340,13 +1351,13 @@
   #endif
 
   // Scroll a longer status message into view
-  //#define STATUS_MESSAGE_SCROLLING
+  #define STATUS_MESSAGE_SCROLLING
 
   // On the Info Screen, display XY with one decimal place when possible
   //#define LCD_DECIMAL_SMALL_XY
 
   // Add an 'M73' G-code to set the current percentage
-  //#define LCD_SET_PROGRESS_MANUALLY
+  #define LCD_SET_PROGRESS_MANUALLY
 
   // Show the E position (filament used) during printing
   //#define LCD_SHOW_E_TOTAL
@@ -1382,9 +1393,9 @@
 // LCD Print Progress options
 #if EITHER(SDSUPPORT, LCD_SET_PROGRESS_MANUALLY)
   #if CAN_SHOW_REMAINING_TIME
-    //#define SHOW_REMAINING_TIME         // Display estimated time to completion
+    #define SHOW_REMAINING_TIME         // Display estimated time to completion
     #if ENABLED(SHOW_REMAINING_TIME)
-      //#define USE_M73_REMAINING_TIME    // Use remaining time from M73 command instead of estimation
+      #define USE_M73_REMAINING_TIME    // Use remaining time from M73 command instead of estimation
       //#define ROTATE_PROGRESS_DISPLAY   // Display (P)rogress, (E)lapsed, and (R)emaining time
     #endif
   #endif
@@ -1444,7 +1455,8 @@
 
   //#define MEDIA_MENU_AT_TOP               // Force the media menu to be listed on the top of the main menu
 
-  #define EVENT_GCODE_SD_ABORT "G28XY"      // G-code to run on SD Abort Print (e.g., "G28XY" or "G27")
+  //#define EVENT_GCODE_SD_ABORT "G28XY"      // G-code to run on SD Abort Print (e.g., "G28XY" or "G27")
+  #define EVENT_GCODE_SD_ABORT "G27 P2"      // G-code to run on SD Abort Print (e.g., "G28XY" or "G27")
 
   #if ENABLED(PRINTER_EVENT_LEDS)
     #define PE_LEDS_COMPLETED_TIME  (30*60) // (seconds) Time to keep the LED "done" color before restoring normal illumination
@@ -1523,8 +1535,8 @@
   // LCD's font must contain the characters. Check your selected LCD language.
   //#define UTF_FILENAME_SUPPORT
 
-  //#define LONG_FILENAME_HOST_SUPPORT    // Get the long filename of a file/folder with 'M33 <dosname>' and list long filenames with 'M20 L'
-  //#define LONG_FILENAME_WRITE_SUPPORT   // Create / delete files with long filenames via M28, M30, and Binary Transfer Protocol
+  #define LONG_FILENAME_HOST_SUPPORT    // Get the long filename of a file/folder with 'M33 <dosname>' and list long filenames with 'M20 L'
+  #define LONG_FILENAME_WRITE_SUPPORT   // Create / delete files with long filenames via M28, M30, and Binary Transfer Protocol
 
   #define SCROLL_LONG_FILENAMES         // Scroll long filenames in the SD card menu
 
@@ -1627,7 +1639,10 @@
   // Enable if SD detect is rendered useless (e.g., by using an SD extender)
   //#define NO_SD_DETECT
 
-  // Multiple volume support - EXPERIMENTAL.
+  /**
+   * Multiple volume support - EXPERIMENTAL.
+   * Adds 'M21 Pm' / 'M21 S' / 'M21 U' to mount SD Card / USB Drive.
+   */
   //#define MULTI_VOLUME
   #if ENABLED(MULTI_VOLUME)
     #define VOLUME_SD_ONBOARD
@@ -2148,7 +2163,7 @@
   #define MIN_CIRCLE_SEGMENTS    72   // Minimum number of segments in a complete circle
   //#define ARC_SEGMENTS_PER_SEC 50   // Use the feedrate to choose the segment length
   #define N_ARC_CORRECTION       25   // Number of interpolated segments between corrections
-  //#define ARC_P_CIRCLES             // Enable the 'P' parameter to specify complete circles
+  #define ARC_P_CIRCLES             // Enable the 'P' parameter to specify complete circles
   //#define SF_ARC_FIX                // Enable only if using SkeinForge with "Arc Point" fillet procedure
 #endif
 
@@ -2262,7 +2277,7 @@
 // For debug-echo: 128 bytes for the optimal speed.
 // Other output doesn't need to be that speedy.
 // :[0, 2, 4, 8, 16, 32, 64, 128, 256]
-#define TX_BUFFER_SIZE 0
+#define TX_BUFFER_SIZE 32
 
 // Host Receive Buffer Size
 // Without XON/XOFF flow control (see SERIAL_XON_XOFF below) 32 bytes should be enough.
@@ -2300,7 +2315,7 @@
  * Currently handles M108, M112, M410, M876
  * NOTE: Not yet implemented for all platforms.
  */
-//#define EMERGENCY_PARSER
+#define EMERGENCY_PARSER
 
 /**
  * Realtime Reporting (requires EMERGENCY_PARSER)
@@ -2338,6 +2353,15 @@
 // For serial echo, the number of digits after the decimal point
 //#define SERIAL_FLOAT_PRECISION 4
 
+/**
+ * Set the number of proportional font spaces required to fill up a typical character space.
+ * This can help to better align the output of commands like `G29 O` Mesh Output.
+ *
+ * For clients that use a fixed-width font (like OctoPrint), leave this set to 1.0.
+ * Otherwise, adjust according to your client and font.
+ */
+#define PROPORTIONAL_FONT_RATIO 1.0
+
 // @section extras
 
 /**
@@ -2363,20 +2387,20 @@
  *
  * Note that M207 / M208 / M209 settings are saved to EEPROM.
  */
-//#define FWRETRACT
+#define FWRETRACT
 #if ENABLED(FWRETRACT)
   #define FWRETRACT_AUTORETRACT             // Override slicer retractions
   #if ENABLED(FWRETRACT_AUTORETRACT)
     #define MIN_AUTORETRACT             0.1 // (mm) Don't convert E moves under this length
     #define MAX_AUTORETRACT            10.0 // (mm) Don't convert E moves over this length
   #endif
-  #define RETRACT_LENGTH                3   // (mm) Default retract length (positive value)
-  #define RETRACT_LENGTH_SWAP          13   // (mm) Default swap retract length (positive value)
+  #define RETRACT_LENGTH                6   // (mm) Default retract length (positive value)
+  #define RETRACT_LENGTH_SWAP           0   // (mm) Default swap retract length (positive value)
   #define RETRACT_FEEDRATE             45   // (mm/s) Default feedrate for retracting
   #define RETRACT_ZRAISE                0   // (mm) Default retract Z-raise
   #define RETRACT_RECOVER_LENGTH        0   // (mm) Default additional recover length (added to retract length on recover)
   #define RETRACT_RECOVER_LENGTH_SWAP   0   // (mm) Default additional swap recover length (added to retract length on recover from toolchange)
-  #define RETRACT_RECOVER_FEEDRATE      8   // (mm/s) Default feedrate for recovering from retraction
+  #define RETRACT_RECOVER_FEEDRATE     40   // (mm/s) Default feedrate for recovering from retraction
   #define RETRACT_RECOVER_FEEDRATE_SWAP 8   // (mm/s) Default feedrate for recovering from swap retraction
   #if ENABLED(MIXING_EXTRUDER)
     //#define RETRACT_SYNC_MIXING           // Retract and restore all mixing steppers simultaneously
@@ -2418,7 +2442,7 @@
   #if ENABLED(TOOLCHANGE_FILAMENT_SWAP)
     // Load / Unload
     #define TOOLCHANGE_FS_LENGTH              12  // (mm) Load / Unload length
-    #define TOOLCHANGE_FS_EXTRA_RESUME_LENGTH  0  // (mm) Extra length for better restart, fine tune by LCD/Gcode)
+    #define TOOLCHANGE_FS_EXTRA_RESUME_LENGTH  0  // (mm) Extra length for better restart. Adjust with LCD or M217 B.
     #define TOOLCHANGE_FS_RETRACT_SPEED   (50*60) // (mm/min) (Unloading)
     #define TOOLCHANGE_FS_UNRETRACT_SPEED (25*60) // (mm/min) (On SINGLENOZZLE or Bowden loading must be slowed down)
 
@@ -2432,12 +2456,12 @@
     #define TOOLCHANGE_FS_FAN_SPEED          255  // 0-255
     #define TOOLCHANGE_FS_FAN_TIME            10  // (seconds)
 
-    // Swap uninitialized extruder with TOOLCHANGE_FS_PRIME_SPEED for all lengths (recover + prime)
+    // Swap uninitialized extruder (using TOOLCHANGE_FS_PRIME_SPEED feedrate)
     // (May break filament if not retracted beforehand.)
     //#define TOOLCHANGE_FS_INIT_BEFORE_SWAP
 
-    // Prime on the first T0 (If other, TOOLCHANGE_FS_INIT_BEFORE_SWAP applied)
-    // Enable it (M217 V[0/1]) before printing, to avoid unwanted priming on host connect
+    // Prime on the first T0 (For other tools use TOOLCHANGE_FS_INIT_BEFORE_SWAP)
+    // Enable with M217 V1 before printing to avoid unwanted priming on host connect
     //#define TOOLCHANGE_FS_PRIME_FIRST_USED
 
     /**
@@ -2478,21 +2502,21 @@
  *
  * Enable PARK_HEAD_ON_PAUSE to add the G-code M125 Pause and Park.
  */
-//#define ADVANCED_PAUSE_FEATURE
+#define ADVANCED_PAUSE_FEATURE
 #if ENABLED(ADVANCED_PAUSE_FEATURE)
   #define PAUSE_PARK_RETRACT_FEEDRATE         60  // (mm/s) Initial retract feedrate.
   #define PAUSE_PARK_RETRACT_LENGTH            2  // (mm) Initial retract.
                                                   // This short retract is done immediately, before parking the nozzle.
-  #define FILAMENT_CHANGE_UNLOAD_FEEDRATE     10  // (mm/s) Unload filament feedrate. This can be pretty fast.
+  #define FILAMENT_CHANGE_UNLOAD_FEEDRATE     25  // (mm/s) Unload filament feedrate. This can be pretty fast.
   #define FILAMENT_CHANGE_UNLOAD_ACCEL        25  // (mm/s^2) Lower acceleration may allow a faster feedrate.
-  #define FILAMENT_CHANGE_UNLOAD_LENGTH      100  // (mm) The length of filament for a complete unload.
+  #define FILAMENT_CHANGE_UNLOAD_LENGTH      400  // (mm) The length of filament for a complete unload.
                                                   //   For Bowden, the full length of the tube and nozzle.
                                                   //   For direct drive, the full length of the nozzle.
                                                   //   Set to 0 for manual unloading.
   #define FILAMENT_CHANGE_SLOW_LOAD_FEEDRATE   6  // (mm/s) Slow move when starting load.
   #define FILAMENT_CHANGE_SLOW_LOAD_LENGTH     0  // (mm) Slow length, to allow time to insert material.
                                                   // 0 to disable start loading and skip to fast load only
-  #define FILAMENT_CHANGE_FAST_LOAD_FEEDRATE   6  // (mm/s) Load filament feedrate. This can be pretty fast.
+  #define FILAMENT_CHANGE_FAST_LOAD_FEEDRATE  10  // (mm/s) Load filament feedrate. This can be pretty fast.
   #define FILAMENT_CHANGE_FAST_LOAD_ACCEL     25  // (mm/s^2) Lower acceleration may allow a faster feedrate.
   #define FILAMENT_CHANGE_FAST_LOAD_LENGTH     0  // (mm) Load length of filament, from extruder gear to nozzle.
                                                   //   For Bowden, the full length of the tube and nozzle.
@@ -2512,16 +2536,16 @@
   #define FILAMENT_UNLOAD_PURGE_LENGTH         8  // (mm) An unretract is done, then this length is purged.
   #define FILAMENT_UNLOAD_PURGE_FEEDRATE      25  // (mm/s) feedrate to purge before unload
 
-  #define PAUSE_PARK_NOZZLE_TIMEOUT           45  // (seconds) Time limit before the nozzle is turned off for safety.
+  #define PAUSE_PARK_NOZZLE_TIMEOUT           60  // (seconds) Time limit before the nozzle is turned off for safety.
   #define FILAMENT_CHANGE_ALERT_BEEPS         10  // Number of alert beeps to play when a response is needed.
   #define PAUSE_PARK_NO_STEPPER_TIMEOUT           // Enable for XYZ steppers to stay powered on during filament change.
   //#define FILAMENT_CHANGE_RESUME_ON_INSERT      // Automatically continue / load filament when runout sensor is triggered again.
   //#define PAUSE_REHEAT_FAST_RESUME              // Reduce number of waits by not prompting again post-timeout before continuing.
 
-  //#define PARK_HEAD_ON_PAUSE                    // Park the nozzle during pause and filament change.
+  #define PARK_HEAD_ON_PAUSE                    // Park the nozzle during pause and filament change.
   //#define HOME_BEFORE_FILAMENT_CHANGE           // If needed, home before parking for filament change
 
-  //#define FILAMENT_LOAD_UNLOAD_GCODES           // Add M701/M702 Load/Unload G-codes, plus Load/Unload in the LCD Prepare menu.
+  #define FILAMENT_LOAD_UNLOAD_GCODES           // Add M701/M702 Load/Unload G-codes, plus Load/Unload in the LCD Prepare menu.
   //#define FILAMENT_UNLOAD_ALL_EXTRUDERS         // Allow M702 to unload all extruders above a minimum target temp (as set by M302)
 #endif
 
@@ -2962,7 +2986,7 @@
    * Define your own with:
    * { <off_time[1..15]>, <hysteresis_end[-3..12]>, hysteresis_start[1..8] }
    */
-  #define CHOPPER_TIMING CHOPPER_DEFAULT_12V        // All axes (override below)
+  #define CHOPPER_TIMING CHOPPER_DEFAULT_24V        // All axes (override below)
   //#define CHOPPER_TIMING_X  CHOPPER_TIMING        // For X Axes (override below)
   //#define CHOPPER_TIMING_X2 CHOPPER_TIMING_X
   //#define CHOPPER_TIMING_Y  CHOPPER_TIMING        // For Y Axes (override below)
@@ -3432,7 +3456,7 @@
  * You'll need to select a pin for the ON/OFF function and optionally choose a 0-5V
  * hardware PWM pin for the speed control and a pin for the rotation direction.
  *
- * See https://marlinfw.org/docs/configuration/laser_spindle.html for more config details.
+ * See https://marlinfw.org/docs/configuration/2.0.9/laser_spindle.html for more config details.
  */
 //#define SPINDLE_FEATURE
 //#define LASER_FEATURE
@@ -3779,16 +3803,7 @@
 //#define M114_REALTIME       // Real current position based on forward kinematics
 //#define M114_LEGACY         // M114 used to synchronize on every call. Enable if needed.
 
-//#define REPORT_FAN_CHANGE   // Report the new fan speed when changed by M106 (and others)
-
-/**
- * Set the number of proportional font spaces required to fill up a typical character space.
- * This can help to better align the output of commands like `G29 O` Mesh Output.
- *
- * For clients that use a fixed-width font (like OctoPrint), leave this set to 1.0.
- * Otherwise, adjust according to your client and font.
- */
-#define PROPORTIONAL_FONT_RATIO 1.0
+#define REPORT_FAN_CHANGE   // Report the new fan speed when changed by M106 (and others)
 
 /**
  * Spend 28 bytes of SRAM to optimize the G-code parser
@@ -3800,7 +3815,7 @@
 #endif
 
 // Support for MeatPack G-code compression (https://github.com/scottmudge/OctoPrint-MeatPack)
-//#define MEATPACK_ON_SERIAL_PORT_1
+#define MEATPACK_ON_SERIAL_PORT_1
 //#define MEATPACK_ON_SERIAL_PORT_2
 
 //#define GCODE_CASE_INSENSITIVE  // Accept G-code sent to the firmware in lowercase
@@ -3953,12 +3968,12 @@
  * Host Prompt Support enables Marlin to use the host for user prompts so
  * filament runout and other processes can be managed from the host side.
  */
-//#define HOST_ACTION_COMMANDS
+#define HOST_ACTION_COMMANDS
 #if ENABLED(HOST_ACTION_COMMANDS)
   //#define HOST_PAUSE_M76                // Tell the host to pause in response to M76
-  //#define HOST_PROMPT_SUPPORT           // Initiate host prompts to get user feedback
+  #define HOST_PROMPT_SUPPORT           // Initiate host prompts to get user feedback
   #if ENABLED(HOST_PROMPT_SUPPORT)
-    //#define HOST_STATUS_NOTIFICATIONS   // Send some status messages to the host as notifications
+    #define HOST_STATUS_NOTIFICATIONS   // Send some status messages to the host as notifications
   #endif
   //#define HOST_START_MENU_ITEM          // Add a menu item that tells the host to start
   //#define HOST_SHUTDOWN_MENU_ITEM       // Add a menu item that tells the host to shut down

@@ -560,7 +560,7 @@ struct XYZEval {
     FI void set(const XYZval<T> pxyz, const T pe)  { set(pxyz); e = pe; }
     FI void set(LOGICAL_AXIS_ARGS(const T))        { LOGICAL_AXIS_CODE(_e = e, a = x, b = y, c = z, u = i, v = j, w = k); }
   #endif
-
+  
   // Length reduced to one dimension
   FI T magnitude()                                 const { return (T)sqrtf(LOGICAL_AXIS_GANG(+ e*e, + x*x, + y*y, + z*z, + i*i, + j*j, + k*k)); }
   // Pointer to the data as a simple array

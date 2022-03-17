@@ -35,9 +35,11 @@
   #include "../../lcd/marlinui.h"
 #elif ENABLED(EXTENSIBLE_UI)
   #include "../../lcd/extui/ui_api.h"
-#elif ENABLED(DWIN_CREALITY_LCD_ENHANCED)
+#elif ENABLED(DWIN_LCD_PROUI)
   #include "../../lcd/e3v2/proui/dwin_popup.h"
   #include "../../lcd/e3v2/proui/dwin.h"
+#elif ENABLED(DWIN_CREALITY_LCD_JYERSUI)
+  #include "../../lcd/e3v2/jyersui/dwin.h"
 #endif
 
 #if ENABLED(HOST_PROMPT_SUPPORT)
@@ -71,11 +73,16 @@ void GcodeSuite::M0_M1() {
       ExtUI::onUserConfirmRequired(parser.string_arg); // String in an SRAM buffer
     else
       ExtUI::onUserConfirmRequired(GET_TEXT_F(MSG_USERWAIT));
-  #elif ENABLED(DWIN_CREALITY_LCD_ENHANCED)
+  #elif ENABLED(DWIN_LCD_PROUI)
     if (parser.string_arg)
       DWIN_Popup_Confirm(ICON_BLTouch, parser.string_arg, GET_TEXT_F(MSG_USERWAIT));
     else
       DWIN_Popup_Confirm(ICON_BLTouch, GET_TEXT_F(MSG_STOPPED), GET_TEXT_F(MSG_USERWAIT));
+  #elif ENABLED(DWIN_CREALITY_LCD_JYERSUI)
+    if (parser.string_arg)
+      CrealityDWIN.Confirm_Handler(UserInput);
+    else
+      CrealityDWIN.Confirm_Handler(UserInput, true);
   #else
 
     if (parser.string_arg) {

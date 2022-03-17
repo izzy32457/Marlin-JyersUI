@@ -47,7 +47,7 @@ public:
 
   static void HandleUserConfirmationPopUp(uint16_t ConfirmVP, PGM_P const line1, PGM_P const line2, PGM_P const line3, PGM_P const line4, bool l1inflash, bool l2inflash, bool l3inflash, bool liinflash);
 
-  // "M117" Message -- msg is a RAM ptr.
+  // "M117" Message -- msg is a RAM ptr
   static void setstatusmessage(const char *msg);
   // The same for messages from Flash
   static void setstatusmessagePGM(PGM_P const msg);

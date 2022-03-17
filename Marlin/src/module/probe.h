@@ -29,6 +29,10 @@
 
 #include "motion.h"
 
+//#if ENABLED(DWIN_CREALITY_LCD_JYERSUI)
+//  #include "../lcd/e3v2/jyersui/dwin.h"
+//#endif
+
 #if HAS_BED_PROBE
   enum ProbePtRaise : uint8_t {
     PROBE_PT_NONE,      // No raise or stow after run_z_probe
@@ -187,31 +191,38 @@ public:
         return printable_radius - _MAX(PROBING_MARGIN, HYPOT(probe_offset_xy.x, probe_offset_xy.y));
       }
     #endif
-
-    static constexpr float _min_x(const xy_pos_t &probe_offset_xy=offset_xy) {
-      return TERN(IS_KINEMATIC,
-        (X_CENTER) - probe_radius(probe_offset_xy),
-        _MAX((X_MIN_BED) + (PROBING_MARGIN_LEFT), (X_MIN_POS) + probe_offset_xy.x)
-      );
-    }
-    static constexpr float _max_x(const xy_pos_t &probe_offset_xy=offset_xy) {
-      return TERN(IS_KINEMATIC,
-        (X_CENTER) + probe_radius(probe_offset_xy),
-        _MIN((X_MAX_BED) - (PROBING_MARGIN_RIGHT), (X_MAX_POS) + probe_offset_xy.x)
-      );
-    }
-    static constexpr float _min_y(const xy_pos_t &probe_offset_xy=offset_xy) {
-      return TERN(IS_KINEMATIC,
-        (Y_CENTER) - probe_radius(probe_offset_xy),
-        _MAX((Y_MIN_BED) + (PROBING_MARGIN_FRONT), (Y_MIN_POS) + probe_offset_xy.y)
-      );
-    }
-    static constexpr float _max_y(const xy_pos_t &probe_offset_xy=offset_xy) {
-      return TERN(IS_KINEMATIC,
-        (Y_CENTER) + probe_radius(probe_offset_xy),
-        _MIN((Y_MAX_BED) - (PROBING_MARGIN_BACK), (Y_MAX_POS) + probe_offset_xy.y)
-      );
-    }
+    
+     #if EXTJYERSUI
+      static float _min_x(const xy_pos_t &probe_offset_xy = offset_xy);
+      static float _max_x(const xy_pos_t &probe_offset_xy = offset_xy);
+      static float _min_y(const xy_pos_t &probe_offset_xy = offset_xy);
+      static float _max_y(const xy_pos_t &probe_offset_xy = offset_xy);
+    #else
+      static constexpr float _min_x(const xy_pos_t &probe_offset_xy=offset_xy) {
+          return TERN(IS_KINEMATIC,
+            (X_CENTER) - probe_radius(probe_offset_xy),
+            _MAX((X_MIN_BED) + (PROBING_MARGIN_LEFT), (X_MIN_POS) + probe_offset_xy.x)
+          );
+        }
+        static constexpr float _max_x(const xy_pos_t &probe_offset_xy=offset_xy) {
+          return TERN(IS_KINEMATIC,
+            (X_CENTER) + probe_radius(probe_offset_xy),
+            _MIN((X_MAX_BED) - (PROBING_MARGIN_RIGHT), (X_MAX_POS) + probe_offset_xy.x)
+          );
+        }
+        static constexpr float _min_y(const xy_pos_t &probe_offset_xy=offset_xy) {
+          return TERN(IS_KINEMATIC,
+            (Y_CENTER) - probe_radius(probe_offset_xy),
+            _MAX((Y_MIN_BED) + (PROBING_MARGIN_FRONT), (Y_MIN_POS) + probe_offset_xy.y)
+          );
+        }
+        static constexpr float _max_y(const xy_pos_t &probe_offset_xy=offset_xy) {
+          return TERN(IS_KINEMATIC,
+            (Y_CENTER) + probe_radius(probe_offset_xy),
+            _MIN((Y_MAX_BED) - (PROBING_MARGIN_BACK), (Y_MAX_POS) + probe_offset_xy.y)
+          );
+        }
+      #endif
 
     static float min_x() { return _min_x() TERN_(NOZZLE_AS_PROBE, TERN_(HAS_HOME_OFFSET, - home_offset.x)); }
     static float max_x() { return _max_x() TERN_(NOZZLE_AS_PROBE, TERN_(HAS_HOME_OFFSET, - home_offset.x)); }
@@ -230,7 +241,7 @@ public:
       static constexpr xy_pos_t default_probe_xy_offset = xy_pos_t({ default_probe_xyz_offset.x,  default_probe_xyz_offset.y });
 
     public:
-      static constexpr bool can_reach(float x, float y) {
+      TERN(EXTJYERSUI, static, static constexpr) bool can_reach(float x, float y) {
         #if IS_KINEMATIC
           return HYPOT2(x, y) <= sq(probe_radius(default_probe_xy_offset));
         #else
@@ -239,7 +250,7 @@ public:
         #endif
       }
 
-      static constexpr bool can_reach(const xy_pos_t &point) { return can_reach(point.x, point.y); }
+      TERN(EXTJYERSUI, static, static constexpr) bool can_reach(const xy_pos_t &point) { return can_reach(point.x, point.y); }
     };
 
     #if NEEDS_THREE_PROBE_POINTS
