@@ -1574,7 +1574,7 @@
                     set_bed_leveling_enabled(false);
                   #endif
                 #endif
-                #if ENABLED(PROBE_MANUALLY) || !HAS_BED_PROBE
+                #if !HAS_BED_PROBE
                   gcode.process_subcommands_now(F("M211 S0"));
                 #endif
                 Draw_Menu(ZOffset);
@@ -2053,6 +2053,9 @@
                 Draw_Menu_Item(row, ICON_Back, F("Back"));
               else {
                 zoffsetmode = 0;
+                #if !HAS_BED_PROBE
+                  gcode.process_subcommands_now(F("M211 S1"));
+                #endif
                 //liveadjust = false;
                 //adjustonclick = false;
                 TERN_(HAS_LEVELING, set_bed_leveling_enabled(level_state));
