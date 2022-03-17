@@ -62,7 +62,7 @@
 #endif
 
 
-#define BOOTPERSO
+//#define BOOTPERSO
 
 
 typedef struct { 
