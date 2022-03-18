@@ -22,8 +22,12 @@
 #pragma once
 
 /**
- * Based on the original code provided by Creality under GPL
+ * Based on part of original sources provided by Prusa under GPL
+ * However, this code exists in others sources where the declared author does not respect
+ * the GPL license by using parts of source code without citing the original authors
+ * or by hiding code that must remain open.
  */
+
 #include "../../../core/types.h"
 
 
