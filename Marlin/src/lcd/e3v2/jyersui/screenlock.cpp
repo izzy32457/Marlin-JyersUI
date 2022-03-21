@@ -36,7 +36,6 @@
 #include "screenlock.h"
 
 ScreenLockClass screenLock;
-HMI_datas_t HMI_datas;
 
 uint8_t ScreenLockClass::lock_pos = 0;
 bool ScreenLockClass::unlocked = false;

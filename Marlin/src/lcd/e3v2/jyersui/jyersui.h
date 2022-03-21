@@ -92,7 +92,6 @@
    #define Header_Time         0x00
    #define Header_Filament     0x01
    #define Header_Layer        0x02
-   bool sd_item_flag = false;
 #endif
 
 // Extra Icons
@@ -362,7 +361,8 @@ namespace JYERSUI {
   //  x: abscissa of the center of the circle
   //  y: ordinate of the center of the circle
   //  r: circle radius
-  void Draw_Circle(uint16_t color, uint16_t x,uint16_t y,uint8_t r);
+  void Draw_Circle(uint16_t color, uint16_t x, uint16_t y, uint8_t r);
+
   inline void Draw_Circle(uint16_t color, uint8_t r) {
     Draw_Circle(color, cursor.x, cursor.y, r);
   }

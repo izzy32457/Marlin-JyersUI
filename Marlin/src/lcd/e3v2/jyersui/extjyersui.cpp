@@ -34,15 +34,12 @@
 #endif
 #include "extjyersui.h"
 
-HMI_flags_t HMI_flags;
-ExtJyersuiClass ExtJyersui;
-
 
 #if ENABLED(NOZZLE_PARK_FEATURE)
-    void C125() {
+    void ExtJyersuiClass::C125() {
         if (!parser.seen_any()) return CrealityDWIN.DWIN_CError();
 
-        xyz_int_t park_value;
+        xyz_int_t park_value = { HMI_datas.Park_point.x, HMI_datas.Park_point.y, HMI_datas.Park_point.z };
         if (parser.seenval('X')) {
             park_value.x = static_cast<int>(parser.value_linear_units());
             if ((park_value.x < 0) || (park_value.x > X_MAX_POS)) return CrealityDWIN.DWIN_CError();
@@ -60,7 +57,7 @@ ExtJyersuiClass ExtJyersui;
         }    
 #endif  // Set park position
 
-void C562() {
+void ExtJyersuiClass::C562() {
     if (!parser.seen_any()) return CrealityDWIN.DWIN_CError();
         if (parser.seenval('E')) {
             HMI_datas.invert_dir_extruder = parser.value_bool() ? !HMI_datas.invert_dir_extruder : HMI_datas.invert_dir_extruder;
@@ -69,11 +66,11 @@ void C562() {
     }      // Invert Extruder
 
 #if HAS_BED_PROBE
-    void C851() {
+    void ExtJyersuiClass::C851() {
         if (!parser.seen_any()) return CrealityDWIN.DWIN_CError();
-        float margin_parser;
-        uint16_t z_fast_feedrate_parser;
-        uint16_t z_slow_feedrate_parser;
+        float margin_parser = HMI_datas.probing_margin;
+        uint16_t z_fast_feedrate_parser = HMI_datas.zprobefeedfast ;
+        uint16_t z_slow_feedrate_parser = HMI_datas.zprobefeedslow;
 
         if (parser.seenval('M')) {
             margin_parser = parser.value_linear_units();

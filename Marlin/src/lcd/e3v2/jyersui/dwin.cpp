@@ -102,6 +102,7 @@
 
   #include <stdio.h>
   #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW)
+  bool sd_item_flag = false;
   #include "../../../libs/base64.hpp"
   #include <map>
   #include <string>
@@ -7444,7 +7445,6 @@
     DWIN_JPG_ShowAndCache(3);
     TERN(SHOW_BOOTSCREEN,,DWIN_Frame_Clear(Color_Bg_Black));
     DWIN_JPG_CacheTo1(Language_English);
-    CrealityDWIN.Init_process();
     CrealityDWIN.Redraw_Screen();
   }
 

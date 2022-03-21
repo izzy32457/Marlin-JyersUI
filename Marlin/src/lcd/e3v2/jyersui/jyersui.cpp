@@ -174,7 +174,7 @@ void JYERSUI::Draw_Button(uint8_t id, uint16_t x, uint16_t y) {
     case BTN_Save    : Draw_Button(GET_TEXT_F(MSG_BUTTON_SAVE), x, y); break;
     default: break;
   }
-
+}
 
 // Draw a circle
 //  color: circle color

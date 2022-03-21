@@ -57,11 +57,11 @@
   #define DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW
 #endif
 
-#ifdef define BABYSTEP_ZPROBE_OFFSET
+#ifdef BABYSTEP_ZPROBE_OFFSET
   #undef BABYSTEP_ZPROBE_OFFSET
 #endif
 
-
+// For Boot screen perso
 //#define BOOTPERSO
 
 

@@ -25,7 +25,6 @@
 #include "../../../core/types.h"
 
 
-
 #ifndef LOW
   #define LOW  0x0
 #endif
