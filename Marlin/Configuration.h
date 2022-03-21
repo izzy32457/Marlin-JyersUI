@@ -831,7 +831,7 @@
   //#define ENDSTOPPULLUP_IMAX
   //#define ENDSTOPPULLUP_JMAX
   //#define ENDSTOPPULLUP_KMAX
-  #define ENDSTOPPULLUP_ZMIN_PROBE
+  //#define ENDSTOPPULLUP_ZMIN_PROBE
 #endif
 
 // Enable pulldown for all endstops to prevent a floating state
@@ -1055,10 +1055,10 @@
  * The probe replaces the Z-MIN endstop and is used for Z homing.
  * (Automatically enables USE_PROBE_FOR_Z_HOMING.)
  */
-#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
+//#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
 
 // Force the use of the probe for Z-axis homing
-//#define USE_PROBE_FOR_Z_HOMING
+#define USE_PROBE_FOR_Z_HOMING
 
 /**
  * Z_MIN_PROBE_PIN
@@ -1481,7 +1481,7 @@
  */
 #define FILAMENT_RUNOUT_SENSOR   // Ender3v2 Configs
 #if ENABLED(FILAMENT_RUNOUT_SENSOR)
-  //#define NUM_RUNOUT_SENSORS   1          // Number of sensors, up to one per extruder. Define a FIL_RUNOUT_ENABLES and a FIL_RUNOUT_MODE for each.
+  #define NUM_RUNOUT_SENSORS   1          // Number of sensors, up to one per extruder. Define a FIL_RUNOUT_ENABLES and a FIL_RUNOUT_MODE for each.
   
   #define FIL_RUNOUT_ENABLED { true } // Default state for sensors E0, E1[, E2, E3] // Enable the sensor on startup. Override with M591 followed by M500.
   #define FIL_RUNOUT_MODE { 1 } // Array set that will take the place of FIL_RUNOUT_STATE and FIL_RUNOUT_ENABLED_DEFAULT as this code matures
@@ -2847,11 +2847,15 @@
 //
 // Ender-3 v2 OEM display. A DWIN display with Rotary Encoder.
 //
+//#define DWIN_CREALITY_LCD // Creality UI
+//#define DWIN_LCD_PROUI // Ender-3 v2 OEM display, Proui.
 //
 #ifndef DWIN_CREALITY_LCD_JYERSUI
  //#define DWIN_CREALITY_LCD_JYERSUI // JyersUI/Extented JyersUI by Jacob Myers/Christophe Leveque
 #endif
 //
+//#define DWIN_MARLINUI_PORTRAIT // MarlinUI (portrait orientation)
+//#define DWIN_MARLINUI_LANDSCAPE // MarlinUI (landscape orientation)
 
 //
 // Touch Screen Settings
