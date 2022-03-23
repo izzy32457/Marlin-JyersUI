@@ -101,8 +101,8 @@
   #endif
 
   #include <stdio.h>
-  #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW)
   bool sd_item_flag = false;
+  #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW)
   #include "../../../libs/base64.hpp"
   #include <map>
   #include <string>
@@ -126,13 +126,8 @@
     #define BUILD_NUMBER "Build nb: v2.0.2j - RET6"
   #endif
 
-  //#define DWIN_FONT_MENU font8x16
-  //#define DWIN_FONT_STAT font10x20
-  //#define DWIN_FONT_HEAD font10x20
-
   #define MENU_CHAR_LIMIT  24
   #define STATUS_CHAR_LIMIT  30
-  //#define STATUS_Y 352
 
   #define MAX_PRINT_SPEED   500
   #define MIN_PRINT_SPEED   10
@@ -206,6 +201,7 @@
   char *stringpointer = nullptr;
 
   bool flag_tune = false;
+  bool flag_viewmesh = false;
 
   void (*funcpointer)() = nullptr;
   void *valuepointer = nullptr;
@@ -215,16 +211,11 @@
   uint8_t valueunit;
   uint8_t valuetype;
 
-  uint8_t last_items_menu_color;
-  uint8_t last_icons_menu_color;
-  uint8_t last_background_color;
-
   char cmd[MAX_CMD_SIZE+32], str_1[16], str_2[16], str_3[16];
   char statusmsg[128];
   char filename[LONG_FILENAME_LENGTH];
   char Hostfilename[LONG_FILENAME_LENGTH];
   
-  //bool printing = false;
   bool paused = false;
   bool sdprint = false;
 
@@ -232,14 +223,14 @@
 
   bool livemove = false;
   bool liveadjust = false;
-  //bool adjustonclick = false;
-  //bool zlivemove = false;
+
   uint8_t preheatmode = 0;
   uint8_t zoffsetmode = 0;
   
   float zoffsetvalue = 0;
 
   #if HAS_FILAMENT_SENSOR
+    bool State_runoutenable = false;
     uint8_t rsensormode = 0;
   #endif
   
@@ -502,7 +493,6 @@
     if (e == 1 || e == 3 || e == 4) DWIN_Draw_Rectangle(1, GetColor(HMI_datas.menu_top_bg, Color_Bg_Blue, false), 0, 0, DWIN_WIDTH, TITLE_HEIGHT); // Clear Title Bar
     if (e == 2 || e == 3) DWIN_Draw_Rectangle(1, GetColor(HMI_datas.background, Color_Bg_Black), 0, 31, DWIN_WIDTH, STATUS_Y); // Clear Menu Area
     if (e == 4) DWIN_Draw_Rectangle(1, GetColor(HMI_datas.background, Color_Bg_Black), 0, 31, DWIN_WIDTH, DWIN_HEIGHT); // Clear Popup Area
-    DWIN_UpdateLCD();
   }
 
 
@@ -641,11 +631,12 @@
     if (label2) DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.items_menu_text, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), label2_offset_x, MBASE(row) - 1 + label_offset_y, label2); // Draw Label
     //_Decorate_Menu_Item(row, icon, more);
     #ifdef DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW
-    if (HMI_datas.show_gcode_thumbnails && sd_item_flag && icon == ICON_File && find_and_decode_gcode_preview(card.filename, Thumnail_Icon, &image_address, onlyCachedFileIcon))
-      TERN(DACAI_DISPLAY, DRAW_IconTH(9, MBASE(row) - 18, image_address), DWIN_SRAM_Memory_Icon_Display(9, MBASE(row) - 18, image_address));
-    else if (icon) DRAW_IconWTB(ICON, icon, 26, MBASE(row) - 3);   //Draw Menu Icon
+      if ((HMI_datas.show_gcode_thumbnails) && (sd_item_flag) && (icon == ICON_File) && find_and_decode_gcode_preview(card.filename, Thumnail_Icon, &image_address, onlyCachedFileIcon))
+        TERN(DACAI_DISPLAY, DRAW_IconTH(9, MBASE(row) - 18, image_address), DWIN_SRAM_Memory_Icon_Display(9, MBASE(row) - 18, image_address));
+      else 
+        if (icon) DRAW_IconWTB(ICON, icon, 26, MBASE(row) - 3);   //Draw Menu Icon
     #else
-    if (icon) DRAW_IconWTB(ICON, icon, 26, MBASE(row) - 3);   //Draw Menu Icon
+      if (icon) DRAW_IconWTB(ICON, icon, 26, MBASE(row) - 3);   //Draw Menu Icon
     #endif
     if (more) DRAW_IconWTB(ICON, ICON_More, 226, MBASE(row) - 3); // Draw More Arrow
     DWIN_Draw_Line(GetColor(HMI_datas.menu_split_line, Line_Color, true), 16, MBASE(row) + 33, 256, MBASE(row) + 33); // Draw Menu Line
@@ -659,11 +650,12 @@
     if (flabel2) DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.items_menu_text, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), label2_offset_x, MBASE(row) - 1 + label_offset_y, flabel2); // Draw Label
     //_Decorate_Menu_Item(row, icon, more);
     #ifdef DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW
-    if (HMI_datas.show_gcode_thumbnails && icon == ICON_File && find_and_decode_gcode_preview(card.filename, Thumnail_Icon, &image_address, onlyCachedFileIcon))
+    if ((HMI_datas.show_gcode_thumbnails) && (sd_item_flag) && (icon == ICON_File) && find_and_decode_gcode_preview(card.filename, Thumnail_Icon, &image_address, onlyCachedFileIcon))
       TERN(DACAI_DISPLAY, DRAW_IconTH(9, MBASE(row) - 18, image_address), DWIN_SRAM_Memory_Icon_Display(9, MBASE(row) - 18, image_address));
-    else if (icon) DRAW_IconWTB(ICON, icon, 26, MBASE(row) - 3);   //Draw Menu Icon
+    else 
+      if (icon) DRAW_IconWTB(ICON, icon, 26, MBASE(row) - 3);   //Draw Menu Icon
     #else
-    if (icon) DRAW_IconWTB(ICON, icon, 26, MBASE(row) - 3);   //Draw Menu Icon
+      if (icon) DRAW_IconWTB(ICON, icon, 26, MBASE(row) - 3);   //Draw Menu Icon
     #endif
     if (more) DRAW_IconWTB(ICON, ICON_More, 226, MBASE(row) - 3); // Draw More Arrow
     DWIN_Draw_Line(GetColor(HMI_datas.menu_split_line, Line_Color, true), 16, MBASE(row) + 33, 256, MBASE(row) + 33); // Draw Menu Line
@@ -702,7 +694,7 @@
     Draw_Title(Get_Menu_Title(menu));
     LOOP_L_N(i, TROWS) Menu_Item_Handler(menu, i + scrollpos);
     if ((cColor == GetColor(HMI_datas.background, Color_Bg_Black)) || ((cColor == Color_Black) && (HMI_datas.background = 0)))
-        DWIN_Draw_Rectangle(0, GetColor(HMI_datas.items_menu_text, Color_White), 0, MBASE(selection-scrollpos) - 18, 14, MBASE(selection-scrollpos) + 31);
+        DWIN_Draw_Rectangle(0, GetColor(HMI_datas.items_menu_text, Color_White), 0, MBASE(selection - scrollpos) - 18, 14, MBASE(selection - scrollpos) + 31);
     else
         DWIN_Draw_Rectangle(1, cColor, 0, MBASE(selection - scrollpos) - 18, 14, MBASE(selection - scrollpos) + 31);
   }
@@ -723,8 +715,6 @@
     Redraw_Menu(false);
     Draw_Status_Area(true);
     Update_Status_Bar(true);
-    DWIN_UpdateLCD();
-
   }
 
   /* Primary Menus and Screen Elements */
@@ -789,7 +779,6 @@
     SERIAL_ECHOPGM("\nDWIN handshake ");
     DRAW_IconWTB(ICON, ICON_LOGO, 71, 72);
     Main_Menu_Icons();
-    DWIN_UpdateLCD();
   }
 
   void CrealityDWINClass::Print_Screen_Icons() {
@@ -833,7 +822,6 @@
         DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 114, 322, F("Pause"));
       }
     }
-    DWIN_UpdateLCD();
   }
 
   void CrealityDWINClass::Draw_Print_Screen() {
@@ -852,7 +840,6 @@
     Draw_Print_ProgressElapsed();
     TERN_(USE_M73_REMAINING_TIME, Draw_Print_ProgressRemain());
     Draw_Print_Filename(true);
-    DWIN_UpdateLCD();
   }
 
   //
@@ -947,7 +934,6 @@
           DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.print_filename, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), npos, 60, filename);
       }
     }
-    DWIN_UpdateLCD();
   }
 
   void CrealityDWINClass::Draw_Print_ProgressBar() {
@@ -1006,7 +992,6 @@
     
     DWIN_Draw_Rectangle(0, GetColor(HMI_datas.popup_highlight, Color_White), 86, 287, 187, 336);
     DWIN_Draw_Rectangle(0, GetColor(HMI_datas.popup_highlight, Color_White), 85, 286, 188, 337);
-    DWIN_UpdateLCD();
   }
 
   void CrealityDWINClass::Draw_SD_Item(uint8_t item, uint8_t row, bool onlyCachedFileIcon/*=false*/) {
@@ -1028,7 +1013,6 @@
       name[len] = '\0';
       Draw_Menu_Item(row, card.flag.filenameIsDir ? ICON_More : ICON_File, name, NULL, NULL, false, onlyCachedFileIcon);
     }
-    DWIN_UpdateLCD();
   }
 
   void CrealityDWINClass::Draw_SD_List(bool removed/*=false*/, uint8_t select/*=0*/, uint8_t scroll/*=0*/, bool onlyCachedFileIcon/*=false*/) {
@@ -1038,25 +1022,26 @@
     // selection = 0;
     // scrollpos = 0;
     // process = File;
-    selection = min((int)select, card.get_num_Files()+1);
+    selection = min((int)select, card.get_num_Files() + 1);
     scrollpos = scroll;
-    if (selection-scrollpos > MROWS)
+    if (selection - scrollpos > MROWS)
       scrollpos = selection - MROWS;
     process = File;
     if (card.isMounted() && !removed) {
+      sd_item_flag = true;
       LOOP_L_N(i, _MIN(card.get_num_Files() + 1, TROWS))
-        Draw_SD_Item(i+scrollpos, i, onlyCachedFileIcon);
+        Draw_SD_Item(i + scrollpos, i, onlyCachedFileIcon);
     }
     else {
       Draw_Menu_Item(0, ICON_Back, F("Back"));
+      sd_item_flag = false;
       DWIN_Draw_Rectangle(1, Color_Bg_Red, 10, MBASE(3) - 10, DWIN_WIDTH - 10, MBASE(4));
       DWIN_Draw_String(false, font16x32, Color_Yellow, Color_Bg_Red, ((DWIN_WIDTH) - 8 * 16) / 2, MBASE(3), F("No Media"));
     }
     if ((cColor == GetColor(HMI_datas.background, Color_Bg_Black)) || ((cColor == Color_Black) && (HMI_datas.background = 0)))
-        DWIN_Draw_Rectangle(0, GetColor(HMI_datas.items_menu_text, Color_White), 0, MBASE(0) - 18, 8, MBASE(0) + 31);
+        DWIN_Draw_Rectangle(0, GetColor(HMI_datas.items_menu_text, Color_White), 0, MBASE(selection-scrollpos) - 18, 8, MBASE(selection-scrollpos) + 31);
     else
         DWIN_Draw_Rectangle(1, cColor, 0, MBASE(selection-scrollpos) - 18, 8, MBASE(selection-scrollpos) + 31);
-    DWIN_UpdateLCD();
   }
 
   void CrealityDWINClass::Draw_Status_Area(bool icons/*=false*/) {
@@ -1199,7 +1184,7 @@
 
   void CrealityDWINClass::Draw_Popup(FSTR_P const line1, FSTR_P const line2, FSTR_P const line3, uint8_t mode, uint8_t icon/*=0*/) {
     if (process != Confirm && process != Popup && process != Wait) last_process = process;
-    if ((process == Menu || process == Wait) && mode == Popup) last_selection = selection;
+    if ((process == Menu || process == Wait || process == File) && mode == Popup) last_selection = selection;
     process = mode;
     Clear_Screen();
     const uint16_t color_bg = GetColor(HMI_datas.popup_bg, Color_Bg_Window);
@@ -1233,47 +1218,6 @@
     }
   }
 
-  void CrealityDWINClass::Continuous_Probing() {
-    last_process = process;
-    last_selection = selection;
-    Clear_Screen();
-    const uint16_t color_bg = GetColor(HMI_datas.popup_bg, Color_Bg_Window);
-    DWIN_Draw_Rectangle(0, GetColor(HMI_datas.popup_highlight, Color_White), 13, 59, 259, 351);
-    DWIN_Draw_Rectangle(1, GetColor(HMI_datas.popup_bg, color_bg), 14, 60, 258, 350);
-    const uint8_t _ypos = 150;
-    const uint8_t _ypos_icon = 74;
-    //FSTR_P const line1 = F("Probing in process");
-    //FSTR_P const line2 = F("(Confirm to exit)") ;
-    //FSTR_P const line3 = F("(for next point)") ;
-    DRAW_IconWTB(ICON, ICON_BLTouch, 101, _ypos_icon);
-    JYERSUI::Draw_CenteredString(true, DWIN_FONT_MENU, GetColor(HMI_datas.popup_txt, Popup_Text_Color), color_bg, _ypos, F("Probing in process"));
-    JYERSUI::Draw_CenteredString(true, DWIN_FONT_MENU, GetColor(HMI_datas.popup_txt, Popup_Text_Color), color_bg, _ypos + 30, F("(Confirm to exit)"));
-    JYERSUI::Draw_CenteredString(true, DWIN_FONT_MENU, GetColor(HMI_datas.popup_txt, Popup_Text_Color), color_bg, _ypos + 60, F("(for next point)"));
-    //DWIN_Draw_String(true, DWIN_FONT_MENU, Popup_Text_Color, Color_Bg_Window, (272 - 8 * strlen_P(FTOP(line1))) / 2, ypos, line1);
-    //DWIN_Draw_String(true, DWIN_FONT_MENU, Popup_Text_Color, Color_Bg_Window, (272 - 8 * strlen_P(FTOP(line2))) / 2, ypos + 30, line2);
-    //DWIN_Draw_String(true, DWIN_FONT_MENU, Popup_Text_Color, Color_Bg_Window, (272 - 8 * strlen_P(FTOP(line3))) / 2, ypos + 60, line3);
-    DWIN_Draw_Rectangle(1, Confirm_Color, 87, 280, 186, 317);
-    DWIN_Draw_Rectangle(0, GetColor(HMI_datas.highlight_box, Color_White), 86, 279, 187, 318);
-    DWIN_Draw_Rectangle(0, GetColor(HMI_datas.highlight_box, Color_White), 85, 278, 188, 319);
-    DWIN_Draw_String(false, DWIN_FONT_STAT, GetColor(HMI_datas.ico_continue_txt, Color_White), GetColor(HMI_datas.ico_continue_bg, Confirm_Color), 96, 290, F("Continue"));
-    while (Encoder_ReceiveAnalyze() != ENCODER_DIFF_ENTER) {
-      //char buf[80];
-      zval = probe.probe_at_point(current_position.x, current_position.y, PROBE_PT_STOW, 0, false);
-      if (isnan(zval))
-        Update_Status("Position Not Reachable, check probe offsets and Bed Screw Inset");
-      else { 
-      const float dif = zval - corner_avg;
-      sprintf_P(cmd, dif > 0 ? PSTR("Corner is %smm high") : PSTR("Corner is %smm low"), dtostrf(abs(dif), 1, 3, str_1));
-      if (abs(dif) <= 0.005) AudioFeedback(true);
-      Update_Status(cmd);
-      }
-    }
-    Redraw_Menu(true, true, false);
-    wait_for_user = false;
-    Update_Status("");
-    DWIN_UpdateLCD();
-  }
-
   void CrealityDWINClass::DWIN_ScreenLock() {
     process = Locked;
     if  (!screenLock.unlocked) {
@@ -1300,6 +1244,7 @@
   void CrealityDWINClass::Viewmesh() {
     Clear_Screen(4);
     Draw_Title(F("View Mesh"));
+    flag_viewmesh = true;
     last_process = process;
     last_selection = selection;
     process = Confirm;
@@ -1309,16 +1254,16 @@
           mesh_conf.last_viewer_print_value = mesh_conf.viewer_print_value;
           mesh_conf.viewer_asymmetric_range = true ;
           mesh_conf.viewer_print_value = true ;
+          DWIN_Draw_Rectangle(1, GetColor(HMI_datas.background, Color_Bg_Black), 0, KEY_Y_START, DWIN_WIDTH-2, DWIN_HEIGHT-2);
           mesh_conf.Draw_Bed_Mesh();
           mesh_conf.Set_Mesh_Viewer_Status();
     }
     else Confirm_Handler(LevelError);
 
-    DWIN_Draw_Rectangle(1, Confirm_Color, 87, 426, 186, 463);
-    DWIN_Draw_Rectangle(0, Color_White, 86, 425, 187, 464);
-    DWIN_Draw_Rectangle(0, Color_White, 85, 424, 188, 465);
+    DWIN_Draw_Rectangle(1, Confirm_Color, 87, 406, 186, 443);
+    DWIN_Draw_Rectangle(0, Color_White, 86, 405, 187, 444);
+    DWIN_Draw_Rectangle(0, Color_White, 85, 404, 188, 445);
     DWIN_Draw_String(false, DWIN_FONT_STAT, Color_White, Color_Bg_Window, 96, 416, F("Continue"));
-    DWIN_UpdateLCD();
   }
 
   void MarlinUI::kill_screen(FSTR_P const error, FSTR_P const) {
@@ -1550,7 +1495,7 @@
             if (draw)
               Draw_Menu_Item(row, ICON_PrintSize, F("Manual Leveling"), nullptr, true);
             else {
-              if (axes_should_home() == 0) {
+              if (axes_should_home()) {
                 Popup_Handler(Home);
                 gcode.home_all_axes(true);
               }
@@ -1827,8 +1772,7 @@
 
         #define MLEVEL_BACK 0
         #define MLEVEL_PROBE (MLEVEL_BACK + ENABLED(HAS_BED_PROBE))
-        #define MLEVEL_PROBE_CONT (MLEVEL_PROBE + ENABLED(HAS_BED_PROBE))
-        #define MLEVEL_BL (MLEVEL_PROBE_CONT + 1)
+        #define MLEVEL_BL (MLEVEL_PROBE + 1)
         #define MLEVEL_TL (MLEVEL_BL + 1)
         #define MLEVEL_TR (MLEVEL_TL + 1)
         #define MLEVEL_BR (MLEVEL_TR + 1)
@@ -1840,7 +1784,6 @@
         
         #if HAS_BED_PROBE
           static bool use_probe = false;
-          static bool cont_probing = false;
         #endif
 
         switch (item) {
@@ -1893,24 +1836,9 @@
                       Redraw_Menu();
                   }
                   corner_avg += zval; 
-                  //corner_avg += probe.probe_at_point(PROBE_X_MIN, PROBE_Y_MIN, PROBE_PT_RAISE, 0, false);
-                  //corner_avg += probe.probe_at_point(PROBE_X_MIN, PROBE_Y_MAX, PROBE_PT_RAISE, 0, false);
-                  //corner_avg += probe.probe_at_point(PROBE_X_MAX, PROBE_Y_MAX, PROBE_PT_RAISE, 0, false);
-                  //corner_avg += probe.probe_at_point(PROBE_X_MAX, PROBE_Y_MIN, PROBE_PT_STOW, 0, false);
                   corner_avg /= 4;
                   Redraw_Menu();
                 }
-              }
-              break;
-            case MLEVEL_PROBE_CONT:
-              if (draw) {
-                Draw_Menu_Item(row, ICON_Zoffset, F("Continuous Probing"));
-                Draw_Checkbox(row, cont_probing);
-              }
-              else {
-                if (use_probe) cont_probing = !cont_probing;
-                else cont_probing = false;
-                Draw_Checkbox(row, cont_probing);
               }
               break;
           #endif
@@ -1924,8 +1852,7 @@
                   sprintf_P(cmd, PSTR("G0 F4000\nG0 Z10\nG0 X%s Y%s"), dtostrf(PROBE_X_MIN, 1, 3, str_1), dtostrf(PROBE_Y_MIN, 1, 3, str_2));
                   gcode.process_subcommands_now(cmd);
                   planner.synchronize();
-                  if (cont_probing) Continuous_Probing();
-                  else Popup_Handler(ManualProbing);
+                  Popup_Handler(ManualProbing);
                 #endif
               }
               else {
@@ -1946,8 +1873,7 @@
                   sprintf_P(cmd, PSTR("G0 F4000\nG0 Z10\nG0 X%s Y%s"), dtostrf(PROBE_X_MIN, 1, 3, str_1), dtostrf(PROBE_Y_MAX, 1, 3, str_2));
                   gcode.process_subcommands_now(cmd);
                   planner.synchronize();
-                  if (cont_probing) Continuous_Probing();
-                  else Popup_Handler(ManualProbing);
+                  Popup_Handler(ManualProbing);
                 #endif
               }
               else {
@@ -1968,8 +1894,7 @@
                   sprintf_P(cmd, PSTR("G0 F4000\nG0 Z10\nG0 X%s Y%s"), dtostrf(PROBE_X_MAX, 1, 3, str_1), dtostrf(PROBE_Y_MAX, 1, 3, str_2));
                   gcode.process_subcommands_now(cmd);
                   planner.synchronize();
-                  if (cont_probing) Continuous_Probing();
-                  else Popup_Handler(ManualProbing);
+                  Popup_Handler(ManualProbing);
                 #endif
               }
               else {
@@ -1990,8 +1915,7 @@
                   sprintf_P(cmd, PSTR("G0 F4000\nG0 Z10\nG0 X%s Y%s"), dtostrf(PROBE_X_MAX, 1, 3, str_1), dtostrf(PROBE_Y_MIN, 1, 3, str_2));
                   gcode.process_subcommands_now(cmd);
                   planner.synchronize();
-                  if (cont_probing) Continuous_Probing();
-                  else Popup_Handler(ManualProbing);
+                  Popup_Handler(ManualProbing);
                 #endif
               }
               else {
@@ -2012,8 +1936,7 @@
                   sprintf_P(cmd, PSTR("G0 F4000\nG0 Z10\nG0 X%s Y%s"), dtostrf((X_BED_SIZE + X_MIN_POS) / 2.0f - probe.offset.x, 1, 3, str_1), dtostrf((Y_BED_SIZE + Y_MIN_POS) / 2.0f - probe.offset.y, 1, 3, str_2));
                   gcode.process_subcommands_now(cmd);
                   planner.synchronize();
-                  if (cont_probing) Continuous_Probing();
-                  else Popup_Handler(ManualProbing);
+                  Popup_Handler(ManualProbing);
                 #endif
               }
               else {
@@ -2040,8 +1963,6 @@
           #define ZOFFSET_BACK 0
           #define ZOFFSET_HOME (ZOFFSET_BACK + 1)
           #define ZOFFSET_MODE (ZOFFSET_HOME + 1)
-          //#define ZOFFSET_LIVEMOVE (ZOFFSET_MODE +1)
-          //#define ZOFFSET_OFFSET (ZOFFSET_LIVEMOVE + 1)
           #define ZOFFSET_OFFSET (ZOFFSET_MODE + 1)
           #define ZOFFSET_UP (ZOFFSET_OFFSET + 1)
           #define ZOFFSET_DOWN (ZOFFSET_UP + 1)
@@ -2085,80 +2006,12 @@
               break;
               case ZOFFSET_MODE:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_Zoffset, "Mode Z Adjustment");
+                  Draw_Menu_Item(row, ICON_Zoffset, "Mode Z Adjust.");
                   Draw_Option(zoffsetmode, zoffset_modes, row);
                 }
                 else 
                   Modify_Option(zoffsetmode, zoffset_modes, 2);
                 break;
-            /**
-             * case ZOFFSET_MODE:
-             *  if (draw) {
-             *    Draw_Menu_Item(row, ICON_Zoffset, F("Adjust. on click"));
-             *    Draw_Checkbox(row, adjustonclick);
-             *  }
-             *  else {
-             *    if (!adjustonclick) {
-             *      if (axes_should_home() == 0) {
-             *        Popup_Handler(Home);
-             *        gcode.home_all_axes(true);
-             *      }
-             *      Popup_Handler(MoveWait);
-             *      #if ENABLED(Z_SAFE_HOMING)
-             *        planner.synchronize();
-             *        sprintf_P(cmd, PSTR("G0 F4000 X%s Y%s"), dtostrf(Z_SAFE_HOMING_X_POINT, 1, 3, str_1), dtostrf(Z_SAFE_HOMING_Y_POINT, 1, 3, str_2));
-             *        gcode.process_subcommands_now(cmd);
-             *      #else
-             *        sprintf_P(cmd, PSTR("G0 F4000 X%s Y%s"), dtostrf((X_BED_SIZE + X_MIN_POS) / 2.0f, 1, 3, str_1), dtostrf((Y_BED_SIZE + Y_MIN_POS) / 2.0f, 1, 3, str_2));
-             *        gcode.process_subcommands_now(cmd);
-             *      #endif
-             *      gcode.process_subcommands_now(F("G0 F300 Z0"));
-             *      planner.synchronize();
-             *      Redraw_Menu();
-             *    }
-             *    adjustonclick = !adjustonclick;
-             *    Draw_Checkbox(row, adjustonclick);
-             *    if (adjustonclick) {
-             *      liveadjust = false;
-             *      Redraw_Menu();
-             *    }
-             *  }
-             *  break;
-             * case ZOFFSET_LIVEMOVE:
-             *  if (draw) {
-             *   Draw_Menu_Item(row, ICON_Axis, F("Live Adjustement"));
-             *   Draw_Checkbox(row, liveadjust);
-             *  }
-             *  else {
-             *   if (!liveadjust) {
-             *     if (axes_should_home() == 0) {
-             *       Popup_Handler(Home);
-             *       gcode.home_all_axes(true);
-             *     }
-             *     Popup_Handler(MoveWait);
-             *     #if ENABLED(Z_SAFE_HOMING)
-             *       planner.synchronize();
-             *       sprintf_P(cmd, PSTR("G0 F4000 X%s Y%s"), dtostrf(Z_SAFE_HOMING_X_POINT, 1, 3, str_1), dtostrf(Z_SAFE_HOMING_Y_POINT, 1, 3, str_2));
-             *       gcode.process_subcommands_now(cmd);
-             *     #else
-             *       sprintf_P(cmd, PSTR("G0 F4000 X%s Y%s"), dtostrf((X_BED_SIZE + X_MIN_POS) / 2.0f, 1, 3, str_1), dtostrf((Y_BED_SIZE + Y_MIN_POS) / 2.0f, 1, 3, str_2));
-             *       gcode.process_subcommands_now(cmd);
-             *     #endif
-             *     gcode.process_subcommands_now(F("G0 F300 Z0"));
-             *     planner.synchronize();
-             *     Redraw_Menu();
-             *   }
-             *   liveadjust = !liveadjust;
-             *   Draw_Checkbox(row, liveadjust);
-             *   if (liveadjust) {
-             *     adjustonclick = false;
-             *     Redraw_Menu();
-             *   };
-             *  }
-             * 
-             * break;
-             */
-
             case ZOFFSET_OFFSET:
               if (draw) {
                 Draw_Menu_Item(row, ICON_SetZOffset, F("Z Offset"));
@@ -2314,13 +2167,18 @@
               else
                 Draw_Menu(Prepare, PREPARE_CHANGEFIL);
               break;
-
+            case CHANGEFIL_PARKHEAD:
+              if (draw)
+                Draw_Menu_Item(row, ICON_ParkPos, F("Park Head"));
+              else {
                 #if ENABLED(NOZZLE_PARK_FEATURE)
                     queue.inject(F("G28O\nG27 P2"));
                   #else
                     sprintf_P(cmd, PSTR("G28O\nG0 F4000 X%i Y%i\nG0 F3000 Z%i"), HMI_datas.Park_point.x, HMI_datas.Park_point.y, HMI_datas.Park_point.z);
                     queue.inject(cmd);
                   #endif
+              }
+              break;
             case CHANGEFIL_LOAD:
               if (draw)
                 Draw_Menu_Item(row, ICON_WriteEEPROM, F("Load Filament"));
@@ -2405,6 +2263,7 @@
               break;
             case HOSTACTIONS_1:
               if (draw) {
+                sd_item_flag = false;
                 Draw_Menu_Item(row, ICON_File, action1);
               }
               else {
@@ -2413,6 +2272,7 @@
               break;
             case HOSTACTIONS_2:
               if (draw) {
+                sd_item_flag = false;
                 Draw_Menu_Item(row, ICON_File, action2);
               }
               else {
@@ -2421,6 +2281,7 @@
               break;
             case HOSTACTIONS_3:
               if (draw) {
+                sd_item_flag = false;
                 Draw_Menu_Item(row, ICON_File, action3);
               }
               else {
@@ -3245,7 +3106,7 @@
             }
             break;
           }
-        break;
+          break;
       #endif
 
       #if ENABLED(NOZZLE_PARK_FEATURE)
@@ -3289,6 +3150,7 @@
                 Modify_Value(HMI_datas.Park_point.z, MIN_PARK_POINT_Z, Z_MAX_POS, 1);
               break;
           }
+        break;
       #endif
 
       case HomeOffsets:
@@ -3606,6 +3468,7 @@
           #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW)
             case VISUAL_FILE_TUMBNAILS:
               if (draw) {
+                sd_item_flag = false;
                 Draw_Menu_Item(row, ICON_File, F("Show file thumbnails"));
                 Draw_Checkbox(row, HMI_datas.show_gcode_thumbnails);
               }
@@ -3696,7 +3559,7 @@
               break;
             case COLORSETTINGS_BACKGROUND:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MaxSpeed, F("Icons Menu Text"));
+                Draw_Menu_Item(row, ICON_MaxSpeed, F("Background"));
                 Draw_Option(HMI_datas.background, color_names, row, false, true);
               }
               else {
@@ -3937,6 +3800,7 @@
           #if ENABLED(HOST_ACTION_COMMANDS)
             case HOSTSETTINGS_ACTIONCOMMANDS:
               if (draw) {
+                sd_item_flag = false;
                 Draw_Menu_Item(row, ICON_File, F("Action Commands"));
               }
               else {
@@ -3967,6 +3831,7 @@
             break;
           case ACTIONCOMMANDS_1:
             if (draw) {
+              sd_item_flag = false;
               Draw_Menu_Item(row, ICON_File, F("Action #1"));
               Draw_String(action1, row);
             }
@@ -3976,6 +3841,7 @@
             break;
           case ACTIONCOMMANDS_2:
             if (draw) {
+              sd_item_flag = false;
               Draw_Menu_Item(row, ICON_File, F("Action #2"));
               Draw_String(action2, row);
             }
@@ -3985,6 +3851,7 @@
             break;
           case ACTIONCOMMANDS_3:
             if (draw) {
+              sd_item_flag = false;
               Draw_Menu_Item(row, ICON_File, F("Action #3"));
               Draw_String(action3, row);
             }
@@ -4082,11 +3949,8 @@
             case ADVANCED_ENDSDIAG:
               if (draw) 
                 Draw_Menu_Item(row, ICON_ESDiag, F("End-stops diag."));
-              else {
-
+              else 
                 EndSDiag.Draw_ends_diag();
-              }
-                //EndSDiag.Draw_ends_diag();
               break;
           #endif
           #if ENABLED(BAUD_RATE_GCODE)
@@ -4295,10 +4159,9 @@
                 }
                 else {
                   runout.reset();
+                  State_runoutenable = runout.enabled[0];
                   runout.enabled[0] = false;
-                  Draw_Checkbox(row-1, runout.enabled[0]);
                   Modify_Option(rsensormode, runoutsensor_modes, 2);
-                  //Redraw_Menu();
                 }
                 break;
             #endif
@@ -4334,7 +4197,7 @@
             #if EXTJYERSUI
               case FIL_UNLOAD_FEEDRATE:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_FilUnload, F("Fil. Unload Speed"));
+                  Draw_Menu_Item(row, ICON_FilUnload, F("Fil Unload Speed"));
                   Draw_Float(HMI_datas.fil_unload_feedrate, row, false, 1);
                 }
                 else
@@ -4342,7 +4205,7 @@
                 break;
               case FIL_FAST_LOAD_FEEDRATE:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_FilLoad, F("Fil. load Speed"));
+                  Draw_Menu_Item(row, ICON_FilLoad, F("Fil load Speed"));
                   Draw_Float(HMI_datas.fil_fast_load_feedrate, row, false, 1);
                 }
                 else
@@ -4537,7 +4400,7 @@
                 gcode.home_all_axes(true);
                 #if ENABLED(AUTO_BED_LEVELING_UBL) 
                   #if HAS_BED_PROBE
-                    TERN_(EXTJYERSUI,HMI_flags.cancel_ubl = 0);
+                    TERN_(EXTJYERSUI, HMI_flags.cancel_ubl = 0);
                     //Popup_Handler(Level);
                     TERN(EXTJYERSUI, Confirm_Handler(Level2), Popup_Handler(Level));
                     gcode.process_subcommands_now(F("G29 P1"));
@@ -4545,7 +4408,11 @@
                     planner.synchronize();
                     Update_Status("Probed all reachable points");
                     //Popup_Handler(SaveLevel);
-                    Viewmesh();
+                    #if EXTJYERSUI
+                      if (!HMI_flags.cancel_ubl) Viewmesh();
+                    #else
+                      Viewmesh();
+                    #endif
                   #else
                     level_state = planner.leveling_active;
                     set_bed_leveling_enabled(false);
@@ -4563,7 +4430,11 @@
                   gcode.process_subcommands_now(F("G29"));
                   planner.synchronize();
                   //Popup_Handler(SaveLevel);
-                  Viewmesh();
+                  #if EXTJYERSUI
+                   if (!HMI_flags.cancel_abl) Viewmesh();
+                  #else
+                   Viewmesh();
+                  #endif
                 #else
                   level_state = planner.leveling_active;
                   set_bed_leveling_enabled(false);
@@ -4606,7 +4477,7 @@
                   TERN_(HAS_HEATED_BED, thermalManager.wait_for_bed_heating());
                 #endif
                 Update_Status("");
-                if (axes_should_home() == 0) {
+                if (axes_should_home()) {
                   Popup_Handler(Home);
                   gcode.home_all_axes(true);
                 }
@@ -5784,7 +5655,6 @@
       case LevelError:        Draw_Popup(F("Couldn't enable Leveling"), F("(Valid mesh must exist)"), F(""), Confirm); break;
       case InvalidMesh:       Draw_Popup(F("Valid mesh must exist"), F("before tuning can be"), F("performed"), Confirm); break;
       case NocreatePlane:     Draw_Popup(F("Couldn't create Plane"), F("(Valid mesh must exist)"), F(""), Confirm); break;
-      //case ContinuousProbing: Draw_Popup(F("Probing in process"), F("(Confirm to exit)"), F("(for next point)"), Confirm, ICON_AutoLeveling); break;
       case BadextruderNumber: Draw_Popup(F("PID Autotune failed"), F("Bad extruder number"), F(""), Confirm); break;
       case TemptooHigh:       Draw_Popup(F("PID Autotune failed"), F("Temp too high!"), F(""), Confirm, ICON_TempTooHigh); break;
       case PIDTimeout:        Draw_Popup(F("PID Autotune failed"), F("Timeout!"), F(""), Confirm);  break;
@@ -5831,7 +5701,7 @@
         Menu_Item_Handler(active_menu, selection);
       }
       if ((cColor == GetColor(HMI_datas.background, Color_Bg_Black)) || ((cColor == Color_Black) && (HMI_datas.background = 0)))
-        DWIN_Draw_Rectangle(0, GetColor(HMI_datas.items_menu_text, Color_White), 0, MBASE(selection-scrollpos) - 18, 14, MBASE(selection-scrollpos) + 31);
+        DWIN_Draw_Rectangle(0, GetColor(HMI_datas.items_menu_text, Color_White), 0, MBASE(selection - scrollpos) - 18, 14, MBASE(selection - scrollpos) + 31);
       else
         DWIN_Draw_Rectangle(1, cColor, 0, MBASE(selection - scrollpos) - 18, 14, MBASE(selection - scrollpos) + 31);
     }
@@ -5873,8 +5743,10 @@
       //if (active_menu == ZOffset && (adjustonclick || liveadjust)) {
       if (active_menu == ZOffset && zoffsetmode != 0) {
         planner.synchronize();
-        current_position.z += (tempvalue / valueunit - zoffsetvalue);
-        planner.buffer_line(current_position, homing_feedrate(Z_AXIS), active_extruder);
+        if (zoffsetmode == 1) {
+          current_position.z += (tempvalue / valueunit - zoffsetvalue);
+          planner.buffer_line(current_position, homing_feedrate(Z_AXIS), active_extruder);
+        }
         current_position.z = 0;
         sync_plan_position();
       }
@@ -6004,15 +5876,12 @@
       process = Menu;
       EncoderRate.enabled = false;
       if (valuepointer == &color_names) {
-        last_items_menu_color = HMI_datas.items_menu_text;
-        last_icons_menu_color = HMI_datas.icons_menu_text;
-        last_background_color = HMI_datas.background;
         switch (selection) {
           case COLORSETTINGS_CURSOR: HMI_datas.cursor_color = tempvalue; break;
           case COLORSETTINGS_SPLIT_LINE: HMI_datas.menu_split_line = tempvalue; break;
-          case COLORSETTINGS_ITEMS_MENU_TEXT: (tempvalue == last_background_color) ? HMI_datas.items_menu_text = last_items_menu_color : HMI_datas.items_menu_text =  tempvalue; break;
-          case COLORSETTINGS_ICONS_MENU_TEXT: (tempvalue == last_background_color) ? HMI_datas.icons_menu_text = last_icons_menu_color : HMI_datas.icons_menu_text =  tempvalue; break;
-          case COLORSETTINGS_BACKGROUND: ((tempvalue == last_items_menu_color) || (tempvalue == last_icons_menu_color)) ? HMI_datas.background = last_background_color : HMI_datas.background =  tempvalue; break;
+          case COLORSETTINGS_ITEMS_MENU_TEXT: HMI_datas.items_menu_text =  tempvalue; break;
+          case COLORSETTINGS_ICONS_MENU_TEXT: HMI_datas.icons_menu_text =  tempvalue; break;
+          case COLORSETTINGS_BACKGROUND: HMI_datas.background =  tempvalue; break;
           case COLORSETTINGS_MENU_TOP_TXT: HMI_datas.menu_top_txt = tempvalue; break;
           case COLORSETTINGS_MENU_TOP_BG: HMI_datas.menu_top_bg = tempvalue; break;
           case COLORSETTINGS_SELECT_TXT: HMI_datas.select_txt = tempvalue; break;
@@ -6033,7 +5902,6 @@
           case COLORSETTINGS_PROGRESS_PERCENT: HMI_datas.progress_percent = tempvalue; break;
           case COLORSETTINGS_REMAIN_TIME: HMI_datas.remain_time = tempvalue; break;
           case COLORSETTINGS_ELAPSED_TIME: HMI_datas.elapsed_time = tempvalue; break;
-          //case COLORSETTINGS_PROGRESS_TIME: HMI_datas.progress_time = tempvalue; break;
           case COLORSETTINGS_PROGRESS_STATUS_BAR: HMI_datas.status_bar_text = tempvalue; break;
           case COLORSETTINGS_PROGRESS_STATUS_AREA: HMI_datas.status_area_text = tempvalue; break;
           case COLORSETTINGS_PROGRESS_STATUS_PERCENT: HMI_datas.status_area_percent = tempvalue; break;
@@ -6074,6 +5942,7 @@
            case 1: runout.mode[0] = 2; break;
            case 2: runout.mode[0] = 7; break;
           }
+          runout.enabled[0] = State_runoutenable;
         }
       #endif  
 
@@ -6319,7 +6188,7 @@
         name_scroll_time = millis() + SCROLL_WAIT;
       #endif
       if ((cColor == GetColor(HMI_datas.background, Color_Bg_Black)) || ((cColor == Color_Black) && (HMI_datas.background = 0))) {
-        DWIN_Draw_Rectangle(0, GetColor(HMI_datas.items_menu_text, Color_White), 0, MBASE(selection-scrollpos) - 18, 8, MBASE(selection-scrollpos) + 31);
+        DWIN_Draw_Rectangle(0, GetColor(HMI_datas.items_menu_text, Color_White), 0, MBASE(selection - scrollpos) - 18, 8, MBASE(selection - scrollpos) + 31);
       }
       else
       DWIN_Draw_Rectangle(1, cColor, 0, MBASE(selection - scrollpos) - 18, 8, MBASE(selection - scrollpos) + 31);
@@ -6342,7 +6211,7 @@
       #endif
       
       if ((cColor == GetColor(HMI_datas.background, Color_Bg_Black)) || ((cColor == Color_Black) && (HMI_datas.background = 0))) 
-        DWIN_Draw_Rectangle(0, GetColor(HMI_datas.items_menu_text, Color_White), 0, MBASE(selection-scrollpos) - 18, 8, MBASE(selection-scrollpos) + 31);
+        DWIN_Draw_Rectangle(0, GetColor(HMI_datas.items_menu_text, Color_White), 0, MBASE(selection - scrollpos) - 18, 8, MBASE(selection - scrollpos) + 31);
       else
         DWIN_Draw_Rectangle(1, cColor, 0, MBASE(selection - scrollpos) - 18, 8, MBASE(selection - scrollpos) + 31);
     }
@@ -6638,19 +6507,7 @@
   void CrealityDWINClass::Confirm_Control() {
     EncoderState encoder_diffState = Encoder_ReceiveAnalyze();
     
-    //if (popup != ContinuousProbing) {
-      if (encoder_diffState == ENCODER_DIFF_NO) return;
-    //}
-    //else {
-    //  if (encoder_diffState != ENCODER_DIFF_ENTER) {
-    //          char buf[80];
-    //          const float dif = probe.probe_at_point(current_position.x, current_position.y, PROBE_PT_STOW, 0, false) - corner_avg;
-    //          sprintf_P(buf, dif > 0 ? PSTR("Corner is %smm high") : PSTR("Corner is %smm low"), dtostrf(abs(dif), 1, 3, str_1));
-    //          if (abs(dif) <= 0.005) AudioFeedback(true);
-    //          Update_Status(buf);
-    //          Confirm_Handler(ContinuousProbing);     
-    //  }
-    //}
+    if (encoder_diffState == ENCODER_DIFF_NO) return;
     if (encoder_diffState == ENCODER_DIFF_ENTER) {
       switch (popup) {
         #if EXTJYERSUI
@@ -6687,18 +6544,13 @@
             mesh_conf.viewer_asymmetric_range = mesh_conf.last_viewer_asymmetric_range;
             mesh_conf.viewer_print_value = mesh_conf.last_viewer_print_value;
           }
+          flag_viewmesh = false;
+          DWIN_Draw_Rectangle(1, GetColor(HMI_datas.background, Color_Bg_Black), 0, KEY_Y_START, DWIN_WIDTH-2, DWIN_HEIGHT-2);
           Draw_Status_Area(true);
           Update_Status_Bar(true);
           Popup_Handler(SaveLevel);
           wait_for_user = false;
           break;
-        //#if HAS_BED_PROBE
-        //  case ContinuousProbing:
-        //      Redraw_Menu(true, true, false);
-        //      wait_for_user = false;
-        //      Update_Status("");
-        //    break;
-        //#endif
         default:
           Redraw_Menu(true, true, false);
           wait_for_user = false;
@@ -6967,16 +6819,16 @@
     State_Update();
     Screen_Update();
     switch (process) {
-      case Main:      Main_Menu_Control();    break;
-      case Menu:      Menu_Control();         break;
-      case Value:     Value_Control();        break;
-      case Option:    Option_Control();       break;
-      case File:      File_Control();         break;
-      case Print:     Print_Screen_Control(); break;
-      case Popup:     Popup_Control();        break;
-      case Confirm:   Confirm_Control();      break;
-      case Keyboard:  Keyboard_Control();     break;
-      case Locked:    HMI_ScreenLock();       break;
+      case Main:      sd_item_flag = false; Main_Menu_Control();    break;
+      case Menu:      sd_item_flag = false; Menu_Control();         break;
+      case Value:     sd_item_flag = false; Value_Control();        break;
+      case Option:    sd_item_flag = false; Option_Control();       break;
+      case File:      sd_item_flag = true;  File_Control();         break;
+      case Print:     sd_item_flag = false; Print_Screen_Control(); break;
+      case Popup:     sd_item_flag = false; Popup_Control();        break;
+      case Confirm:   sd_item_flag = false; Confirm_Control();      break;
+      case Keyboard:  sd_item_flag = false; Keyboard_Control();     break;
+      case Locked:    sd_item_flag = false; HMI_ScreenLock();       break;
     }
   }
 
@@ -7029,7 +6881,7 @@
     static millis_t statustime = 0;
     if (ELAPSED(millis(), statustime) && process != Keyboard) {
       statustime = millis() + 500;
-      Draw_Status_Area();
+      if (!flag_viewmesh) Draw_Status_Area();
       if (process == Confirm && popup == endsdiag) EndSDiag.Update_ends_diag();
     }
 
@@ -7049,32 +6901,42 @@
       #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW)
       image_cache.clear();
       #endif
-      if (process == File)
+      if (process == File) {
+        sd_item_flag = true;
         Draw_SD_List();
+      }
+      else sd_item_flag = false;
     }
 
     #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW)
     if (HMI_datas.show_gcode_thumbnails && ELAPSED(millis(), thumbtime)) {
+      uint16_t cColor = GetColor(HMI_datas.cursor_color, Rectangle_Color);
       thumbtime = millis() + 60000;
-      if (process == File){
+      if (process == File) {
+        sd_item_flag = true;
         // Draw_SD_List(!mounted, selection, scrollpos);
         if (selection-scrollpos > MROWS) scrollpos = selection - MROWS;
-        LOOP_L_N(i, _MIN(card.get_num_Files()+1, TROWS)) {
+        LOOP_L_N(i, _MIN(card.get_num_Files() + 1, TROWS)) {
           if (Encoder_ReceiveAnalyze() != ENCODER_DIFF_NO) break;
-          if (i+scrollpos == 0) {
+          if (i + scrollpos == 0) {
             if (card.flag.workDirIsRoot)
               Draw_Menu_Item(0, ICON_Back, "Back");
             else
               Draw_Menu_Item(0, ICON_Back, "..");
           } else {
-            card.getfilename_sorted(SD_ORDER(i+scrollpos-1, card.get_num_Files()));
+            card.getfilename_sorted(SD_ORDER(i + scrollpos - 1, card.get_num_Files()));
 
             Draw_Menu_Item(i, card.flag.filenameIsDir ? ICON_More : ICON_File);
           }
           DWIN_UpdateLCD();
         }
-        DWIN_Draw_Rectangle(1, GetColor(HMI_datas.cursor_color, Rectangle_Color), 0, MBASE(selection-scrollpos) - 18, 8, MBASE(selection-scrollpos) + 31);
+        if ((cColor == GetColor(HMI_datas.background, Color_Bg_Black)) || ((cColor == Color_Black) && (HMI_datas.background = 0)))
+          DWIN_Draw_Rectangle(0, GetColor(HMI_datas.items_menu_text, Color_White), 0, MBASE(selection - scrollpos) - 18, 8, MBASE(selection - scrollpos) + 31);
+        else
+          DWIN_Draw_Rectangle(1, cColor, 0, MBASE(selection - scrollpos) - 18, 8, MBASE(selection - scrollpos) + 31);
       }
+      else
+        sd_item_flag = false;
     }
     #endif
 
@@ -7170,7 +7032,6 @@
           break;
       }
     }
-    DWIN_UpdateLCD();
   }
 
   void CrealityDWINClass::AudioFeedback(const bool success/*=true*/) {
@@ -7341,7 +7202,6 @@
     }
     DWIN_UpdateLCD();
     delay(500);
-    DWIN_JPG_ShowAndCache(3);
   }
 
   void CrealityDWINClass::DWIN_Init_diag_endstops() {
@@ -7441,10 +7301,9 @@
       JYERSUI::font = font8x16;
       delay(20);
     }
-
-    DWIN_JPG_ShowAndCache(3);
     TERN(SHOW_BOOTSCREEN,,DWIN_Frame_Clear(Color_Bg_Black));
     DWIN_JPG_CacheTo1(Language_English);
+    DWIN_JPG_ShowAndCache(3);
     CrealityDWIN.Redraw_Screen();
   }
 

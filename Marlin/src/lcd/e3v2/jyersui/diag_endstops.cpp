@@ -77,10 +77,10 @@ void EndSDiagClass::Draw_ends_diag() {
   JYERSUI::ClearMenuArea();
   DWIN_Draw_Rectangle(0, Color_White, 13, 59, 259, 351);
   CrealityDWINClass::DWIN_Init_diag_endstops();
-  DWIN_Draw_Rectangle(1, Confirm_Color, 87, 426, 186, 463);
-  DWIN_Draw_Rectangle(0, Color_White, 86, 425, 187, 464);
-  DWIN_Draw_Rectangle(0, Color_White, 85, 424, 188, 465);
-  DWIN_Draw_String(false, DWIN_FONT_STAT, Color_White, Color_Bg_Window, 96, 416, F(" Cancel "));
+  DWIN_Draw_Rectangle(1, Confirm_Color, 87, 280, 186, 317);
+  DWIN_Draw_Rectangle(0, Color_White, 86, 279, 187, 318);
+  DWIN_Draw_Rectangle(0, Color_White, 85, 278, 188, 319);
+  DWIN_Draw_String(false, DWIN_FONT_STAT, Color_White, Color_Bg_Window, 96, 290, F(" Cancel "));
   JYERSUI::cursor.y = 80;
   #define ES_LABEL(S) draw_ends_label(F(STR_##S))
   #if HAS_X_MIN

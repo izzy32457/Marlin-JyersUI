@@ -51,7 +51,7 @@ enum processID : uint8_t {
 
 enum PopupID : uint8_t {
   Pause, Stop, Resume, SaveLevel, ETemp, ConfFilChange, PurgeMore, MeshSlot,
-  Level, Home, MoveWait, Heating,  FilLoad, FilChange, TempWarn, Runout, PIDWait, Resuming, ManualProbing, ContinuousProbing,
+  Level, Home, MoveWait, Heating,  FilLoad, FilChange, TempWarn, Runout, PIDWait, Resuming, ManualProbing,
   FilInsert, HeaterTime, UserInput, LevelError, InvalidMesh, NocreatePlane, UI, Complete, ConfirmStartPrint, BadextruderNumber,
   TemptooHigh, PIDTimeout, PIDDone, viewmesh, Level2, endsdiag
 };
@@ -145,11 +145,11 @@ class CrealityDWINClass {
 public:
   
   static bool printing;
-  static constexpr const char * const color_names[16] = {"Default","White","L_White","Blue","Yellow","Orange","Red","L_Red","Green","L_Green","Magenta","L_Magen","Cyan","L_Cyan","Brown","Black"};
+  static constexpr const char * const color_names[16] = {"Default","  White","L_White","   Blue"," Yellow"," Orange","    Red","  L_Red","  Green","L_Green","Magenta","L_Magen","   Cyan"," L_Cyan","  Brown","  Black"};
   static constexpr const char * const preheat_modes[3] = { "Both", "Hotend", "Bed" };
-  static constexpr const char * const zoffset_modes[3] = { "No Live" , "OnClick", "Live" };
+  static constexpr const char * const zoffset_modes[3] = { "No Live" , "OnClick", "   Live" };
   #if HAS_FILAMENT_SENSOR
-   static constexpr const char * const runoutsensor_modes[3] = { "LOW" , "HIGH", "MOTION" };
+   static constexpr const char * const runoutsensor_modes[3] = { "    LOW" , "   HIGH", " MOTION" };
   #endif
 
   static void Init_process();
@@ -237,7 +237,6 @@ public:
   static void Load_Settings(const char *buff);
   static void Reset_Settings();
 
-  static void Continuous_Probing();
   static void Viewmesh();
   static void RebootPrinter();
   static void DWIN_RebootScreen();
