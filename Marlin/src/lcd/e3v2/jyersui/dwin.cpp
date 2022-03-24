@@ -1781,10 +1781,7 @@
         #define MLEVEL_TOTAL MLEVEL_ZPOS
 
         static float mlev_z_pos = 0;
-        
-        #if HAS_BED_PROBE
-          static bool use_probe = false;
-        #endif
+        static bool use_probe = false;
 
         switch (item) {
           case MLEVEL_BACK:
