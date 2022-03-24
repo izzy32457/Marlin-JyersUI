@@ -38,8 +38,8 @@
  *  D<linear> : Alias for L
  *  P<index>  : Mode :
  *       0 = none
- *       1 = simple sensor (LOW signal when filament present)
- *       2 = simple sensor (HIGH signal when filament present)
+ *       1 = simple sensor (HIGH signal when filament present)
+ *       2 = simple sensor (LOW signal when filament present)
  *       7 = motion encoder sensor
  */
 void GcodeSuite::M591() {
