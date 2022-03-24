@@ -5817,7 +5817,7 @@
               }
               break;
             case LevelManual: 
-              if (liveadjust) { 
+              if (liveadjust && mesh_conf.goto_mesh_value) { 
                 planner.synchronize();
                 sprintf_P(cmd, PSTR("M290 Z%s"), dtostrf((valuegap / valueunit), 1, 3, str_1));
                 gcode.process_subcommands_now(cmd);
@@ -5843,26 +5843,6 @@
             break;
           default: break;   
         }
-
-/**
- *   if (active_menu == Move && livemove) {
- *    *(float*)valuepointer = tempvalue / valueunit;
- *     planner.buffer_line(current_position, manual_feedrate_mm_s[selection - 1], active_extruder);
- *   }
- *   // Z-Offset Live move
- *   if (active_menu == ZOffset && liveadjust) {
- *     planner.synchronize();
- *     sprintf_P(cmd, PSTR("M290 Z%s"), dtostrf((valuegap / valueunit), 1, 3, str_1));
- *     gcode.process_subcommands_now(cmd);
- *     planner.synchronize();
- *   }
- * if (active_menu == Tune && selection == TUNE_ZOFFSET) {
- *     planner.synchronize();
- *     sprintf_P(cmd, PSTR("M290 Z%s"), dtostrf((valuegap / valueunit), 1, 3, str_1));
- *     gcode.process_subcommands_now(cmd);
- *     planner.synchronize();
- *   }
- */
   }
 
   void CrealityDWINClass::Option_Control() {
