@@ -71,7 +71,7 @@ class FilamentMonitorBase {
     static bool enabled[NUM_RUNOUT_SENSORS], filament_ran_out;
     static uint8_t mode[NUM_RUNOUT_SENSORS];  // 0:NONE  1:Switch NC  2:Switch NO  7:Motion Sensor
 
-    static uint8_t out_state(const uint8_t e=0) { return mode[e] == 2 ? HIGH : LOW; }
+    static uint8_t out_state(const uint8_t e=0) { return mode[e] == 1 ? HIGH : LOW; }
 
     #if ENABLED(HOST_ACTION_COMMANDS)
       static bool host_handling;
@@ -118,12 +118,10 @@ class TFilamentMonitor : public FilamentMonitorBase {
     // Give the response a chance to update its counter.
     static void run() {
       if (enabled[active_extruder] && mode[active_extruder]!=0 && !filament_ran_out && (printingIsActive() || did_pause_print)) {
-        //TERN_(HAS_FILAMENT_RUNOUT_DISTANCE, cli()); // Prevent RunoutResponseDelayed::block_completed from accumulating here
         cli(); // Prevent RunoutResponseDelayed::block_completed from accumulating here
         response.run();
         sensor.run();
         const uint8_t runout_flags = response.has_run_out();
-        //TERN_(HAS_FILAMENT_RUNOUT_DISTANCE, sei());
         sei();
         #if MULTI_FILAMENT_SENSOR
           #if ENABLED(WATCH_ALL_RUNOUT_SENSORS)
@@ -245,7 +243,6 @@ class FilamentSensorCore : public FilamentSensorBase {
       const uint8_t new_state = poll_runout_pins(),
                     change    = old_state ^ new_state;
       old_state = new_state;
-
       #if ENABLED(FILAMENT_RUNOUT_SENSOR_DEBUG)
         if (change) {
           SERIAL_ECHOPGM("Motion detected:");
@@ -254,8 +251,6 @@ class FilamentSensorCore : public FilamentSensorBase {
           SERIAL_EOL();
         }
       #endif
-    //
-
       motion_detected |= change;
     }
 
@@ -302,7 +297,6 @@ class RunoutResponseDelayed {
     static volatile float runout_mm_countdown[NUM_RUNOUT_SENSORS];
 
   public:
-    //static float runout_distance_mm;
     static float runout_distance_mm[NUM_RUNOUT_SENSORS];
 
     static void reset() {
@@ -329,7 +323,6 @@ class RunoutResponseDelayed {
      }
 
      static void filament_present(const uint8_t extruder) {
-       //runout_mm_countdown[extruder] = runout_distance_mm;
        runout_mm_countdown[extruder] = runout_distance_mm[extruder];
      }
 
