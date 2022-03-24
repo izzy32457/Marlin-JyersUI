@@ -481,7 +481,7 @@
   constexpr const char * const CrealityDWINClass::color_names[16];
   constexpr const char * const CrealityDWINClass::preheat_modes[3];
   constexpr const char * const CrealityDWINClass::zoffset_modes[3];
-  constexpr const char * const CrealityDWINClass::runoutsensor_modes[3];
+  constexpr const char * const CrealityDWINClass::runoutsensor_modes[4];
 
 
   // Clear a part of the screen
@@ -512,9 +512,9 @@
   void CrealityDWINClass::Draw_Option(uint8_t value, const char * const * options, uint8_t row, bool selected/*=false*/, bool color/*=false*/) {
     uint16_t sColor = GetColor(HMI_datas.select_txt, Color_White);
     uint16_t bColor = (selected) ? GetColor(HMI_datas.select_bg, Select_Color): GetColor(HMI_datas.background, Color_Bg_Black);
-    uint16_t tColor = (color) ? GetColor(value, sColor, false) : Color_White;
+    uint16_t tColor = (color) ? GetColor(value, sColor, false) : GetColor(HMI_datas.items_menu_text, Color_White);
     DWIN_Draw_Rectangle(1, bColor, 202, MBASE(row) + 14, 258, MBASE(row) - 2);
-    DWIN_Draw_String(false, DWIN_FONT_MENU, ((tColor == GetColor(HMI_datas.background, Color_Bg_Black)) || ((tColor == Color_Black) && (HMI_datas.background = 0))) ? GetColor(HMI_datas.items_menu_text, Color_White) : tColor, bColor, 202, MBASE(row) - 1, options[value]);
+    DWIN_Draw_String(false, DWIN_FONT_MENU, ((tColor == GetColor(HMI_datas.background, Color_Bg_Black)) || ((tColor == Color_Black) && (HMI_datas.background == 0))) ? GetColor(HMI_datas.items_menu_text, Color_White) : tColor, bColor, 202, MBASE(row) - 1, options[value]);
   }
 
   void CrealityDWINClass::Draw_String(char * string, uint8_t row, bool selected/*=false*/, bool below/*=false*/) {
@@ -693,7 +693,7 @@
     Clear_Screen();
     Draw_Title(Get_Menu_Title(menu));
     LOOP_L_N(i, TROWS) Menu_Item_Handler(menu, i + scrollpos);
-    if ((cColor == GetColor(HMI_datas.background, Color_Bg_Black)) || ((cColor == Color_Black) && (HMI_datas.background = 0)))
+    if ((cColor == GetColor(HMI_datas.background, Color_Bg_Black)) || ((cColor == Color_Black) && (HMI_datas.background == 0)))
         DWIN_Draw_Rectangle(0, GetColor(HMI_datas.items_menu_text, Color_White), 0, MBASE(selection - scrollpos) - 18, 14, MBASE(selection - scrollpos) + 31);
     else
         DWIN_Draw_Rectangle(1, cColor, 0, MBASE(selection - scrollpos) - 18, 14, MBASE(selection - scrollpos) + 31);
@@ -1038,7 +1038,7 @@
       DWIN_Draw_Rectangle(1, Color_Bg_Red, 10, MBASE(3) - 10, DWIN_WIDTH - 10, MBASE(4));
       DWIN_Draw_String(false, font16x32, Color_Yellow, Color_Bg_Red, ((DWIN_WIDTH) - 8 * 16) / 2, MBASE(3), F("No Media"));
     }
-    if ((cColor == GetColor(HMI_datas.background, Color_Bg_Black)) || ((cColor == Color_Black) && (HMI_datas.background = 0)))
+    if ((cColor == GetColor(HMI_datas.background, Color_Bg_Black)) || ((cColor == Color_Black) && (HMI_datas.background == 0)))
         DWIN_Draw_Rectangle(0, GetColor(HMI_datas.items_menu_text, Color_White), 0, MBASE(selection-scrollpos) - 18, 8, MBASE(selection-scrollpos) + 31);
     else
         DWIN_Draw_Rectangle(1, cColor, 0, MBASE(selection-scrollpos) - 18, 8, MBASE(selection-scrollpos) + 31);
@@ -4140,11 +4140,12 @@
             case FIL_SENSORENABLED:
               if (draw) {
                 Draw_Menu_Item(row, ICON_Extruder, F("Filament Sensor"));
+                if (runout.mode[0] == 0) runout.enabled[0] = false;
                 Draw_Checkbox(row, runout.enabled[0]);
               }
               else {
-                runout.reset();
-                runout.enabled[0] = !runout.enabled[0];
+                if (runout.mode[0] == 0) runout.enabled[0] = false;
+                else runout.enabled[0] = !runout.enabled[0];
                 Draw_Checkbox(row, runout.enabled[0]);
               }
               break;
@@ -4158,7 +4159,7 @@
                   runout.reset();
                   State_runoutenable = runout.enabled[0];
                   runout.enabled[0] = false;
-                  Modify_Option(rsensormode, runoutsensor_modes, 2);
+                  Modify_Option(rsensormode, runoutsensor_modes, 3);
                 }
                 break;
             #endif
@@ -5222,7 +5223,6 @@
                 Draw_Checkbox(row, runout.enabled[0]);
               }
               else {
-                runout.reset();
                 runout.enabled[0] = !runout.enabled[0];
                 Draw_Checkbox(row, runout.enabled[0]);
               }
@@ -5697,7 +5697,7 @@
         DWIN_Frame_AreaMove(1, 2, MLINE, GetColor(HMI_datas.background, Color_Bg_Black), 0, 31, DWIN_WIDTH, 349);
         Menu_Item_Handler(active_menu, selection);
       }
-      if ((cColor == GetColor(HMI_datas.background, Color_Bg_Black)) || ((cColor == Color_Black) && (HMI_datas.background = 0)))
+      if ((cColor == GetColor(HMI_datas.background, Color_Bg_Black)) || ((cColor == Color_Black) && (HMI_datas.background == 0)))
         DWIN_Draw_Rectangle(0, GetColor(HMI_datas.items_menu_text, Color_White), 0, MBASE(selection - scrollpos) - 18, 14, MBASE(selection - scrollpos) + 31);
       else
         DWIN_Draw_Rectangle(1, cColor, 0, MBASE(selection - scrollpos) - 18, 14, MBASE(selection - scrollpos) + 31);
@@ -5710,7 +5710,7 @@
         DWIN_Frame_AreaMove(1, 3, MLINE, GetColor(HMI_datas.background, Color_Bg_Black), 0, 31, DWIN_WIDTH, 349);
         Menu_Item_Handler(active_menu, selection);
       }
-      if ((cColor == GetColor(HMI_datas.background, Color_Bg_Black)) || ((cColor == Color_Black) && (HMI_datas.background = 0)))
+      if ((cColor == GetColor(HMI_datas.background, Color_Bg_Black)) || ((cColor == Color_Black) && (HMI_datas.background == 0)))
         DWIN_Draw_Rectangle(0, GetColor(HMI_datas.items_menu_text, Color_White), 0, MBASE(selection-scrollpos) - 18, 14, MBASE(selection-scrollpos) + 31);
       else
         DWIN_Draw_Rectangle(1, cColor, 0, MBASE(selection - scrollpos) - 18, 14, MBASE(selection - scrollpos) + 31);
@@ -5776,7 +5776,7 @@
             break;
           case UBLMesh:     mesh_conf.manual_move(true); break;
           //case LevelManual: mesh_conf.manual_move(selection == LEVELING_M_OFFSET); break;
-          case LevelManual: mesh_conf.manual_move(true); break;
+          case LevelManual: mesh_conf.manual_move(selection == LEVELING_M_OFFSET); break;
         #endif
       }
       if (valuepointer == &planner.flow_percentage[0])
@@ -5915,11 +5915,14 @@
           rsensormode = tempvalue;
           runout.reset();
           switch (rsensormode) {
-           case 0: runout.mode[0] = 1; break;
-           case 1: runout.mode[0] = 2; break;
-           case 2: runout.mode[0] = 7; break;
+           case 0: runout.mode[0] = 0; break; // None 
+           case 1: runout.mode[0] = 1; break; // mode HIGH
+           case 2: runout.mode[0] = 2; break; // mode LOW
+           case 3: runout.mode[0] = 7; break; // mode MOTION
           }
+          runout.reset();
           runout.enabled[0] = State_runoutenable;
+          Redraw_Menu(false);
         }
       #endif  
 
@@ -6164,7 +6167,7 @@
         thumbtime = millis() + SCROLL_WAIT;
         name_scroll_time = millis() + SCROLL_WAIT;
       #endif
-      if ((cColor == GetColor(HMI_datas.background, Color_Bg_Black)) || ((cColor == Color_Black) && (HMI_datas.background = 0))) {
+      if ((cColor == GetColor(HMI_datas.background, Color_Bg_Black)) || ((cColor == Color_Black) && (HMI_datas.background == 0))) {
         DWIN_Draw_Rectangle(0, GetColor(HMI_datas.items_menu_text, Color_White), 0, MBASE(selection - scrollpos) - 18, 8, MBASE(selection - scrollpos) + 31);
       }
       else
@@ -6187,7 +6190,7 @@
         name_scroll_time = millis() + SCROLL_WAIT;
       #endif
       
-      if ((cColor == GetColor(HMI_datas.background, Color_Bg_Black)) || ((cColor == Color_Black) && (HMI_datas.background = 0))) 
+      if ((cColor == GetColor(HMI_datas.background, Color_Bg_Black)) || ((cColor == Color_Black) && (HMI_datas.background == 0))) 
         DWIN_Draw_Rectangle(0, GetColor(HMI_datas.items_menu_text, Color_White), 0, MBASE(selection - scrollpos) - 18, 8, MBASE(selection - scrollpos) + 31);
       else
         DWIN_Draw_Rectangle(1, cColor, 0, MBASE(selection - scrollpos) - 18, 8, MBASE(selection - scrollpos) + 31);
@@ -7053,6 +7056,9 @@
     TERN_(AUTO_BED_LEVELING_UBL, mesh_conf.tilt_grid = HMI_datas.tilt_grid_size + 1);
     if (HMI_datas.corner_pos == 0) HMI_datas.corner_pos = 325;
     corner_pos = HMI_datas.corner_pos / 10.0f;
+    #if HAS_FILAMENT_SENSOR
+      rsensormode = runout.mode[0];
+    #endif
     #if ENABLED(HOST_ACTION_COMMANDS)
       Decode_String(HMI_datas.host_action_label_1, action1);
       Decode_String(HMI_datas.host_action_label_2, action2);
@@ -7113,6 +7119,10 @@
     corner_pos = HMI_datas.corner_pos / 10.0f;
     TERN_(SOUND_MENU_ITEM, ui.buzzer_enabled = true);
     
+    #if HAS_FILAMENT_SENSOR
+     rsensormode = runout.mode[0];
+    #endif
+
     #if ENABLED(BAUD_RATE_GCODE)
       HMI_datas.baudratemode = 0;
       sprintf_P(cmd, PSTR("M575 P%i B%i"), BAUD_PORT, 250);

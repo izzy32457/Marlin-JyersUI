@@ -55,7 +55,7 @@
   #endif
 
   #define DEF_INVERT_E0_DIR false
-  #define DEF_FIL_MOTION_SENSOR false
+  //#define DEF_FIL_MOTION_SENSOR false
 
   // Class
   class ExtJyersuiClass {

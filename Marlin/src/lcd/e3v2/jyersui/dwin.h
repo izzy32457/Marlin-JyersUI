@@ -149,7 +149,7 @@ public:
   static constexpr const char * const preheat_modes[3] = { "Both", "Hotend", "Bed" };
   static constexpr const char * const zoffset_modes[3] = { "No Live" , "OnClick", "   Live" };
   #if HAS_FILAMENT_SENSOR
-   static constexpr const char * const runoutsensor_modes[3] = { "    LOW" , "   HIGH", " MOTION" };
+   static constexpr const char * const runoutsensor_modes[4] = { "   NONE" , "   HIGH" , "    LOW", " MOTION" };
   #endif
 
   static void Init_process();
