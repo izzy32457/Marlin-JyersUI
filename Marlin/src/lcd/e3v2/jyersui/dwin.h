@@ -252,6 +252,7 @@ public:
   #endif
 
   static void DWIN_Invert_Extruder();
+  static void CPU_type();
 
   static void DWIN_Gcode(const int16_t codenum);
   static void DWIN_CError();

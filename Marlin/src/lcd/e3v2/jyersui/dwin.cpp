@@ -105,9 +105,11 @@
   #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW)
   #include "../../../libs/base64.hpp"
   #include <map>
+  //#include <string>
+  //using namespace std;
+  #endif
   #include <string>
   using namespace std;
-  #endif
 
   #define MACHINE_SIZE STRINGIFY(X_BED_SIZE) "x" STRINGIFY(Y_BED_SIZE) "x" STRINGIFY(Z_MAX_POS)
 
@@ -121,9 +123,9 @@
   #endif
 
   #if ENABLED(BOOTPERSO)
-    #define BUILD_NUMBER "Build nb: v3.0.0a - RET6"
+    #define BUILD_NUMBER "Build nb: v3.0.0a"
   #else
-    #define BUILD_NUMBER "Build nb: v2.0.2j - RET6"
+    #define BUILD_NUMBER "Build nb: v2.0.2j"
   #endif
 
   #define MENU_CHAR_LIMIT  24
@@ -202,6 +204,7 @@
 
   bool flag_tune = false;
   bool flag_viewmesh = false;
+  bool flag_leveling_m = false;
 
   void (*funcpointer)() = nullptr;
   void *valuepointer = nullptr;
@@ -215,6 +218,7 @@
   char statusmsg[128];
   char filename[LONG_FILENAME_LENGTH];
   char Hostfilename[LONG_FILENAME_LENGTH];
+  char STM_cpu[5];
   
   bool paused = false;
   bool sdprint = false;
@@ -270,6 +274,10 @@
   CrealityDWINClass CrealityDWIN;
 
   bool CrealityDWINClass::printing = false;
+
+  
+
+  
 
   #if HAS_MESH
 
@@ -663,7 +671,10 @@
 
   void CrealityDWINClass::Draw_Checkbox(uint8_t row, bool value) {
     #if ENABLED(DWIN_CREALITY_LCD_CUSTOM_ICONS) // Draw appropriate checkbox icon
-      DRAW_IconWTB(ICON, (value ? ICON_Checkbox_T : ICON_Checkbox_F), 226, MBASE(row) - 3);
+      // Only for my personal Display icon pack
+      // DWIN_Draw_Rectangle(1, GetColor(HMI_datas.background, Color_Bg_Black), 226, MBASE(row) - 3, 226 + 40, MBASE(row) - 3 + 20);
+      // DRAW_IconWTB(ICON, (value ? ICON_Checkbox_T : ICON_Checkbox_F), 226, MBASE(row) - 3);
+      DRAW_IconWB(ICON, (value ? ICON_Checkbox_T : ICON_Checkbox_F), 226, MBASE(row) - 3);
     #else                                         // Draw a basic checkbox using rectangles and lines
       DWIN_Draw_Rectangle(1, Color_Bg_Black, 226, MBASE(row) - 3, 226 + 20, MBASE(row) - 3 + 20);
       DWIN_Draw_Rectangle(0, Color_White, 226, MBASE(row) - 3, 226 + 20, MBASE(row) - 3 + 20);
@@ -1249,6 +1260,7 @@
     last_selection = selection;
     process = Confirm;
     popup = viewmesh;
+  #if HAS_MESH
     if (planner.leveling_active) {
           mesh_conf.last_viewer_asymmetric_range = mesh_conf.viewer_asymmetric_range;
           mesh_conf.last_viewer_print_value = mesh_conf.viewer_print_value;
@@ -1259,7 +1271,7 @@
           mesh_conf.Set_Mesh_Viewer_Status();
     }
     else Confirm_Handler(LevelError);
-
+  #endif
     DWIN_Draw_Rectangle(1, Confirm_Color, 87, 406, 186, 443);
     DWIN_Draw_Rectangle(0, Color_White, 86, 405, 187, 444);
     DWIN_Draw_Rectangle(0, Color_White, 85, 404, 188, 445);
@@ -1493,7 +1505,7 @@
             break;
           case PREPARE_MANUALLEVEL:
             if (draw)
-              Draw_Menu_Item(row, ICON_PrintSize, F("Manual Leveling"), nullptr, true);
+              Draw_Menu_Item(row, ICON_PrintSize, F("Bed Tramming"), nullptr, true);
             else {
               if (axes_should_home()) {
                 Popup_Handler(Home);
@@ -1811,25 +1823,25 @@
                   #define PROBE_Y_MAX _MIN((Y_BED_SIZE + Y_MIN_POS) - corner_pos, Y_MAX_POS + probe.offset.y, Y_MAX_POS - PROBING_MARGIN) - probe.offset.y
                   zval = probe.probe_at_point(PROBE_X_MIN, PROBE_Y_MIN, PROBE_PT_RAISE, 0, false);
                   if (isnan(zval)) {
-                      Update_Status("Position Not Reachable, check probe offsets and Bed Screw Inset");
+                      Update_Status("Position not reachable, check probe offsets and bed screw inset");
                       Redraw_Menu();
                   }
                   corner_avg += zval;
                   zval = probe.probe_at_point(PROBE_X_MIN, PROBE_Y_MAX, PROBE_PT_RAISE, 0, false);
                   if (isnan(zval)) {
-                      Update_Status("Position Not Reachable, check probe offsets and Bed Screw Inset");
+                      Update_Status("Position not reachable, check probe offsets and bed screw inset");
                       Redraw_Menu();
                   }
                   corner_avg += zval;
                   zval = probe.probe_at_point(PROBE_X_MAX, PROBE_Y_MAX, PROBE_PT_RAISE, 0, false);
                   if (isnan(zval)) {
-                      Update_Status("Position Not Reachable, check probe offsets and Bed Screw Inset");
+                      Update_Status("Position not reachable, check probe offsets and bed screw inset");
                       Redraw_Menu();
                   }
                   corner_avg += zval;
                   zval = probe.probe_at_point(PROBE_X_MAX, PROBE_Y_MIN, PROBE_PT_STOW, 0, false);
                   if (isnan(zval)) {
-                      Update_Status("Position Not Reachable, check probe offsets and Bed Screw Inset");
+                      Update_Status("Position not reachable, check probe offsets and bed screw inset");
                       Redraw_Menu();
                   }
                   corner_avg += zval; 
@@ -2003,7 +2015,7 @@
               break;
               case ZOFFSET_MODE:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_Zoffset, "Mode Z Adjust.");
+                  Draw_Menu_Item(row, ICON_Zoffset, "Z Adjust Mode");
                   Draw_Option(zoffsetmode, zoffset_modes, row);
                 }
                 else 
@@ -2020,7 +2032,7 @@
               break;
             case ZOFFSET_UP:
               if (draw)
-                Draw_Menu_Item(row, ICON_Axis, F("Microstep Up"));
+                Draw_Menu_Item(row, ICON_Axis, F("Micro-step Up"));
               else {
                 if (zoffsetvalue < MAX_Z_OFFSET) {
                   //if (liveadjust || adjustonclick) {
@@ -2035,7 +2047,7 @@
               break;
             case ZOFFSET_DOWN:
               if (draw)
-                Draw_Menu_Item(row, ICON_AxisD, F("Microstep Down"));
+                Draw_Menu_Item(row, ICON_AxisD, F("Micro-step Down"));
               else {
                 if (zoffsetvalue > MIN_Z_OFFSET) {
                   //if (liveadjust || adjustonclick) {
@@ -2336,7 +2348,7 @@
           #if ENABLED(NOZZLE_PARK_FEATURE)
             case CONTROL_PARKMENU:
             if (draw)
-              Draw_Menu_Item(row, ICON_ParkPos, F("Park Pos Menu"), nullptr, true);
+              Draw_Menu_Item(row, ICON_ParkPos, F("Park Position"), nullptr, true);
             else
               Draw_Menu(Parkmenu);
             break;
@@ -3006,7 +3018,7 @@
             #if EXTJYERSUI
               case MOTION_INVERT_DIR_EXTR:
                 if (draw) {
-                Draw_Menu_Item(row, ICON_Motion, F("Inv. Dir Extruder"));
+                Draw_Menu_Item(row, ICON_Motion, F("Inv. Extruder Dir"));
                 Draw_Checkbox(row, HMI_datas.invert_dir_extruder);
               }
               else {
@@ -3096,7 +3108,7 @@
             break;
           case FWR_RESET:
             if (draw)
-              Draw_Menu_Item(row, ICON_StepE, F("Reset values"));
+              Draw_Menu_Item(row, ICON_StepE, F("Reset Values"));
             else {
               fwretract.reset();
               Redraw_Menu();
@@ -3124,7 +3136,7 @@
               break;
             case PARKMENU_POSX:
               if (draw) {
-                Draw_Menu_Item(row, ICON_ParkPosX, F("Park X position"));
+                Draw_Menu_Item(row, ICON_ParkPosX, F("Park X Position"));
                 Draw_Float(HMI_datas.Park_point.x, row, false, 1);
               }
               else
@@ -3436,7 +3448,7 @@
           #if HAS_FAN
             case VISUAL_FAN_PERCENT:
               if (draw) {
-                Draw_Menu_Item(row, ICON_FanSpeed, F("Visual Fan as %"));
+                Draw_Menu_Item(row, ICON_FanSpeed, F("Fan speed as %"));
                 Draw_Checkbox(row, HMI_datas.fan_percent);
               }
               else {
@@ -3538,7 +3550,7 @@
             break;
           case COLORSETTINGS_ITEMS_MENU_TEXT:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MaxSpeed, F("Items Menu Text"));
+                Draw_Menu_Item(row, ICON_MaxSpeed, F("Item Menu Text"));
                 Draw_Option(HMI_datas.items_menu_text, color_names, row, false, true);
               }
               else {
@@ -3547,7 +3559,7 @@
               break;
             case COLORSETTINGS_ICONS_MENU_TEXT:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MaxSpeed, F("Icons Menu Text"));
+                Draw_Menu_Item(row, ICON_MaxSpeed, F("Icon Menu Text"));
                 Draw_Option(HMI_datas.icons_menu_text, color_names, row, false, true);
               }
               else {
@@ -3632,7 +3644,7 @@
               break;
             case COLORSETTINGS_ICON_CONFIRM_TXT:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MaxSpeed, F("Icon Confirm Txt"));
+                Draw_Menu_Item(row, ICON_MaxSpeed, F("Confirm Icon Txt"));
                 Draw_Option(HMI_datas.ico_confirm_txt, color_names, row, false, true);
               }
               else {
@@ -3641,7 +3653,7 @@
               break;
             case COLORSETTINGS_ICON_CONFIRM_BG:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MaxSpeed, F("Icon Confirm Bg"));
+                Draw_Menu_Item(row, ICON_MaxSpeed, F("Confirm Icon Bg"));
                 Draw_Option(HMI_datas.ico_confirm_bg, color_names, row, false, true);
               }
               else {
@@ -3650,7 +3662,7 @@
               break;
             case COLORSETTINGS_ICON_CANCEL_TXT:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MaxSpeed, F("Icon Cancel Text"));
+                Draw_Menu_Item(row, ICON_MaxSpeed, F("Cancel Icon Text"));
                 Draw_Option(HMI_datas.ico_cancel_txt, color_names, row, false, true);
               }
               else {
@@ -3659,7 +3671,7 @@
               break;
             case COLORSETTINGS_ICON_CANCEL_BG:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MaxSpeed, F("Icon Cancel Bg"));
+                Draw_Menu_Item(row, ICON_MaxSpeed, F("Cancel Icon Bg"));
                 Draw_Option(HMI_datas.ico_cancel_bg, color_names, row, false, true);
               }
               else {
@@ -3668,7 +3680,7 @@
               break;
             case COLORSETTINGS_ICON_CONTINUE_TXT:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MaxSpeed, F("Ico Continue Txt"));
+                Draw_Menu_Item(row, ICON_MaxSpeed, F("Continue Ico Txt"));
                 Draw_Option(HMI_datas.ico_continue_txt, color_names, row, false, true);
               }
               else {
@@ -3677,7 +3689,7 @@
               break;
             case COLORSETTINGS_ICON_CONTINUE_BG:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MaxSpeed, F("Ico Continue Bg"));
+                Draw_Menu_Item(row, ICON_MaxSpeed, F("Continue Ico Bg"));
                 Draw_Option(HMI_datas.ico_continue_bg, color_names, row, false, true);
               }
               else {
@@ -3713,7 +3725,7 @@
               break;
             case COLORSETTINGS_PROGRESS_PERCENT:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MaxSpeed, F("Progress Percent"));
+                Draw_Menu_Item(row, ICON_MaxSpeed, F("Progress %"));
                 Draw_Option(HMI_datas.progress_percent, color_names, row, false, true);
               }
               else
@@ -3721,7 +3733,7 @@
               break;
             case COLORSETTINGS_REMAIN_TIME:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MaxSpeed, F("Progress Time"));
+                Draw_Menu_Item(row, ICON_MaxSpeed, F("Remaining Time"));
                 Draw_Option(HMI_datas.remain_time, color_names, row, false, true);
               }
               else
@@ -3729,7 +3741,7 @@
               break;
               case COLORSETTINGS_ELAPSED_TIME:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MaxSpeed, F("Progress Time"));
+                Draw_Menu_Item(row, ICON_MaxSpeed, F("Elapsed Time"));
                 Draw_Option(HMI_datas.elapsed_time, color_names, row, false, true);
               }
               else
@@ -3933,7 +3945,7 @@
           #if ENABLED(POWER_LOSS_RECOVERY)
             case ADVANCED_POWER_LOSS:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Motion, F("Power-loss recovery"));
+                Draw_Menu_Item(row, ICON_Motion, F("Power-loss Recovery"));
                 Draw_Checkbox(row, recovery.enabled);
               }
               else {
@@ -3953,7 +3965,7 @@
           #if ENABLED(BAUD_RATE_GCODE)
             case ADVANCED_BAUDRATE_MODE:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Setspeed, F("115K BaudRate"));
+                Draw_Menu_Item(row, ICON_Setspeed, F("115K Baud Rate"));
                 Draw_Checkbox(row, HMI_datas.baudratemode);
                 }
                 else {
@@ -3961,7 +3973,7 @@
                   sprintf_P(cmd, PSTR("M575 P%i B%i"), BAUD_PORT, HMI_datas.baudratemode ? 115 : 250);
                   gcode.process_subcommands_now(cmd);
                   Draw_Checkbox(row, HMI_datas.baudratemode);
-                  sprintf_P(cmd, PSTR("Baud Rate now at %i bauds, please Restart HOST"), HMI_datas.baudratemode ? 115200 : 250000);
+                  sprintf_P(cmd, PSTR("Baud Rate now at %i baud, please restart HOST"), HMI_datas.baudratemode ? 115200 : 250000);
                   Update_Status(cmd);
                   }
               break;
@@ -4037,7 +4049,7 @@
                   break;
                 case PROBE_Z_FEEDR_FAST:
                   if (draw) {
-                    Draw_Menu_Item(row, ICON_ProbeZSpeed, F("P. Z-FeedRate F"));
+                    Draw_Menu_Item(row, ICON_ProbeZSpeed, F("P. Z Feed Rate F"));
                     Draw_Float(HMI_datas.zprobefeedfast, row, false, 1);
                   }
                   else
@@ -4045,7 +4057,7 @@
                   break;
                 case PROBE_Z_FEEDR_SLOW:
                   if (draw) {
-                    Draw_Menu_Item(row, ICON_ProbeZSpeed, F("P. Z-FeedRate S"));
+                    Draw_Menu_Item(row, ICON_ProbeZSpeed, F("P. Z Feed Rate S"));
                     Draw_Float(HMI_datas.zprobefeedslow, row, false, 1);
                   }
                   else
@@ -4055,7 +4067,7 @@
               #if ENABLED(BLTOUCH)
                 case PROBE_HSMODE:
                   if (draw) {
-                    Draw_Menu_Item(row, ICON_StockConfiguration, F("BLTouch HS Mode"));
+                    Draw_Menu_Item(row, ICON_StockConfiguration, F("BL-Touch HS Mode"));
                     Draw_Checkbox(row, bltouch.high_speed_mode);
                   }
                   else {
@@ -4215,7 +4227,7 @@
           #if ENABLED(PREVENT_COLD_EXTRUSION)
             case FIL_COLD_EXTRUDE:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Cool, F("Min Extrusion T"));
+                Draw_Menu_Item(row, ICON_Cool, F("Min. Extrusion T"));
                 Draw_Float(thermalManager.extrude_min_temp, row, false, 1);
               }
               else {
@@ -4263,9 +4275,9 @@
                 sprintf_P(row2, PSTR("Longest: %s"), buf);
                 Draw_Menu_Item(INFO_PRINTTIME, ICON_PrintTime, row1, row2, false, true);
               #endif
-
+              sprintf_P(cmd, PSTR("%s - %s"), BUILD_NUMBER, STM_cpu);
               Draw_Menu_Item(INFO_SIZE, ICON_PrintSize, F(MACHINE_SIZE), nullptr, false, true);
-              Draw_Menu_Item(INFO_VERSION, ICON_Version, F(SHORT_BUILD_VERSION), F(BUILD_NUMBER), false, true);
+              Draw_Menu_Item(INFO_VERSION, ICON_Version, F(SHORT_BUILD_VERSION), F(cmd), false, true);
               Draw_Menu_Item(INFO_CONTACT, ICON_Contact, F(CORP_WEBSITE1), F(CORP_WEBSITE2), false, true);
             }
             else {
@@ -4695,10 +4707,11 @@
                 Draw_Menu_Item(row, ICON_Back, F("Back"));
               else {
                 liveadjust = false;
+                flag_leveling_m = true;
                 gcode.process_subcommands_now(F("M211 S1"));
                 set_bed_leveling_enabled(level_state);
                 TERN_(AUTO_BED_LEVELING_BILINEAR, refresh_bed_level());
-                Draw_Menu(Leveling, LEVELING_MANUAL);
+                Popup_Handler(SaveLevel, true);
               }
               break;
             case LEVELING_M_MODELIVE:
@@ -4746,15 +4759,18 @@
                 }
                 else {
                     gcode.process_subcommands_now(F("M211 S1"));
-                    #if ENABLED(AUTO_BED_LEVELING_UBL)
-                      gcode.process_subcommands_now(F("G29 S"));                 
-                      AudioFeedback(true);
-                      set_bed_leveling_enabled(level_state);
-                    #else
-                      set_bed_leveling_enabled(level_state);
-                      AudioFeedback(settings.save());
+                    #if ENABLED(EEPROM_SETTINGS)
+                      #if ENABLED(AUTO_BED_LEVELING_UBL)
+                        gcode.process_subcommands_now(F("G29 S"));                 
+                        AudioFeedback(true);
+                        set_bed_leveling_enabled(level_state);
+                      #else
+                        set_bed_leveling_enabled(level_state);
+                        AudioFeedback(settings.save());
+                      #endif
                     #endif
                     liveadjust = false;
+                    TERN_(AUTO_BED_LEVELING_BILINEAR, refresh_bed_level());
                     planner.synchronize();
                     Draw_Menu(Leveling, LEVELING_MANUAL);
                   }
@@ -4792,7 +4808,7 @@
               break;
             case LEVELING_M_UP:
               if (draw)
-                Draw_Menu_Item(row, ICON_Axis, F("Microstep Up"));
+                Draw_Menu_Item(row, ICON_Axis, F("Micro-step Up"));
               else if (Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] < MAX_Z_OFFSET) {
                 Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] += 0.01;
                 gcode.process_subcommands_now(F("M290 Z0.01"));
@@ -4804,7 +4820,7 @@
               break;
             case LEVELING_M_DOWN:
               if (draw)
-                Draw_Menu_Item(row, ICON_AxisD, F("Microstep Down"));
+                Draw_Menu_Item(row, ICON_AxisD, F("Micro-step Down"));
               else if (Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] > MIN_Z_OFFSET) {
                 Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] -= 0.01;
                 gcode.process_subcommands_now(F("M290 Z-0.01"));
@@ -4929,7 +4945,7 @@
               break;
             case UBL_M_UP:
               if (draw)
-                Draw_Menu_Item(row, ICON_Axis, F("Microstep Up"));
+                Draw_Menu_Item(row, ICON_Axis, F("Micro-step Up"));
               else if (Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] < MAX_Z_OFFSET) {
                 Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] += 0.01;
                 gcode.process_subcommands_now(F("M290 Z0.01"));
@@ -4941,7 +4957,7 @@
               break;
             case UBL_M_DOWN:
               if (draw)
-                Draw_Menu_Item(row, ICON_Axis, F("Microstep Down"));
+                Draw_Menu_Item(row, ICON_Axis, F("Micro-step Down"));
               else if (Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] > MIN_Z_OFFSET) {
                 Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] -= 0.01;
                 gcode.process_subcommands_now(F("M290 Z-0.01"));
@@ -5026,7 +5042,7 @@
               break;
             case MMESH_UP:
               if (draw)
-                Draw_Menu_Item(row, ICON_Axis, F("Microstep Up"));
+                Draw_Menu_Item(row, ICON_Axis, F("Micro-step Up"));
               else if (current_position.z < MAX_Z_OFFSET) {
                 gcode.process_subcommands_now(F("M290 Z0.01"));
                 planner.synchronize();
@@ -5037,7 +5053,7 @@
               break;
             case MMESH_DOWN:
               if (draw)
-                Draw_Menu_Item(row, ICON_AxisD, F("Microstep Down"));
+                Draw_Menu_Item(row, ICON_AxisD, F("Micro-step Down"));
               else if (current_position.z > MIN_Z_OFFSET) {
                 gcode.process_subcommands_now(F("M290 Z-0.01"));
                 planner.synchronize();
@@ -5058,7 +5074,7 @@
               const float currval = Z_VALUES_ARR[mesh_x][mesh_y];
 
               if (draw) {
-                Draw_Menu_Item(row, ICON_Zoffset, F("Goto Mesh Value"));
+                Draw_Menu_Item(row, ICON_Zoffset, F("Go to Mesh Value"));
                 Draw_Float(currval, row, false, 100);
               }
               else if (!isnan(currval)) {
@@ -5302,7 +5318,7 @@
        *     break;
        *   case TUNE_FWR_RESET:
        *     if (draw)
-       *       Draw_Menu_Item(row, ICON_StepE, F("Reset values"));
+       *       Draw_Menu_Item(row, ICON_StepE, F("Reset Values"));
        *     else
        *       fwretract.reset();
        *     break;
@@ -5437,7 +5453,7 @@
       case Prepare:           return F("Prepare");
       case HomeMenu:          return F("Homing Menu");
       case Move:              return F("Move");
-      case ManualLevel:       return F("Manual Leveling");
+      case ManualLevel:       return F("Bed Tramming");
       #if HAS_ZOFFSET_ITEM
         case ZOffset:         return F("Z Offset");
       #endif
@@ -5621,23 +5637,23 @@
     switch (popupid) {
       case Pause:         Draw_Popup(F("Pause Print"), F(""), F(""), Popup); break;
       case Stop:          Draw_Popup(F("Stop Print"), F(""), F(""), Popup); break;
-      case Resume:        Draw_Popup(F("Resume Print?"), F("Looks Like the last"), F("print was interrupted."), Popup); break;
+      case Resume:        Draw_Popup(F("Resume Print?"), F("Looks like the last"), F("print was interrupted;"), Popup); break;
       case ConfFilChange: Draw_Popup(F("Confirm Filament Change"), F(""), F(""), Popup); break;
       case PurgeMore:     Draw_Popup(F("Purge more filament?"), F("(Cancel to finish process)"), F(""), Popup); break;
-      case SaveLevel:     Draw_Popup(F("Leveling Complete"), F("Save to EEPROM?"), F(""), Popup); break;
+      case SaveLevel:     Draw_Popup(option ? F("Tuning Complete") : F("Leveling Complete"), F("Save to EEPROM?"), F(""), Popup); break;
       case MeshSlot:      Draw_Popup(F("Mesh slot not defined"), option ? F("To save Mesh") : F("To load Mesh"), F("Continue to process"), Popup, ICON_AutoLeveling); break;
       case ETemp:         Draw_Popup(F("Nozzle is too cold"), F("Open Preheat Menu?"), F(""), Popup); break;
       case ManualProbing: Draw_Popup(F("Manual Probing"), F("(Confirm to probe)"), F("(cancel to exit)"), Popup, ICON_AutoLeveling); break;
-      case Level:         Draw_Popup(option ? F("Probing in process") : F("Auto Bed Leveling"), F("Please wait until done."), F(""), Wait, ICON_AutoLeveling); break;
-      case Home:          Draw_Popup(option ? F("Parking") : F("Homing"), F("Please wait until done."), F(""), Wait, ICON_BLTouch); break;
-      case MoveWait:      Draw_Popup(F("Moving to Point"), F("Please wait until done."), F(""), Wait, ICON_BLTouch); break;
-      case Heating:       Draw_Popup(F("Heating"), F("Please wait until done."), F(""), Wait, ICON_BLTouch); break;
-      case FilLoad:       Draw_Popup(option ? F("Unloading Filament") : F("Loading Filament"), F("Please wait until done."), F(""), Wait, ICON_BLTouch); break;
-      case FilChange:     Draw_Popup(F("Filament Change"), F("Please wait for prompt."), F(""), Wait, ICON_BLTouch); break;
+      case Level:         Draw_Popup(option ? F("Probing in process") : F("Auto Bed Leveling"), F("Please wait until done"), F(""), Wait, ICON_AutoLeveling); break;
+      case Home:          Draw_Popup(option ? F("Parking") : F("Homing"), F("Please wait until done"), F(""), Wait, ICON_BLTouch); break;
+      case MoveWait:      Draw_Popup(F("Moving to Point"), F("Please wait until done"), F(""), Wait, ICON_BLTouch); break;
+      case Heating:       Draw_Popup(F("Heating"), F("Please wait until done"), F(""), Wait, ICON_BLTouch); break;
+      case FilLoad:       Draw_Popup(option ? F("Unloading Filament") : F("Loading Filament"), F("Please wait until done"), F(""), Wait, ICON_BLTouch); break;
+      case FilChange:     Draw_Popup(F("Filament Change"), F("Please wait for prompt"), F(""), Wait, ICON_BLTouch); break;
       case TempWarn:      Draw_Popup(option ? F("Nozzle temp too low!") : F("Nozzle temp too high!"), F(""), F(""), Wait, option ? ICON_TempTooLow : ICON_TempTooHigh); break;
       case Runout:        Draw_Popup(F("Filament Runout"), F(""), F(""), Wait, ICON_BLTouch); break;
-      case PIDWait:       Draw_Popup(option ? F("Bed PID Autotune") : F("Hotend PID Autotune"), F("in process"), F("Please wait until done."), Wait, ICON_BLTouch); break;
-      case Resuming:      Draw_Popup(F("Resuming Print"), F("Please wait until done."), F(""), Wait, ICON_BLTouch); break;
+      case PIDWait:       Draw_Popup(option ? F("Bed PID Autotune") : F("Hotend PID Autotune"), F("in process"), F("Please wait until done"), Wait, ICON_BLTouch); break;
+      case Resuming:      Draw_Popup(F("Resuming Print"), F("Please wait until done"), F(""), Wait, ICON_BLTouch); break;
       case ConfirmStartPrint: Draw_Popup(option ? F("Loading Preview...") : F("Print file?"), F(""), F(""), Popup); break;
       default: break;
     }
@@ -5649,14 +5665,14 @@
       case FilInsert:         Draw_Popup(F("Insert Filament"), F("Press to Continue"), F(""), Confirm); break;
       case HeaterTime:        Draw_Popup(F("Heater Timed Out"), F("Press to Reheat"), F(""), Confirm); break;
       case UserInput:         Draw_Popup(option ? F("Stopped") : F("Waiting for Input"), F("Press to Continue"), F(""), Confirm); break;
-      case LevelError:        Draw_Popup(F("Couldn't enable Leveling"), F("(Valid mesh must exist)"), F(""), Confirm); break;
+      case LevelError:        Draw_Popup(F("Couldn't enable leveling"), F("(Valid mesh must exist)"), F(""), Confirm); break;
       case InvalidMesh:       Draw_Popup(F("Valid mesh must exist"), F("before tuning can be"), F("performed"), Confirm); break;
-      case NocreatePlane:     Draw_Popup(F("Couldn't create Plane"), F("(Valid mesh must exist)"), F(""), Confirm); break;
+      case NocreatePlane:     Draw_Popup(F("Couldn't create plane"), F("(Valid mesh must exist)"), F(""), Confirm); break;
       case BadextruderNumber: Draw_Popup(F("PID Autotune failed"), F("Bad extruder number"), F(""), Confirm); break;
       case TemptooHigh:       Draw_Popup(F("PID Autotune failed"), F("Temp too high!"), F(""), Confirm, ICON_TempTooHigh); break;
       case PIDTimeout:        Draw_Popup(F("PID Autotune failed"), F("Timeout!"), F(""), Confirm);  break;
       case PIDDone:           Draw_Popup(F("PID tuning done"), F(""), F(""), Confirm); break;
-      case Level2:            Draw_Popup(F("Auto Bed Leveling"), F("Please wait until done."), F("or (Cancel) to stop"), Confirm, ICON_AutoLeveling); break;
+      case Level2:            Draw_Popup(F("Auto Bed Leveling"), F("Please wait until done"), F("or (Cancel) to stop"), Confirm, ICON_AutoLeveling); break;
       
       default: break;
     }
@@ -6220,7 +6236,7 @@
           bool has_header_time = find_and_decode_gcode_header(card.filename, Header_Time);
           if (has_header_time) {
             header_time_s = atof(str_1); 
-            sprintf_P(header1, PSTR("Time : %02dh%02dmm%02ds"), (uint8_t)(header_time_s / 3600), (uint8_t)((header_time_s / 60)%60), (uint8_t)(header_time_s%60));
+            sprintf_P(header1, PSTR("Time: %02dh %02dm %02ds"), (uint8_t)(header_time_s / 3600), (uint8_t)((header_time_s / 60)%60), (uint8_t)(header_time_s%60));
           }
           bool has_header_filament = find_and_decode_gcode_header(card.filename, Header_Filament);
           if (has_header_filament) {
@@ -6235,11 +6251,11 @@
             {
             str_2[nb+i] = str_1[nb+i];
             }
-            sprintf_P(header2, PSTR("- Used Filament :%sm"), str_2);
+            sprintf_P(header2, PSTR("- Used filament:%sm"), str_2);
           }
           bool has_header_layer = find_and_decode_gcode_header(card.filename, Header_Layer);
           if (has_header_layer) {
-            sprintf_P(header3, PSTR("- Layer heigth :%smm..."), str_1);
+            sprintf_P(header3, PSTR("- Layer heigth:%smm..."), str_1);
           }
           Popup_Handler(ConfirmStartPrint, has_preview);
           Draw_Title("Print file ?");
@@ -6247,13 +6263,13 @@
             file_preview_image_address = image_address;
             TERN(DACAI_DISPLAY, DRAW_IconTH(48,78,image_address), DWIN_SRAM_Memory_Icon_Display(48,78,image_address));
           }
-          else gcode.process_subcommands_now(F("M117 Preview not found.")); 
+          else gcode.process_subcommands_now(F("M117 Preview not found")); 
 
           if (has_header_time || has_header_filament || has_header_layer) {
             sprintf_P(cmd, PSTR("%s %s %s"), (has_header_time) ? header1 : NULL, (has_header_filament) ? header2 : NULL, (has_header_layer) ? header3 : NULL);
             Update_Status(cmd);
           }
-          else gcode.process_subcommands_now(F("M117 Headers not found.")); 
+          else gcode.process_subcommands_now(F("M117 Headers not found")); 
         #else
           gcode.process_subcommands_now(F("M220 S100\nM221 S100"));  // Initialize Flow and Feerate to 100%
           card.openAndPrintFile(card.filename);
@@ -6400,10 +6416,11 @@
               //const float dif = probe.probe_at_point(current_position.x, current_position.y, PROBE_PT_STOW, 0, false) - corner_avg;
               zval = probe.probe_at_point(current_position.x, current_position.y, PROBE_PT_STOW, 0, false);
               if (isnan(zval))
-                Update_Status("Position Not Reachable, check probe offsets and Bed Screw Inset");
+                Update_Status("Position not reachable, check probe offsets and bed screw inset");
               else {
-                const float dif = zval - corner_avg; 
-                sprintf_P(buf, dif > 0 ? PSTR("Corner is %smm high") : PSTR("Corner is %smm low"), dtostrf(abs(dif), 1, 3, str_1));
+                const float dif = zval - corner_avg;
+                if (dif == 0) Update_Status("Corner is to 0 !");
+                else sprintf_P(buf, dif > 0 ? PSTR("Corner is %smm high") : PSTR("Corner is %smm low"), dtostrf(abs(dif), 1, 3, str_1));
                 if (abs(dif) <= 0.005) AudioFeedback(true);
                 Update_Status(buf);
                 Popup_Handler(ManualProbing);
@@ -6457,7 +6474,7 @@
             gcode.process_subcommands_now(F("M117"));}
           break;   
 
-        #if HAS_MESH
+        #if ENABLED(EEPROM_SETTINGS) && HAS_MESH 
           case SaveLevel:
             if (selection == 0) {
               #if ENABLED(AUTO_BED_LEVELING_UBL)
@@ -6468,7 +6485,11 @@
                 AudioFeedback(settings.save());
               #endif
             }
-            Draw_Menu(Leveling, LEVELING_GET_MESH);
+            if (flag_leveling_m) {
+              flag_leveling_m = false;
+              Draw_Menu(Leveling, LEVELING_MANUAL);
+            }
+            else Draw_Menu(Leveling, LEVELING_GET_MESH);
             break;
         #endif
 
@@ -6490,7 +6511,7 @@
     if (encoder_diffState == ENCODER_DIFF_NO) return;
     if (encoder_diffState == ENCODER_DIFF_ENTER) {
       switch (popup) {
-        #if EXTJYERSUI
+        #if EXTJYERSUI && HAS_MESH
           case Level2:
           TERN(AUTO_BED_LEVELING_UBL, HMI_flags.cancel_ubl = 1, HMI_flags.cancel_abl = 1);
           Update_Status("Probing canceled and Mesh not completed");
@@ -6518,19 +6539,21 @@
           Update_Status("Heating...");
           wait_for_user = false;
           break;
-        case viewmesh:
-          while (mesh_conf.drawing_mesh != false);
-          if (planner.leveling_active) {
-            mesh_conf.viewer_asymmetric_range = mesh_conf.last_viewer_asymmetric_range;
-            mesh_conf.viewer_print_value = mesh_conf.last_viewer_print_value;
-          }
-          flag_viewmesh = false;
-          DWIN_Draw_Rectangle(1, GetColor(HMI_datas.background, Color_Bg_Black), 0, KEY_Y_START, DWIN_WIDTH-2, DWIN_HEIGHT-2);
-          Draw_Status_Area(true);
-          Update_Status_Bar(true);
-          Popup_Handler(SaveLevel);
-          wait_for_user = false;
-          break;
+		#if HAS_MESH
+          case viewmesh:
+            while (mesh_conf.drawing_mesh != false);
+            if (planner.leveling_active) {
+              mesh_conf.viewer_asymmetric_range = mesh_conf.last_viewer_asymmetric_range;
+              mesh_conf.viewer_print_value = mesh_conf.last_viewer_print_value;
+            }
+            flag_viewmesh = false;
+            DWIN_Draw_Rectangle(1, GetColor(HMI_datas.background, Color_Bg_Black), 0, KEY_Y_START, DWIN_WIDTH-2, DWIN_HEIGHT-2);
+            Draw_Status_Area(true);
+            Update_Status_Bar(true);
+            Popup_Handler(SaveLevel);
+            wait_for_user = false;
+            break;
+		#endif
         default:
           Redraw_Menu(true, true, false);
           wait_for_user = false;
@@ -6757,7 +6780,7 @@
               bool has_preview = find_and_decode_gcode_preview(card.filename, Thumnail_Preview, &image_address);
               file_preview = has_preview;
               if (has_preview)   file_preview_image_address = image_address;
-              else  gcode.process_subcommands_now(F("M117 Preview not found.")); 
+              else  gcode.process_subcommands_now(F("M117 Preview not found")); 
             #endif
           }
         #endif
@@ -6785,7 +6808,7 @@
     sdprint = false;
     thermalManager.cooldown();
     duration_t printing_time = print_job_timer.duration();
-    sprintf_P(cmd, PSTR("Printing Time : %02dh%02dmm%02ds"), (uint8_t)(printing_time.value / 3600), (uint8_t)((printing_time.value / 60) %60), (uint8_t)(printing_time.value %60));
+    sprintf_P(cmd, PSTR("Printing Time: %02dh %02dm %02ds"), (uint8_t)(printing_time.value / 3600), (uint8_t)((printing_time.value / 60) %60), (uint8_t)(printing_time.value %60));
     Update_Status(cmd);
     TERN_(LCD_SET_PROGRESS_MANUALLY, ui.set_progress(100 * (PROGRESS_SCALE)));
     TERN_(USE_M73_REMAINING_TIME, ui.set_remaining_time(0));
@@ -7198,13 +7221,20 @@
     popup = endsdiag;
   }
 
+  void CrealityDWINClass::CPU_type() {
+    std::string cputype = CPU_TYPE;
+    std::string find = cputype.substr(9,2);
+    std::string search = "RE";
+    strcpy(STM_cpu, (find == search)? "RET6" : "RCT6");
+  }
+
   //=============================================================================
   // Extended G-CODES Cn
   //=============================================================================
 
   void CrealityDWINClass::DWIN_CError() {
     SERIAL_ECHO_START();
-    Update_Status("This G-Code or Parameter is not implemented in firmware");
+    Update_Status("This G-Code or parameter is not implemented in firmware");
     SERIAL_ECHOLNPGM("This G-Code or parameter is not implemented in firmware");
   }
 
@@ -7279,15 +7309,16 @@
         DWIN_Draw_Rectangle(1, Color_Bg_Black, 15 + t * 242 / 100, 260, 257, 280);
       #endif
       DWIN_UpdateLCD();
-      JYERSUI::cursor.x = 0;
-      JYERSUI::cursor.y = 0;
-      JYERSUI::pencolor = Color_White;
-      JYERSUI::textcolor = Color_White;
-      JYERSUI::backcolor = Color_Bg_Black;
-      JYERSUI::buttoncolor = RGB( 0, 23, 16);
-      JYERSUI::font = font8x16;
       delay(20);
     }
+    CrealityDWIN.CPU_type();
+    JYERSUI::cursor.x = 0;
+    JYERSUI::cursor.y = 0;
+    JYERSUI::pencolor = Color_White;
+    JYERSUI::textcolor = Color_White;
+    JYERSUI::backcolor = Color_Bg_Black;
+    JYERSUI::buttoncolor = RGB( 0, 23, 16);
+    JYERSUI::font = font8x16;
     TERN(SHOW_BOOTSCREEN,,DWIN_Frame_Clear(Color_Bg_Black));
     DWIN_JPG_CacheTo1(Language_English);
     DWIN_JPG_ShowAndCache(3);
