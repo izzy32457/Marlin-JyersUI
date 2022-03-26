@@ -125,7 +125,7 @@
   #if ENABLED(BOOTPERSO)
     #define BUILD_NUMBER "Build nb: v3.0.0a"
   #else
-    #define BUILD_NUMBER "Build nb: v2.0.2j"
+    #define BUILD_NUMBER "Build nb: v2.1.0a"
   #endif
 
   #define MENU_CHAR_LIMIT  24
@@ -949,8 +949,8 @@
 
   void CrealityDWINClass::Draw_Print_ProgressBar() {
     uint8_t printpercent = sdprint ? card.percentDone() : (ui._get_progress() / 100);
-    DRAW_IconWTB(ICON, ICON_Bar, 15, 93);
-    DWIN_Draw_Rectangle(1, GetColor(HMI_datas.progress_bar,BarFill_Color), 16 + printpercent * 240 / 100, 93, 256, 113);
+    DRAW_IconWB(ICON, ICON_Bar, 15, 93);
+    DWIN_Draw_Rectangle(1, GetColor(HMI_datas.progress_bar, BarFill_Color), 16 + printpercent * 240 / 100, 93, 256, 113);
     DWIN_Draw_IntValue(true, true, 0, DWIN_FONT_MENU, GetColor(HMI_datas.progress_percent, Percent_Color), GetColor(HMI_datas.background, Color_Bg_Black), 3, 109, 133, printpercent);
     DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.progress_percent, Percent_Color), GetColor(HMI_datas.background, Color_Bg_Black), 133, 133, F("%"));
   }
