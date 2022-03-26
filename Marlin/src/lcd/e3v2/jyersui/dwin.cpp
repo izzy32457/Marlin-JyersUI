@@ -6251,11 +6251,11 @@
             {
             str_2[nb+i] = str_1[nb+i];
             }
-            sprintf_P(header2, PSTR("- Used filament:%sm"), str_2);
+            sprintf_P(header2, PSTR("Filament used:%sm"), str_2);
           }
           bool has_header_layer = find_and_decode_gcode_header(card.filename, Header_Layer);
           if (has_header_layer) {
-            sprintf_P(header3, PSTR("- Layer heigth:%smm..."), str_1);
+            sprintf_P(header3, PSTR("Layer heigth:%smm"), dtostrf(atof(str_1), 1, 2, str_3));
           }
           Popup_Handler(ConfirmStartPrint, has_preview);
           Draw_Title("Print file ?");
@@ -6266,7 +6266,7 @@
           else gcode.process_subcommands_now(F("M117 Preview not found")); 
 
           if (has_header_time || has_header_filament || has_header_layer) {
-            sprintf_P(cmd, PSTR("%s %s %s"), (has_header_time) ? header1 : NULL, (has_header_filament) ? header2 : NULL, (has_header_layer) ? header3 : NULL);
+            sprintf_P(cmd, PSTR("%s - %s - %s..."), (has_header_time) ? header1 : "No header Time", (has_header_filament) ? header2 : "No header Filament used", (has_header_layer) ? header3 : "No header Layer height");
             Update_Status(cmd);
           }
           else gcode.process_subcommands_now(F("M117 Headers not found")); 
