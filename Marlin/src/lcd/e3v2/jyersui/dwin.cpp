@@ -4364,7 +4364,7 @@
             #if BOTH(HAS_BED_PROBE, AUTO_BED_LEVELING_UBL)
               case LEVELING_GET_TILT:
                 if (draw)
-                  Draw_Menu_Item(row, ICON_Tilt, GET_TEXT_F(MSG_UBL_MESH_LEVEL));
+                  Draw_Menu_Item(row, ICON_Tilt, GET_TEXT_F(MSG_UBL_AUTOTILT));
                 else {
                   if (ubl.storage_slot < 0) {
                     Popup_Handler(MeshSlot);
