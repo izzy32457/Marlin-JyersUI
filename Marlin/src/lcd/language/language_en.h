@@ -672,6 +672,8 @@ namespace Language_en {
 
   // Extra strings for JyersUI
   #if ENABLED(DWIN_CREALITY_LCD_JYERSUI)
+    LSTR MSG_LEVEL_BED_CLEAR_POINT          = _UxGT("Clear Point Value");
+    LSTR MSG_UBL_AUTOTILT                   = _UxGT("Autotilt Current Mesh");
     LSTR MSG_VISUAL_SETTINGS                = _UxGT("Visual Settings");
     LSTR MSG_HOST_SETTINGS                  = _UxGT("Host Settings");
     LSTR MSG_LIVE_ADJUSTMENT                = _UxGT("Live adjustment");
