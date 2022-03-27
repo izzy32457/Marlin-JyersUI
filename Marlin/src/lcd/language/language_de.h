@@ -327,9 +327,16 @@ namespace Language_de {
   LSTR MSG_PID_AUTOTUNE_E                 = _UxGT("PID Autotune *");
   LSTR MSG_PID_CYCLE                      = _UxGT("PID Zyklus");
   LSTR MSG_PID_AUTOTUNE_DONE              = _UxGT("PID Tuning fertig");
-  LSTR MSG_PID_BAD_EXTRUDER_NUM           = _UxGT("Autotune fehlge. Falscher Extruder");
-  LSTR MSG_PID_TEMP_TOO_HIGH              = _UxGT("Autotune fehlge. Temperatur zu hoch.");
-  LSTR MSG_PID_TIMEOUT                    = _UxGT("Autotune fehlge.! Timeout.");
+  #if ENABLED(DWIN_CREALITY_LCD_JYERSUI)
+    LSTR MSG_PID_FAILED                     = _UxGT("PID Autotune fehlge");
+    LSTR MSG_PID_BAD_EXTRUDER_NUM           = _UxGT("Falscher Extruder nr");
+    LSTR MSG_PID_TEMP_TOO_HIGH              = _UxGT("Temperature zu hoch!");
+    LSTR MSG_PID_TIMEOUT                    = _UxGT("Timeout!");
+  #else
+    LSTR MSG_PID_BAD_EXTRUDER_NUM           = _UxGT("Autotune fehlge. Falscher Extruder");
+    LSTR MSG_PID_TEMP_TOO_HIGH              = _UxGT("Autotune fehlge. Temperatur zu hoch.");
+    LSTR MSG_PID_TIMEOUT                    = _UxGT("Autotune fehlge.! Timeout.");
+  #endif
   LSTR MSG_SELECT                         = _UxGT("Auswählen");
   LSTR MSG_SELECT_E                       = _UxGT("Auswählen *");
   LSTR MSG_ACC                            = _UxGT("Beschleunigung");
@@ -613,6 +620,14 @@ namespace Language_de {
     LSTR MSG_INFO_PRINT_LONGEST           = _UxGT("Längste");
     LSTR MSG_INFO_PRINT_FILAMENT          = _UxGT("Extrud.");
     LSTR MSG_PLEASE_PREHEAT               = _UxGT("Bitte vorheizen");
+  #endif
+
+  // Extra strings for JyersUI
+  #if ENABLED(DWIN_CREALITY_LCD_JYERSUI)
+    LSTR MSG_ELAPSED_TIME                   = _UxGT("Verstrichen");
+    LSTR MSG_FILE_SELECTION                 = _UxGT("Dateiauswahl");
+    LSTR MSG_LIVE_ADJUSTMENT                = _UxGT("Live-Anpassung");
+    LSTR MSG_HOST_ACTIONS                   = _UxGT("Host aktionen");
   #endif
 
   LSTR MSG_INFO_MIN_TEMP                  = _UxGT("Min Temp");
