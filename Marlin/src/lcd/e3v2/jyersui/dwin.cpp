@@ -473,7 +473,7 @@
           dtostrf(-range, 1, 3, str_1);
           dtostrf( range, 1, 3, str_2);
         }
-        sprintf_P(msg, PSTR("Red %s..0..%s Green"), str_1, str_2);
+        sprintf_P(msg, PSTR("%s %s..0..%s %s"), GET_TEXT(MSG_COLORS_RED), str_1, str_2, GET_TEXT(MSG_COLORS_GREEN));
         CrealityDWIN.Update_Status(msg);
         drawing_mesh = false;
       }
@@ -734,49 +734,49 @@
     if (selection == 0) {
       DRAW_IconWB(ICON, ICON_Print_1, 17, 130);
       DWIN_Draw_Rectangle(0, GetColor(HMI_datas.highlight_box, Color_White), 17, 130, 126, 229);
-      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 52, 200, F("Print"));
+      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 52, 200, GET_TEXT_F(MSG_BUTTON_PRINT));
     }
     else {
       DRAW_IconWB(ICON, ICON_Print_0, 17, 130);
-      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 52, 200, F("Print"));
+      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 52, 200, GET_TEXT_F(MSG_BUTTON_PRINT));
     }
     if (selection == 1) {
       DRAW_IconWB(ICON, ICON_Prepare_1, 145, 130);
       DWIN_Draw_Rectangle(0, GetColor(HMI_datas.highlight_box, Color_White), 145, 130, 254, 229);
-      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 170, 200, F("Prepare"));
+      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 170, 200, GET_TEXT_F(MSG_PREPARE));
     }
     else {
       DRAW_IconWB(ICON, ICON_Prepare_0, 145, 130);
-      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 170, 200, F("Prepare"));
+      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 170, 200, GET_TEXT_F(MSG_PREPARE));
     }
     if (selection == 2) {
       DRAW_IconWB(ICON, ICON_Control_1, 17, 246);
       DWIN_Draw_Rectangle(0, GetColor(HMI_datas.highlight_box, Color_White), 17, 246, 126, 345);
-      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 43, 317, F("Control"));
+      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 43, 317, GET_TEXT_F(MSG_CONTROL));
     }
     else {
       DRAW_IconWB(ICON, ICON_Control_0, 17, 246);
-      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 43, 317, F("Control"));
+      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 43, 317, GET_TEXT_F(MSG_CONTROL));
     }
     #if HAS_ABL_OR_UBL
       if (selection == 3) {
         DRAW_IconWB(ICON, ICON_Leveling_1, 145, 246);
         DWIN_Draw_Rectangle(0, GetColor(HMI_datas.highlight_box, Color_White), 145, 246, 254, 345);
-        DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 179, 317, F("Level"));
+        DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 179, 317, GET_TEXT_F(MSG_BUTTON_LEVEL));
       }
       else {
         DRAW_IconWB(ICON, ICON_Leveling_0, 145, 246);
-        DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 179, 317, F("Level"));
+        DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 179, 317, GET_TEXT_F(MSG_BUTTON_LEVEL));
       }
     #else
       if (selection == 3) {
         DRAW_IconWB(ICON, ICON_Info_1, 145, 246);
         DWIN_Draw_Rectangle(0, GetColor(HMI_datas.highlight_box, Color_White), 145, 246, 254, 345);
-        DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 181, 317, F("Info"));
+        DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 181, 317, GET_TEXT_F(MSG_BUTTON_INFO));
       }
       else {
         DRAW_IconWB(ICON, ICON_Info_0, 145, 246);
-        DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 181, 317, F("Info"));
+        DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 181, 317, GET_TEXT_F(MSG_BUTTON_INFO));
       }
     #endif
   }
@@ -796,41 +796,41 @@
     if (selection == 0) {
       DRAW_IconWB(ICON, ICON_Setup_1, 8, 252);
       DWIN_Draw_Rectangle(0, GetColor(HMI_datas.highlight_box, Color_White), 8, 252, 87, 351);
-      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 30, 322, F("Tune"));
+      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 30, 322, GET_TEXT_F(MSG_TUNE));
     }
     else {
       DRAW_IconWB(ICON, ICON_Setup_0, 8, 252);
-      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 30, 322, F("Tune"));
+      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 30, 322, GET_TEXT_F(MSG_TUNE));
     }
     if (selection == 2) {
       DRAW_IconWB(ICON, ICON_Stop_1, 184, 252);
       DWIN_Draw_Rectangle(0, GetColor(HMI_datas.highlight_box, Color_White), 184, 252, 263, 351);
-      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 205, 322, F("Stop"));
+      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 205, 322, GET_TEXT_F(MSG_BUTTON_STOP));
     }
     else {
       DRAW_IconWB(ICON, ICON_Stop_0, 184, 252);
-      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 205, 322, F("Stop"));
+      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 205, 322, GET_TEXT_F(MSG_BUTTON_STOP));
     }
     if (paused) {
       if (selection == 1) {
         DRAW_IconWB(ICON, ICON_Continue_1, 96, 252);
         DWIN_Draw_Rectangle(0, GetColor(HMI_datas.highlight_box, Color_White), 96, 252, 175, 351);
-        DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 114, 322, F("Print"));
+        DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 114, 322, GET_TEXT_F(MSG_BUTTON_PRINT));
       }
       else {
         DRAW_IconWB(ICON, ICON_Continue_0, 96, 252);
-        DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 114, 322, F("Print"));
+        DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 114, 322, GET_TEXT_F(MSG_BUTTON_PRINT));
       }
     }
     else {
       if (selection == 1) {
         DRAW_IconWB(ICON, ICON_Pause_1, 96, 252);
         DWIN_Draw_Rectangle(0, GetColor(HMI_datas.highlight_box, Color_White), 96, 252, 175, 351);
-        DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 114, 322, F("Pause"));
+        DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 114, 322, GET_TEXT_F(MSG_BUTTON_PAUSE));
       }
       else {
         DRAW_IconWB(ICON, ICON_Pause_0, 96, 252);
-        DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 114, 322, F("Pause"));
+        DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.icons_menu_text, Color_White), Color_Bg_Blue, 114, 322, GET_TEXT_F(MSG_BUTTON_PAUSE));
       }
     }
   }
@@ -840,12 +840,12 @@
     selection = 0;
     Clear_Screen();
     DWIN_Draw_Rectangle(1, GetColor(HMI_datas.background, Color_Bg_Black), 8, 352, DWIN_WIDTH - 8, 376);
-    Draw_Title("Printing...");
+    Draw_Title(GET_TEXT(MSG_PRINTING));
     Print_Screen_Icons();
     DRAW_IconWTB(ICON, ICON_PrintTime, 14, 171);
     DRAW_IconWTB(ICON, ICON_RemainTime, 147, 169);
-    DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.print_screen_txt, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), 41, 163, F("Elapsed"));
-    DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.print_screen_txt, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), 176, 163, F("Remaining"));
+    DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.print_screen_txt, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), 41, 163, GET_TEXT_F(MSG_ELAPSED_TIME));
+    DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.print_screen_txt, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), 176, 163, GET_TEXT_F(MSG_REMAINING_TIME));
     Update_Status_Bar(true);
     Draw_Print_ProgressBar();
     Draw_Print_ProgressElapsed();
@@ -962,8 +962,8 @@
       DWIN_Draw_IntValue(true, true, 1, DWIN_FONT_MENU, GetColor(HMI_datas.remain_time, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), 2, 176, 187, remainingtime / 3600);
       DWIN_Draw_IntValue(true, true, 1, DWIN_FONT_MENU, GetColor(HMI_datas.remain_time, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), 2, 200, 187, (remainingtime % 3600) / 60);
       if (HMI_datas.time_format_textual) {
-        DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.remain_time, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), 192, 187, F("h"));
-        DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.remain_time, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), 216, 187, F("m"));
+        DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.remain_time, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), 192, 187, GET_TEXT_F(MSG_SHORT_HOUR));
+        DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.remain_time, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), 216, 187, GET_TEXT_F(MSG_SHORT_MINUTE));
       }
       else
         DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.remain_time, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), 192, 187, F(":"));
@@ -976,8 +976,8 @@
     DWIN_Draw_IntValue(true, true, 1, DWIN_FONT_MENU, GetColor(HMI_datas.elapsed_time, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), 2, 42, 187, elapsed.value / 3600);
     DWIN_Draw_IntValue(true, true, 1, DWIN_FONT_MENU, GetColor(HMI_datas.elapsed_time, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), 2, 66, 187, (elapsed.value % 3600) / 60);
     if (HMI_datas.time_format_textual) {
-      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.elapsed_time, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), 58, 187, F("h"));
-      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.elapsed_time, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), 82, 187, F("m"));
+      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.elapsed_time, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), 58, 187, GET_TEXT_F(MSG_SHORT_HOUR));
+      DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.elapsed_time, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), 82, 187, GET_TEXT_F(MSG_SHORT_MINUTE));
     }
     else
       DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.elapsed_time, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), 58, 187, F(":"));
@@ -999,7 +999,7 @@
     #endif
     //DRAW_IconWTB(ICON, ICON_Confirm_E, 87, 283);
     DWIN_Draw_Rectangle(1, GetColor(HMI_datas.ico_confirm_bg , Confirm_Color), 87, 288, 186, 335);
-    DWIN_Draw_String(false, DWIN_FONT_HEAD, GetColor(HMI_datas.ico_confirm_txt, Color_White), GetColor(HMI_datas.ico_confirm_bg, Confirm_Color), 87 + ((99 - 7 * STAT_CHR_W) / 2), 304, F("Confirm"));
+    DWIN_Draw_String(false, DWIN_FONT_HEAD, GetColor(HMI_datas.ico_confirm_txt, Color_White), GetColor(HMI_datas.ico_confirm_bg, Confirm_Color), 87 + ((99 - 7 * STAT_CHR_W) / 2), 304, GET_TEXT_F(MSG_BUTTON_CONFIRM));
     
     DWIN_Draw_Rectangle(0, GetColor(HMI_datas.popup_highlight, Color_White), 86, 287, 187, 336);
     DWIN_Draw_Rectangle(0, GetColor(HMI_datas.popup_highlight, Color_White), 85, 286, 188, 337);
@@ -1007,7 +1007,7 @@
 
   void CrealityDWINClass::Draw_SD_Item(uint8_t item, uint8_t row, bool onlyCachedFileIcon/*=false*/) {
     if (item == 0)
-      Draw_Menu_Item(0, ICON_Back, card.flag.workDirIsRoot ? F("Back") : F(".."));
+      Draw_Menu_Item(0, ICON_Back, card.flag.workDirIsRoot ? GET_TEXT_F(MSG_BACK) : F(".."));
     else {
       card.getfilename_sorted(SD_ORDER(item - 1, card.get_num_Files()));
       char * const filename = card.longest_filename();
@@ -1029,7 +1029,7 @@
   void CrealityDWINClass::Draw_SD_List(bool removed/*=false*/, uint8_t select/*=0*/, uint8_t scroll/*=0*/, bool onlyCachedFileIcon/*=false*/) {
     uint16_t cColor = GetColor(HMI_datas.cursor_color, Rectangle_Color);
     Clear_Screen();
-    Draw_Title("Select File");
+    Draw_Title(GET_TEXT(MSG_FILE_SELECTION));
     // selection = 0;
     // scrollpos = 0;
     // process = File;
@@ -1044,10 +1044,10 @@
         Draw_SD_Item(i + scrollpos, i, onlyCachedFileIcon);
     }
     else {
-      Draw_Menu_Item(0, ICON_Back, F("Back"));
+      Draw_Menu_Item(0, ICON_Back, GET_TEXT_F(MSG_BACK));
       sd_item_flag = false;
       DWIN_Draw_Rectangle(1, Color_Bg_Red, 10, MBASE(3) - 10, DWIN_WIDTH - 10, MBASE(4));
-      DWIN_Draw_String(false, font16x32, Color_Yellow, Color_Bg_Red, ((DWIN_WIDTH) - 8 * 16) / 2, MBASE(3), F("No Media"));
+      DWIN_Draw_String(false, font16x32, Color_Yellow, Color_Bg_Red, ((DWIN_WIDTH) - 8 * 16) / 2, MBASE(3), GET_TEXT_F(MSG_NO_MEDIA));
     }
     if ((cColor == GetColor(HMI_datas.background, Color_Bg_Black)) || ((cColor == Color_Black) && (HMI_datas.background == 0)))
         DWIN_Draw_Rectangle(0, GetColor(HMI_datas.items_menu_text, Color_White), 0, MBASE(selection-scrollpos) - 18, 8, MBASE(selection-scrollpos) + 31);
@@ -1211,8 +1211,8 @@
       selection = 0;
       DWIN_Draw_Rectangle(1, GetColor(HMI_datas.ico_confirm_bg, Confirm_Color), 26, 280, 125, 317);
       DWIN_Draw_Rectangle(1, GetColor(HMI_datas.ico_cancel_bg , Cancel_Color), 146, 280, 245, 317);
-      DWIN_Draw_String(false, DWIN_FONT_STAT, GetColor(HMI_datas.ico_confirm_txt, Color_White), GetColor(HMI_datas.ico_confirm_bg, Confirm_Color), 39, 290, F("Confirm"));
-      DWIN_Draw_String(false, DWIN_FONT_STAT, GetColor(HMI_datas.ico_cancel_txt, Color_White), GetColor(HMI_datas.ico_cancel_bg , Cancel_Color), 165, 290, F("Cancel"));
+      DWIN_Draw_String(false, DWIN_FONT_STAT, GetColor(HMI_datas.ico_confirm_txt, Color_White), GetColor(HMI_datas.ico_confirm_bg, Confirm_Color), 39, 290, GET_TEXT_F(MSG_BUTTON_CONFIRM));
+      DWIN_Draw_String(false, DWIN_FONT_STAT, GetColor(HMI_datas.ico_cancel_txt, Color_White), GetColor(HMI_datas.ico_cancel_bg , Cancel_Color), 165, 290, GET_TEXT_F(MSG_BUTTON_CANCEL));
       Popup_Select();
     }
     else if (mode == Confirm) {
@@ -1221,9 +1221,9 @@
       DWIN_Draw_Rectangle(0, GetColor(HMI_datas.popup_highlight, Color_White), 85, 278, 188, 319);
       DWIN_Draw_String(false, DWIN_FONT_STAT, GetColor(HMI_datas.ico_continue_txt, Color_White), GetColor(HMI_datas.ico_continue_bg, Confirm_Color), 96, 290, 
           #if EXTJYERSUI
-            (popup == Level2) ? F(" Cancel ") : F("Continue")
+            (popup == Level2) ? GET_TEXT_F(MSG_BUTTON_CANCEL) : GET_TEXT_F(MSG_BUTTON_CONFIRM)
           #else
-            F("Continue")
+            GET_TEXT_F(MSG_BUTTON_CONTINUE)
           #endif
           );
     }
@@ -1254,7 +1254,7 @@
 
   void CrealityDWINClass::Viewmesh() {
     Clear_Screen(4);
-    Draw_Title(F("View Mesh"));
+    Draw_Title(GET_TEXT_F(MSG_MESH_VIEW));
     flag_viewmesh = true;
     last_process = process;
     last_selection = selection;
@@ -1275,11 +1275,11 @@
     DWIN_Draw_Rectangle(1, Confirm_Color, 87, 406, 186, 443);
     DWIN_Draw_Rectangle(0, Color_White, 86, 405, 187, 444);
     DWIN_Draw_Rectangle(0, Color_White, 85, 404, 188, 445);
-    DWIN_Draw_String(false, DWIN_FONT_STAT, Color_White, Color_Bg_Window, 96, 416, F("Continue"));
+    DWIN_Draw_String(false, DWIN_FONT_STAT, Color_White, Color_Bg_Window, 96, 416, GET_TEXT_F(MSG_BUTTON_CONTINUE));
   }
 
   void MarlinUI::kill_screen(FSTR_P const error, FSTR_P const) {
-    CrealityDWIN.Draw_Popup(F("Printer Kill Reason:"), error, F("Restart Required"), Wait, ICON_BLTouch);
+    CrealityDWIN.Draw_Popup(GET_TEXT_F(MSG_KILLED), error, GET_TEXT_F(MSG_SWITCH_PS_OFF), Wait, ICON_BLTouch);
   }
 
   void CrealityDWINClass::Popup_Select(bool stflag/*=false*/) {
@@ -1460,6 +1460,8 @@
 
   void CrealityDWINClass::Menu_Item_Handler(uint8_t menu, uint8_t item, bool draw/*=true*/) {
     uint8_t row = item - scrollpos;
+    string buf;
+
     #if HAS_LEVELING
       static bool level_state;
     #endif
@@ -1481,31 +1483,31 @@
         switch (item) {
           case PREPARE_BACK:
             if (draw)
-              Draw_Menu_Item(row, ICON_Back, F("Back"));
+              Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
             else
               Draw_Main_Menu(1);
             break;
           case PREPARE_MOVE:
             if (draw)
-              Draw_Menu_Item(row, ICON_Axis, F("Move"), nullptr, true);
+              Draw_Menu_Item(row, ICON_Axis, GET_TEXT_F(MSG_MOVE_AXIS), nullptr, true);
             else
               Draw_Menu(Move);
             break;
           case PREPARE_DISABLE:
             if (draw)
-              Draw_Menu_Item(row, ICON_CloseMotor, F("Disable Stepper"));
+              Draw_Menu_Item(row, ICON_CloseMotor, GET_TEXT_F(MSG_DISABLE_STEPPERS));
             else
               queue.inject(F("M84"));
             break;
           case PREPARE_HOME:
             if (draw)
-              Draw_Menu_Item(row, ICON_SetHome, F("Homing"), nullptr, true);
+              Draw_Menu_Item(row, ICON_SetHome, GET_TEXT_F(MSG_HOMING), nullptr, true);
             else
               Draw_Menu(HomeMenu);
             break;
           case PREPARE_MANUALLEVEL:
             if (draw)
-              Draw_Menu_Item(row, ICON_PrintSize, F("Bed Tramming"), nullptr, true);
+              Draw_Menu_Item(row, ICON_PrintSize, GET_TEXT_F(MSG_BED_TRAMMING_MANUAL), nullptr, true);
             else {
               if (axes_should_home()) {
                 Popup_Handler(Home);
@@ -1522,7 +1524,7 @@
           #if HAS_ZOFFSET_ITEM
             case PREPARE_ZOFFSET:
               if (draw)
-                Draw_Menu_Item(row, ICON_Zoffset, F("Z-Offset"), nullptr, true);
+                Draw_Menu_Item(row, ICON_Zoffset, GET_TEXT_F(MSG_OFFSET_Z), nullptr, true);
               else {
                 #if HAS_LEVELING
                   level_state = planner.leveling_active;
@@ -1543,7 +1545,7 @@
           #if HAS_PREHEAT
             case PREPARE_PREHEAT:
               if (draw)
-                Draw_Menu_Item(row, ICON_Temperature, F("Preheat"), nullptr, true);
+                Draw_Menu_Item(row, ICON_Temperature, GET_TEXT_F(MSG_PREHEAT), nullptr, true);
               else
                 Draw_Menu(Preheat);
               break;
@@ -1552,10 +1554,10 @@
           #if HAS_HOTEND || HAS_HEATED_BED
             case PREPARE_COOLDOWN:
               if (draw)
-                Draw_Menu_Item(row, ICON_Cool, F("Cooldown"));
+                Draw_Menu_Item(row, ICON_Cool, GET_TEXT_F(MSG_COOLDOWN));
               else {
                 thermalManager.cooldown();
-                Update_Status("Cooldown");
+                Update_Status(GET_TEXT(MSG_COOLDOWN));
               }
               break;
           #endif
@@ -1563,7 +1565,7 @@
           #if ENABLED(HOST_ACTION_COMMANDS)
             case PREPARE_ACTIONCOMMANDS:
             if (draw) {
-              Draw_Menu_Item(row, ICON_SetHome, F("Host Actions"), nullptr, true);
+              Draw_Menu_Item(row, ICON_SetHome, GET_TEXT_F(MSG_HOST_ACTIONS), nullptr, true);
             }
             else {
               Draw_Menu(HostActions);
@@ -1574,7 +1576,7 @@
           #if ENABLED(ADVANCED_PAUSE_FEATURE)
             case PREPARE_CHANGEFIL:
               if (draw) {
-                Draw_Menu_Item(row, ICON_ResumeEEPROM, F("Change Filament")
+                Draw_Menu_Item(row, ICON_ResumeEEPROM, GET_TEXT_F(MSG_FILAMENTCHANGE)
                   #if ENABLED(FILAMENT_LOAD_UNLOAD_GCODES)
                     , nullptr, true
                   #endif
@@ -1596,11 +1598,11 @@
                   else {
                     if (thermalManager.temp_hotend[0].celsius < thermalManager.temp_hotend[0].target - 2) {
                       Popup_Handler(Heating);
-                      Update_Status("Heating...");
+                      Update_Status(GET_TEXT(MSG_HEATING));
                       thermalManager.wait_for_hotend(0);
                     }
                     Popup_Handler(FilChange);
-                    Update_Status("Change Filament...");
+                    Update_Status(GET_TEXT(MSG_FILAMENT_CHANGE_INIT));
                     sprintf_P(cmd, PSTR("M600 B1 R%i"), thermalManager.temp_hotend[0].target);
                     gcode.process_subcommands_now(cmd);
                   }
@@ -1624,13 +1626,13 @@
         switch (item) {
           case HOME_BACK:
             if (draw)
-              Draw_Menu_Item(row, ICON_Back, F("Back"));
+              Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
             else
               Draw_Menu(Prepare, PREPARE_HOME);
             break;
           case HOME_ALL:
             if (draw)
-              Draw_Menu_Item(row, ICON_Homing, F("Home All"));
+              Draw_Menu_Item(row, ICON_Homing, GET_TEXT_F(MSG_AUTO_HOME));
             else {
               Popup_Handler(Home);
               gcode.home_all_axes(true);
@@ -1639,7 +1641,7 @@
             break;
           case HOME_X:
             if (draw)
-              Draw_Menu_Item(row, ICON_MoveX, F("Home X"));
+              Draw_Menu_Item(row, ICON_MoveX, GET_TEXT_F(MSG_AUTO_HOME_X));
             else {
               Popup_Handler(Home);
               gcode.process_subcommands_now(F("G28 X"));
@@ -1649,7 +1651,7 @@
             break;
           case HOME_Y:
             if (draw)
-              Draw_Menu_Item(row, ICON_MoveY, F("Home Y"));
+              Draw_Menu_Item(row, ICON_MoveY, GET_TEXT_F(MSG_AUTO_HOME_Y));
             else {
               Popup_Handler(Home);
               gcode.process_subcommands_now(F("G28 Y"));
@@ -1659,7 +1661,7 @@
             break;
           case HOME_Z:
             if (draw)
-              Draw_Menu_Item(row, ICON_MoveZ, F("Home Z"));
+              Draw_Menu_Item(row, ICON_MoveZ, GET_TEXT_F(MSG_AUTO_HOME_Z));
             else {
               Popup_Handler(Home);
               gcode.process_subcommands_now(F("G28 Z"));
@@ -1669,7 +1671,7 @@
             break;
           case HOME_SET:
             if (draw)
-              Draw_Menu_Item(row, ICON_SetHome, F("Set Home Position"));
+              Draw_Menu_Item(row, ICON_SetHome, GET_TEXT_F(MSG_SET_HOME_OFFSETS));
             else {
               gcode.process_subcommands_now(F("G92 X0 Y0 Z0"));
               AudioFeedback();
@@ -1692,7 +1694,7 @@
         switch (item) {
           case MOVE_BACK:
             if (draw)
-              Draw_Menu_Item(row, ICON_Back, F("Back"));
+              Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
             else {
               #if HAS_BED_PROBE
                 probe_deployed = false;
@@ -1703,7 +1705,7 @@
             break;
           case MOVE_X:
             if (draw) {
-              Draw_Menu_Item(row, ICON_MoveX, F("Move X"));
+              Draw_Menu_Item(row, ICON_MoveX, GET_TEXT_F(MSG_MOVE_X));
               Draw_Float(current_position.x, row, false);
             }
             else
@@ -1711,7 +1713,7 @@
             break;
           case MOVE_Y:
             if (draw) {
-              Draw_Menu_Item(row, ICON_MoveY, F("Move Y"));
+              Draw_Menu_Item(row, ICON_MoveY, GET_TEXT_F(MSG_MOVE_Y));
               Draw_Float(current_position.y, row);
             }
             else
@@ -1719,7 +1721,7 @@
             break;
           case MOVE_Z:
             if (draw) {
-              Draw_Menu_Item(row, ICON_MoveZ, F("Move Z"));
+              Draw_Menu_Item(row, ICON_MoveZ, GET_TEXT_F(MSG_MOVE_Z));
               Draw_Float(current_position.z, row);
             }
             else
@@ -1729,7 +1731,7 @@
           #if HAS_HOTEND
             case MOVE_E:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Extruder, F("Extruder"));
+                Draw_Menu_Item(row, ICON_Extruder, GET_TEXT_F(MSG_MOVE_E));
                 current_position.e = 0;
                 sync_plan_position();
                 Draw_Float(current_position.e, row);
@@ -1741,7 +1743,7 @@
                 else {
                   if (thermalManager.temp_hotend[0].celsius < thermalManager.temp_hotend[0].target - 2) {
                     Popup_Handler(Heating);
-                    Update_Status("Heating...");
+                    Update_Status(GET_TEXT(MSG_HEATING));
                     thermalManager.wait_for_hotend(0);
                     Update_Status("");
                     Redraw_Menu();
@@ -1757,7 +1759,7 @@
           #if HAS_BED_PROBE
             case MOVE_P:
               if (draw) {
-                Draw_Menu_Item(row, ICON_StockConfiguration, F("Probe"));
+                Draw_Menu_Item(row, ICON_StockConfiguration, GET_TEXT_F(MSG_MANUAL_DEPLOY));
                 Draw_Checkbox(row, probe_deployed);
               }
               else {
@@ -1770,7 +1772,7 @@
 
           case MOVE_LIVE:
             if (draw) {
-              Draw_Menu_Item(row, ICON_Axis, F("Live Movement"));
+              Draw_Menu_Item(row, ICON_Axis, GET_TEXT_F(MSG_LIVE_ADJUSTMENT));
               Draw_Checkbox(row, livemove);
             }
             else {
@@ -1798,7 +1800,7 @@
         switch (item) {
           case MLEVEL_BACK:
             if (draw)
-              Draw_Menu_Item(row, ICON_Back, F("Back"));
+              Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
             else {
               TERN_(HAS_LEVELING, set_bed_leveling_enabled(level_state));
               Draw_Menu(Prepare, PREPARE_MANUALLEVEL);
@@ -1807,7 +1809,7 @@
           #if HAS_BED_PROBE
             case MLEVEL_PROBE:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Zoffset, F("Use Probe"));
+                Draw_Menu_Item(row, ICON_Zoffset, GET_TEXT_F(MSG_ZPROBE_ENABLE));
                 Draw_Checkbox(row, use_probe);
               }
               else {
@@ -1823,25 +1825,25 @@
                   #define PROBE_Y_MAX _MIN((Y_BED_SIZE + Y_MIN_POS) - corner_pos, Y_MAX_POS + probe.offset.y, Y_MAX_POS - PROBING_MARGIN) - probe.offset.y
                   zval = probe.probe_at_point(PROBE_X_MIN, PROBE_Y_MIN, PROBE_PT_RAISE, 0, false);
                   if (isnan(zval)) {
-                      Update_Status("Position not reachable, check probe offsets and bed screw inset");
+                      Update_Status(GET_TEXT(MSG_ZPROBE_UNREACHABLE));
                       Redraw_Menu();
                   }
                   corner_avg += zval;
                   zval = probe.probe_at_point(PROBE_X_MIN, PROBE_Y_MAX, PROBE_PT_RAISE, 0, false);
                   if (isnan(zval)) {
-                      Update_Status("Position not reachable, check probe offsets and bed screw inset");
+                      Update_Status(GET_TEXT(MSG_ZPROBE_UNREACHABLE));
                       Redraw_Menu();
                   }
                   corner_avg += zval;
                   zval = probe.probe_at_point(PROBE_X_MAX, PROBE_Y_MAX, PROBE_PT_RAISE, 0, false);
                   if (isnan(zval)) {
-                      Update_Status("Position not reachable, check probe offsets and bed screw inset");
+                      Update_Status(GET_TEXT(MSG_ZPROBE_UNREACHABLE));
                       Redraw_Menu();
                   }
                   corner_avg += zval;
                   zval = probe.probe_at_point(PROBE_X_MAX, PROBE_Y_MIN, PROBE_PT_STOW, 0, false);
                   if (isnan(zval)) {
-                      Update_Status("Position not reachable, check probe offsets and bed screw inset");
+                      Update_Status(GET_TEXT(MSG_ZPROBE_UNREACHABLE));
                       Redraw_Menu();
                   }
                   corner_avg += zval; 
@@ -1853,7 +1855,7 @@
           #endif
           case MLEVEL_BL:
             if (draw)
-              Draw_Menu_Item(row, ICON_AxisBL, F("Bottom Left"));
+              Draw_Menu_Item(row, ICON_AxisBL, GET_TEXT_F(MSG_LEVBED_FL));
             else {
               Popup_Handler(MoveWait);
               if (use_probe) {
@@ -1874,7 +1876,7 @@
             break;
           case MLEVEL_TL:
             if (draw)
-              Draw_Menu_Item(row, ICON_AxisTL, F("Top Left"));
+              Draw_Menu_Item(row, ICON_AxisTL, GET_TEXT_F(MSG_LEVBED_BL));
             else {
               Popup_Handler(MoveWait);
               if (use_probe) {
@@ -1895,7 +1897,7 @@
             break;
           case MLEVEL_TR:
             if (draw)
-              Draw_Menu_Item(row, ICON_AxisTR, F("Top Right"));
+              Draw_Menu_Item(row, ICON_AxisTR, GET_TEXT_F(MSG_LEVBED_BR));
             else {
               Popup_Handler(MoveWait);
               if (use_probe) {
@@ -1916,7 +1918,7 @@
             break;
           case MLEVEL_BR:
             if (draw)
-              Draw_Menu_Item(row, ICON_AxisBR, F("Bottom Right"));
+              Draw_Menu_Item(row, ICON_AxisBR, GET_TEXT_F(MSG_LEVBED_FR));
             else {
               Popup_Handler(MoveWait);
               if (use_probe) {
@@ -1937,7 +1939,7 @@
             break;
           case MLEVEL_C:
             if (draw)
-              Draw_Menu_Item(row, ICON_AxisC, F("Center"));
+              Draw_Menu_Item(row, ICON_AxisC, GET_TEXT_F(MSG_LEVBED_C));
             else {
               Popup_Handler(MoveWait);
               if (use_probe) {
@@ -1958,7 +1960,7 @@
             break;
           case MLEVEL_ZPOS:
             if (draw) {
-              Draw_Menu_Item(row, ICON_SetZOffset, F("Z Position"));
+              Draw_Menu_Item(row, ICON_SetZOffset, GET_TEXT_F(MSG_MOVE_Z));
               Draw_Float(mlev_z_pos, row, false, 100);
             }
             else
@@ -1981,7 +1983,7 @@
           switch (item) {
             case ZOFFSET_BACK:
               if (draw)
-                Draw_Menu_Item(row, ICON_Back, F("Back"));
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
               else {
                 zoffsetmode = 0;
                 #if !HAS_BED_PROBE
@@ -1995,7 +1997,7 @@
               break;
             case ZOFFSET_HOME:
               if (draw)
-                Draw_Menu_Item(row, ICON_Homing, F("Home Z Axis"));
+                Draw_Menu_Item(row, ICON_Homing, GET_TEXT_F(MSG_AUTO_HOME_Z));
               else {
                 Popup_Handler(Home);
                 gcode.process_subcommands_now(F("G28 Z"));
@@ -2015,7 +2017,7 @@
               break;
               case ZOFFSET_MODE:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_Zoffset, "Z Adjust Mode");
+                  Draw_Menu_Item(row, ICON_Zoffset, GET_TEXT_F(MSG_LIVE_ADJUSTMENT));
                   Draw_Option(zoffsetmode, zoffset_modes, row);
                 }
                 else 
@@ -2023,7 +2025,7 @@
                 break;
             case ZOFFSET_OFFSET:
               if (draw) {
-                Draw_Menu_Item(row, ICON_SetZOffset, F("Z Offset"));
+                Draw_Menu_Item(row, ICON_SetZOffset, GET_TEXT_F(MSG_OFFSET_Z));
                 Draw_Float(zoffsetvalue, row, false, 100);
               }
               else {
@@ -2031,9 +2033,11 @@
               }
               break;
             case ZOFFSET_UP:
-              if (draw)
-                Draw_Menu_Item(row, ICON_Axis, F("Micro-step Up"));
-              else {
+              if (draw) {
+                sprintf_P(cmd, PSTR("%s Up"), GET_TEXT(MSG_BABYSTEP_Z));
+                Draw_Menu_Item(row, ICON_Axis, F(cmd));
+                }
+               else {
                 if (zoffsetvalue < MAX_Z_OFFSET) {
                   //if (liveadjust || adjustonclick) {
                   if (zoffsetmode != 0) {
@@ -2046,9 +2050,11 @@
               }
               break;
             case ZOFFSET_DOWN:
-              if (draw)
-                Draw_Menu_Item(row, ICON_AxisD, F("Micro-step Down"));
-              else {
+              if (draw) {
+                sprintf_P(cmd, PSTR("%s Down"), GET_TEXT(MSG_BABYSTEP_Z));
+                Draw_Menu_Item(row, ICON_AxisD, F(cmd));
+                }
+               else {
                 if (zoffsetvalue > MIN_Z_OFFSET) {
                   //if (liveadjust || adjustonclick) {
                   if (zoffsetmode != 0) {
@@ -2063,7 +2069,7 @@
             #if ENABLED(EEPROM_SETTINGS)
               case ZOFFSET_SAVE:
                 if (draw)
-                  Draw_Menu_Item(row, ICON_WriteEEPROM, F("Save"));
+                  Draw_Menu_Item(row, ICON_WriteEEPROM, GET_TEXT_F(MSG_BUTTON_SAVE));
                 else
                   AudioFeedback(settings.save());
                 break;
@@ -2093,13 +2099,13 @@
           switch (item) {
             case PREHEAT_BACK:
               if (draw)
-                Draw_Menu_Item(row, ICON_Back, F("Back"));
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
               else
                 Draw_Menu(Prepare, PREPARE_PREHEAT);
               break;
             case PREHEAT_MODE:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Homing, F("Preheat Mode"));
+                Draw_Menu_Item(row, ICON_Homing, GET_TEXT_F(MSG_CONFIGURATION));
                 Draw_Option(preheatmode, preheat_modes, row);
               }
               else
@@ -2172,13 +2178,13 @@
           switch (item) {
             case CHANGEFIL_BACK:
               if (draw)
-                Draw_Menu_Item(row, ICON_Back, F("Back"));
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
               else
                 Draw_Menu(Prepare, PREPARE_CHANGEFIL);
               break;
             case CHANGEFIL_PARKHEAD:
               if (draw)
-                Draw_Menu_Item(row, ICON_ParkPos, F("Park Head"));
+                Draw_Menu_Item(row, ICON_ParkPos, GET_TEXT_F(MSG_FILAMENT_PARK_ENABLED));
               else {
                 #if ENABLED(NOZZLE_PARK_FEATURE)
                     queue.inject(F("G28O\nG27 P2"));
@@ -2190,18 +2196,18 @@
               break;
             case CHANGEFIL_LOAD:
               if (draw)
-                Draw_Menu_Item(row, ICON_WriteEEPROM, F("Load Filament"));
+                Draw_Menu_Item(row, ICON_WriteEEPROM, GET_TEXT_F(MSG_FILAMENTLOAD));
               else {
                 if (thermalManager.temp_hotend[0].target < thermalManager.extrude_min_temp)
                   Popup_Handler(ETemp);
                 else {
                   if (thermalManager.temp_hotend[0].celsius < thermalManager.temp_hotend[0].target - 2) {
-                    Update_Status("Heating...");
+                    Update_Status(GET_TEXT(MSG_FILAMENT_CHANGE_HEATING));
                     Popup_Handler(Heating);
                     thermalManager.wait_for_hotend(0);
                   }
                   Popup_Handler(FilLoad);
-                  Update_Status("Load Filament...");
+                  Update_Status(GET_TEXT(MSG_FILAMENT_CHANGE_LOAD));
                   gcode.process_subcommands_now(F("M701 Z20"));
                   planner.synchronize();
                   Redraw_Menu();
@@ -2210,19 +2216,19 @@
               break;
             case CHANGEFIL_UNLOAD:
               if (draw)
-                Draw_Menu_Item(row, ICON_ReadEEPROM, F("Unload Filament"));
+                Draw_Menu_Item(row, ICON_ReadEEPROM, GET_TEXT_F(MSG_FILAMENTUNLOAD));
               else {
                 if (thermalManager.temp_hotend[0].target < thermalManager.extrude_min_temp) {
                   Popup_Handler(ETemp);
                 }
                 else {
                   if (thermalManager.temp_hotend[0].celsius < thermalManager.temp_hotend[0].target - 2) {
-                    Update_Status("Heating...");
+                    Update_Status(GET_TEXT(MSG_FILAMENT_CHANGE_HEATING));
                     Popup_Handler(Heating);
                     thermalManager.wait_for_hotend(0);
                   }
                   Popup_Handler(FilLoad, true);
-                  Update_Status("Unload Filament...");
+                  Update_Status(GET_TEXT(MSG_FILAMENT_CHANGE_UNLOAD));
                   gcode.process_subcommands_now(F("M702 Z20"));
                   planner.synchronize();
                   Redraw_Menu();
@@ -2231,18 +2237,18 @@
               break;
             case CHANGEFIL_CHANGE:
               if (draw)
-                Draw_Menu_Item(row, ICON_ResumeEEPROM, F("Change Filament"));
+                Draw_Menu_Item(row, ICON_ResumeEEPROM, GET_TEXT_F(MSG_FILAMENTCHANGE));
               else {
                 if (thermalManager.temp_hotend[0].target < thermalManager.extrude_min_temp)
                   Popup_Handler(ETemp);
                 else {
                   if (thermalManager.temp_hotend[0].celsius < thermalManager.temp_hotend[0].target - 2) {
-                    Update_Status("Heating...");
+                    Update_Status(GET_TEXT(MSG_FILAMENT_CHANGE_HEATING));
                     Popup_Handler(Heating);
                     thermalManager.wait_for_hotend(0);
                   }
                   Popup_Handler(FilChange);
-                  Update_Status("Change Filament...");
+                  Update_Status(GET_TEXT(MSG_FILAMENT_CHANGE_HEADER));
                   sprintf_P(cmd, PSTR("M600 B1 R%i"), thermalManager.temp_hotend[0].target);
                   gcode.process_subcommands_now(cmd);
                 }
@@ -2264,7 +2270,7 @@
           switch(item) {
             case HOSTACTIONS_BACK:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Back, F("Back"));
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
               }
               else {
                 Draw_Menu(Prepare, PREPARE_ACTIONCOMMANDS);
@@ -2321,26 +2327,26 @@
         switch (item) {
           case CONTROL_BACK:
             if (draw)
-              Draw_Menu_Item(row, ICON_Back, F("Back"));
+              Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
             else
               Draw_Main_Menu(2);
             break;
           case CONTROL_TEMP:
             if (draw)
-              Draw_Menu_Item(row, ICON_Temperature, F("Temperature"), nullptr, true);
+              Draw_Menu_Item(row, ICON_Temperature, GET_TEXT_F(MSG_TEMPERATURE), nullptr, true);
             else
               Draw_Menu(TempMenu);
             break;
           case CONTROL_MOTION:
             if (draw)
-              Draw_Menu_Item(row, ICON_Motion, F("Motion"), nullptr, true);
+              Draw_Menu_Item(row, ICON_Motion, GET_TEXT_F(MSG_MOTION), nullptr, true);
             else
               Draw_Menu(Motion);
             break;
           #if ENABLED(FWRETRACT)
             case CONTROL_FWRETRACT:
             if (draw)
-              Draw_Menu_Item(row, ICON_StepE, F("Firmw. Retraction"), nullptr, true);
+              Draw_Menu_Item(row, ICON_StepE, GET_TEXT_F(MSG_AUTORETRACT), nullptr, true);
             else
               Draw_Menu(FwRetraction);
             break;
@@ -2348,45 +2354,45 @@
           #if ENABLED(NOZZLE_PARK_FEATURE)
             case CONTROL_PARKMENU:
             if (draw)
-              Draw_Menu_Item(row, ICON_ParkPos, F("Park Position"), nullptr, true);
+              Draw_Menu_Item(row, ICON_ParkPos, GET_TEXT_F(MSG_FILAMENT_PARK_ENABLED), nullptr, true);
             else
               Draw_Menu(Parkmenu);
             break;
           #endif
           case CONTROL_VISUAL:
             if (draw)
-              Draw_Menu_Item(row, ICON_PrintSize, F("Visual"), nullptr, true);
+              Draw_Menu_Item(row, ICON_PrintSize, GET_TEXT_F(MSG_VISUAL_SETTINGS), nullptr, true);
             else
               Draw_Menu(Visual);
             break;
           case CONTROL_HOSTSETTINGS:
             if (draw)
-              Draw_Menu_Item(row, ICON_Contact, F("Host Settings"), nullptr, true);
+              Draw_Menu_Item(row, ICON_Contact, GET_TEXT_F(MSG_HOST_SETTINGS), nullptr, true);
             else 
               Draw_Menu(HostSettings);
             break;
           case CONTROL_ADVANCED:
             if (draw)
-              Draw_Menu_Item(row, ICON_Version, F("Advanced"), nullptr, true);
+              Draw_Menu_Item(row, ICON_Version, GET_TEXT_F(MSG_ADVANCED_SETTINGS), nullptr, true);
             else
               Draw_Menu(Advanced);
             break;
           #if ENABLED(EEPROM_SETTINGS)
             case CONTROL_SAVE:
               if (draw)
-                Draw_Menu_Item(row, ICON_WriteEEPROM, F("Store Settings"));
+                Draw_Menu_Item(row, ICON_WriteEEPROM, GET_TEXT_F(MSG_STORE_EEPROM));
               else
                 AudioFeedback(settings.save());
               break;
             case CONTROL_RESTORE:
               if (draw)
-                Draw_Menu_Item(row, ICON_ReadEEPROM, F("Restore Settings"));
+                Draw_Menu_Item(row, ICON_ReadEEPROM, GET_TEXT_F(MSG_LOAD_EEPROM));
               else
                 AudioFeedback(settings.load());
               break;
             case CONTROL_RESET:
               if (draw)
-                Draw_Menu_Item(row, ICON_ResumeEEPROM, F("Reset to Defaults"));
+                Draw_Menu_Item(row, ICON_ResumeEEPROM, GET_TEXT_F(MSG_RESTORE_DEFAULTS));
               else {
                 settings.reset();
                 AudioFeedback();
@@ -2395,14 +2401,14 @@
           #endif
           case CONTROL_REBOOT:
             if (draw)
-              Draw_Menu_Item(row, ICON_Reboot, F("Reboot Printer"));
+              Draw_Menu_Item(row, ICON_Reboot, GET_TEXT_F(MSG_RESET_PRINTER));
             else {
               RebootPrinter();
             }
             break;
           case CONTROL_INFO:
             if (draw)
-              Draw_Menu_Item(row, ICON_Info, F("Info"));
+              Draw_Menu_Item(row, ICON_Info, GET_TEXT_F(MSG_INFO_SCREEN));
             else
               Draw_Menu(Info);
             break;
@@ -2426,14 +2432,14 @@
         switch (item) {
           case TEMP_BACK:
             if (draw)
-              Draw_Menu_Item(row, ICON_Back, F("Back"));
+              Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
             else
               Draw_Menu(Control, CONTROL_TEMP);
             break;
           #if HAS_HOTEND
             case TEMP_HOTEND:
               if (draw) {
-                Draw_Menu_Item(row, ICON_SetEndTemp, F("Hotend"));
+                Draw_Menu_Item(row, ICON_SetEndTemp, GET_TEXT_F(MSG_HOTEND_TEMPERATURE));
                 Draw_Float(thermalManager.temp_hotend[0].target, row, false, 1);
               }
               else
@@ -2443,7 +2449,7 @@
           #if HAS_HEATED_BED
             case TEMP_BED:
               if (draw) {
-                Draw_Menu_Item(row, ICON_SetBedTemp, F("Bed"));
+                Draw_Menu_Item(row, ICON_SetBedTemp, GET_TEXT_F(MSG_BED_TEMPERATURE));
                 Draw_Float(thermalManager.temp_bed.target, row, false, 1);
               }
               else
@@ -2453,7 +2459,7 @@
           #if HAS_FAN
             case TEMP_FAN:
               if (draw) {
-                Draw_Menu_Item(row, ICON_FanSpeed, F("Fan"));
+                Draw_Menu_Item(row, ICON_FanSpeed, GET_TEXT_F(MSG_FAN_SPEED));
                 Draw_Float(thermalManager.fan_speed[0], row, false, 1);
               }
               else
@@ -2462,8 +2468,9 @@
           #endif
           #if HAS_HOTEND || HAS_HEATED_BED
             case TEMP_PID:
-              if (draw)
-                Draw_Menu_Item(row, ICON_Step, F("PID"), nullptr, true);
+              if (draw) {
+                Draw_Menu_Item(row, ICON_Step, GET_TEXT_F(MSG_PID), nullptr, true);
+               }
               else
                 Draw_Menu(PID);
               break;
@@ -2526,14 +2533,14 @@
           switch (item) {
             case PID_BACK:
               if (draw)
-                Draw_Menu_Item(row, ICON_Back, F("Back"));
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
               else
                 Draw_Menu(TempMenu, TEMP_PID);
               break;
             #if HAS_HOTEND
               case PID_HOTEND:
                 if (draw)
-                  Draw_Menu_Item(row, ICON_HotendTemp, F("Hotend"), nullptr, true);
+                  Draw_Menu_Item(row, ICON_HotendTemp, GET_TEXT_F(MSG_HOTEND_PID_AUTOTUNE), nullptr, true);
                 else
                   Draw_Menu(HotendPID);
                 break;
@@ -2541,14 +2548,14 @@
             #if HAS_HEATED_BED
               case PID_BED:
                 if (draw)
-                  Draw_Menu_Item(row, ICON_BedTemp, F("Bed"), nullptr, true);
+                  Draw_Menu_Item(row, ICON_BedTemp, GET_TEXT_F(MSG_BED_PID_AUTOTUNE), nullptr, true);
                 else
                   Draw_Menu(BedPID);
                 break;
             #endif
             case PID_CYCLES:
               if (draw) {
-                Draw_Menu_Item(row, ICON_FanSpeed, F("Cycles"));
+                Draw_Menu_Item(row, ICON_FanSpeed, GET_TEXT_F(MSG_PID_CYCLE));
                 Draw_Float(PID_cycles, row, false, 1);
               }
               else
@@ -2556,7 +2563,7 @@
               break;
             case PID_SAVE:
               if(draw) {
-                Draw_Menu_Item(row, ICON_WriteEEPROM, F("Save PID Result"));
+                Draw_Menu_Item(row, ICON_WriteEEPROM, GET_TEXT_F(MSG_PID_AUTOTUNE_SAVE));
               }
               else {
                 AudioFeedback(settings.save());
@@ -2583,24 +2590,24 @@
           switch (item) {
             case HOTENDPID_BACK:
               if (draw)
-                Draw_Menu_Item(row, ICON_Back, F("Back"));
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
               else
                 Draw_Menu(PID, PID_HOTEND);
               break;
             case HOTENDPID_TUNE:
               if (draw)
-                Draw_Menu_Item(row, ICON_HotendTemp, F("Start Autotune"));
+                Draw_Menu_Item(row, ICON_HotendTemp, GET_TEXT_F(MSG_PID_AUTOTUNE));
               else {
                 Popup_Handler(PIDWait);
                 sprintf_P(cmd, PSTR("M303 E0 C%i S%i U1"), PID_cycles, PID_e_temp);
                 gcode.process_subcommands_now(cmd);
                 planner.synchronize();
-                Redraw_Menu();
+                //Redraw_Menu();
               }
               break;
             case HOTENDPID_TEMP:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Temperature, F("Temperature"));
+                Draw_Menu_Item(row, ICON_Temperature, GET_TEXT_F(MSG_TEMPERATURE));
                 Draw_Float(PID_e_temp, row, false, 1);
               }
               else
@@ -2609,7 +2616,7 @@
             #if HAS_FAN
             case HOTENDPID_FAN:
               if (draw) {
-                Draw_Menu_Item(row, ICON_FanSpeed, F("Fan"));
+                Draw_Menu_Item(row, ICON_FanSpeed, GET_TEXT_F(MSG_FAN_SPEED));
                 Draw_Float(thermalManager.fan_speed[0], row, false, 1);
               }
               else {
@@ -2619,7 +2626,8 @@
             #endif
             case HOTENDPID_KP:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Version, F("Kp Value : "));
+                sprintf_P(cmd, PSTR("%s Value: "), GET_TEXT(MSG_PID_P));
+                Draw_Menu_Item(row, ICON_Version, F(cmd));
                 Draw_Float(thermalManager.temp_hotend[0].pid.Kp, row, false, 100);
               }
               else
@@ -2627,7 +2635,8 @@
               break;
             case HOTENDPID_KI:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Version, F("Ki Value : "));
+                sprintf_P(cmd, PSTR("%s Value: "), GET_TEXT(MSG_PID_I));
+                Draw_Menu_Item(row, ICON_Version, F(cmd));
                 Draw_Float(unscalePID_i(thermalManager.temp_hotend[0].pid.Ki), row, false, 100);
               }
               else
@@ -2635,7 +2644,8 @@
               break;
             case HOTENDPID_KD:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Version, F("Kd Value : "));
+                sprintf_P(cmd, PSTR("%s Value: "), GET_TEXT(MSG_PID_D));
+                Draw_Menu_Item(row, ICON_Version, F(cmd));
                 Draw_Float(unscalePID_d(thermalManager.temp_hotend[0].pid.Kd), row, false, 100);
               }
               else
@@ -2661,24 +2671,24 @@
           switch (item) {
             case BEDPID_BACK:
               if (draw)
-                Draw_Menu_Item(row, ICON_Back, F("Back"));
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
               else
                 Draw_Menu(PID, PID_BED);
               break;
             case BEDPID_TUNE:
               if (draw)
-                Draw_Menu_Item(row, ICON_HotendTemp, F("Start Autotune"));
+                Draw_Menu_Item(row, ICON_HotendTemp, GET_TEXT_F(MSG_PID_AUTOTUNE));
               else {
                 Popup_Handler(PIDWait, true);
                 sprintf_P(cmd, PSTR("M303 E-1 C%i S%i U1"), PID_cycles, PID_bed_temp);
                 gcode.process_subcommands_now(cmd);
                 planner.synchronize();
-                Redraw_Menu();
+                //Redraw_Menu();
               }
               break;
             case BEDPID_TEMP:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Temperature, F("Temperature"));
+                Draw_Menu_Item(row, ICON_Temperature, GET_TEXT_F(MSG_TEMPERATURE));
                 Draw_Float(PID_bed_temp, row, false, 1);
               }
               else
@@ -2686,7 +2696,8 @@
               break;
             case BEDPID_KP:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Version, F("Kp Value : "));
+                sprintf_P(cmd, PSTR("%s Value: "), GET_TEXT(MSG_PID_P));
+                Draw_Menu_Item(row, ICON_Version, F(cmd));
                 Draw_Float(thermalManager.temp_bed.pid.Kp, row, false, 100);
               }
               else {
@@ -2695,7 +2706,8 @@
               break;
             case BEDPID_KI:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Version, F("Ki Value : "));
+                sprintf_P(cmd, PSTR("%s Value: "), GET_TEXT(MSG_PID_I));
+                Draw_Menu_Item(row, ICON_Version, F(cmd));
                 Draw_Float(unscalePID_i(thermalManager.temp_bed.pid.Ki), row, false, 100);
               }
               else
@@ -2703,7 +2715,8 @@
               break;
             case BEDPID_KD:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Version, F("Kd Value : "));
+                sprintf_P(cmd, PSTR("%s Value: "), GET_TEXT(MSG_PID_D));
+                Draw_Menu_Item(row, ICON_Version, F(cmd));
                 Draw_Float(unscalePID_d(thermalManager.temp_bed.pid.Kd), row, false, 100);
               }
               else
@@ -2725,14 +2738,14 @@
           switch (item) {
             case PREHEAT1_BACK:
               if (draw)
-                Draw_Menu_Item(row, ICON_Back, F("Back"));
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
               else
                 Draw_Menu(TempMenu, TEMP_PREHEAT1);
               break;
             #if HAS_HOTEND
               case PREHEAT1_HOTEND:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_SetEndTemp, F("Hotend"));
+                  Draw_Menu_Item(row, ICON_SetEndTemp, GET_TEXT_F(MSG_HOTEND_TEMPERATURE));
                   Draw_Float(ui.material_preset[0].hotend_temp, row, false, 1);
                 }
                 else
@@ -2742,7 +2755,7 @@
             #if HAS_HEATED_BED
               case PREHEAT1_BED:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_SetBedTemp, F("Bed"));
+                  Draw_Menu_Item(row, ICON_SetBedTemp, GET_TEXT_F(MSG_BED_TEMPERATURE));
                   Draw_Float(ui.material_preset[0].bed_temp, row, false, 1);
                 }
                 else
@@ -2752,7 +2765,7 @@
             #if HAS_FAN
               case PREHEAT1_FAN:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_FanSpeed, F("Fan"));
+                  Draw_Menu_Item(row, ICON_FanSpeed, GET_TEXT_F(MSG_FAN_SPEED));
                   Draw_Float(ui.material_preset[0].fan_speed, row, false, 1);
                 }
                 else
@@ -2775,14 +2788,14 @@
           switch (item) {
             case PREHEAT2_BACK:
               if (draw)
-                Draw_Menu_Item(row, ICON_Back, F("Back"));
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
               else
                 Draw_Menu(TempMenu, TEMP_PREHEAT2);
               break;
             #if HAS_HOTEND
               case PREHEAT2_HOTEND:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_SetEndTemp, F("Hotend"));
+                  Draw_Menu_Item(row, ICON_SetEndTemp, GET_TEXT_F(MSG_HOTEND_TEMPERATURE));
                   Draw_Float(ui.material_preset[1].hotend_temp, row, false, 1);
                 }
                 else
@@ -2792,7 +2805,7 @@
             #if HAS_HEATED_BED
               case PREHEAT2_BED:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_SetBedTemp, F("Bed"));
+                  Draw_Menu_Item(row, ICON_SetBedTemp, GET_TEXT_F(MSG_BED_TEMPERATURE));
                   Draw_Float(ui.material_preset[1].bed_temp, row, false, 1);
                 }
                 else
@@ -2802,7 +2815,7 @@
             #if HAS_FAN
               case PREHEAT2_FAN:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_FanSpeed, F("Fan"));
+                  Draw_Menu_Item(row, ICON_FanSpeed, GET_TEXT_F(MSG_FAN_SPEED));
                   Draw_Float(ui.material_preset[1].fan_speed, row, false, 1);
                 }
                 else
@@ -2825,14 +2838,14 @@
           switch (item) {
             case PREHEAT3_BACK:
               if (draw)
-                Draw_Menu_Item(row, ICON_Back, F("Back"));
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
               else
                 Draw_Menu(TempMenu, TEMP_PREHEAT3);
               break;
             #if HAS_HOTEND
               case PREHEAT3_HOTEND:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_SetEndTemp, F("Hotend"));
+                  Draw_Menu_Item(row, ICON_SetEndTemp, GET_TEXT_F(MSG_HOTEND_TEMPERATURE));
                   Draw_Float(ui.material_preset[2].hotend_temp, row, false, 1);
                 }
                 else
@@ -2842,7 +2855,7 @@
             #if HAS_HEATED_BED
               case PREHEAT3_BED:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_SetBedTemp, F("Bed"));
+                  Draw_Menu_Item(row, ICON_SetBedTemp, GET_TEXT_F(MSG_BED_TEMPERATURE));
                   Draw_Float(ui.material_preset[2].bed_temp, row, false, 1);
                 }
                 else
@@ -2852,7 +2865,7 @@
             #if HAS_FAN
               case PREHEAT3_FAN:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_FanSpeed, F("Fan"));
+                  Draw_Menu_Item(row, ICON_FanSpeed, GET_TEXT_F(MSG_FAN_SPEED));
                   Draw_Float(ui.material_preset[2].fan_speed, row, false, 1);
                 }
                 else
@@ -2875,14 +2888,14 @@
           switch (item) {
             case PREHEAT4_BACK:
               if (draw)
-                Draw_Menu_Item(row, ICON_Back, F("Back"));
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
               else
                 Draw_Menu(TempMenu, TEMP_PREHEAT4);
               break;
             #if HAS_HOTEND
               case PREHEAT4_HOTEND:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_SetEndTemp, F("Hotend"));
+                  Draw_Menu_Item(row, ICON_SetEndTemp, GET_TEXT_F(MSG_HOTEND_TEMPERATURE));
                   Draw_Float(ui.material_preset[3].hotend_temp, row, false, 1);
                 }
                 else
@@ -2892,7 +2905,7 @@
             #if HAS_HEATED_BED
               case PREHEAT4_BED:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_SetBedTemp, F("Bed"));
+                  Draw_Menu_Item(row, ICON_SetBedTemp, GET_TEXT_F(MSG_BED_TEMPERATURE));
                   Draw_Float(ui.material_preset[3].bed_temp, row, false, 1);
                 }
                 else
@@ -2902,7 +2915,7 @@
             #if HAS_FAN
               case PREHEAT4_FAN:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_FanSpeed, F("Fan"));
+                  Draw_Menu_Item(row, ICON_FanSpeed, GET_TEXT_F(MSG_FAN_SPEED));
                   Draw_Float(ui.material_preset[3].fan_speed, row, false, 1);
                 }
                 else
@@ -2925,14 +2938,14 @@
           switch (item) {
             case PREHEAT5_BACK:
               if (draw)
-                Draw_Menu_Item(row, ICON_Back, F("Back"));
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
               else
                 Draw_Menu(TempMenu, TEMP_PREHEAT5);
               break;
             #if HAS_HOTEND
               case PREHEAT5_HOTEND:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_SetEndTemp, F("Hotend"));
+                  Draw_Menu_Item(row, ICON_SetEndTemp, GET_TEXT_F(MSG_HOTEND_TEMPERATURE));
                   Draw_Float(ui.material_preset[4].hotend_temp, row, false, 1);
                 }
                 else
@@ -2942,7 +2955,7 @@
             #if HAS_HEATED_BED
               case PREHEAT5_BED:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_SetBedTemp, F("Bed"));
+                  Draw_Menu_Item(row, ICON_SetBedTemp, GET_TEXT_F(MSG_BED_TEMPERATURE));
                   Draw_Float(ui.material_preset[4].bed_temp, row, false, 1);
                 }
                 else
@@ -2952,7 +2965,7 @@
             #if HAS_FAN
               case PREHEAT5_FAN:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_FanSpeed, F("Fan"));
+                  Draw_Menu_Item(row, ICON_FanSpeed, GET_TEXT_F(MSG_FAN_SPEED));
                   Draw_Float(ui.material_preset[4].fan_speed, row, false, 1);
                 }
                 else
@@ -2978,39 +2991,40 @@
         switch (item) {
           case MOTION_BACK:
             if (draw)
-              Draw_Menu_Item(row, ICON_Back, F("Back"));
+              Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
             else
               Draw_Menu(Control, CONTROL_MOTION);
             break;
           case MOTION_HOMEOFFSETS:
             if (draw)
-              Draw_Menu_Item(row, ICON_SetHome, F("Home Offsets"), nullptr, true);
+              Draw_Menu_Item(row, ICON_SetHome, GET_TEXT_F(MSG_SET_HOME_OFFSETS), nullptr, true);
             else
               Draw_Menu(HomeOffsets);
             break;
           case MOTION_SPEED:
             if (draw)
-              Draw_Menu_Item(row, ICON_MaxSpeed, F("Max Speed"), nullptr, true);
+              Draw_Menu_Item(row, ICON_MaxSpeed, GET_TEXT_F(MSG_MAXSPEED), nullptr, true);
             else
               Draw_Menu(MaxSpeed);
             break;
           case MOTION_ACCEL:
-            if (draw)
-              Draw_Menu_Item(row, ICON_MaxAccelerated, F("Max Acceleration"), nullptr, true);
+            if (draw) 
+              Draw_Menu_Item(row, ICON_MaxAccelerated, GET_TEXT_F(MSG_AMAX_EN), nullptr, true);
+            
             else
               Draw_Menu(MaxAcceleration);
             break;
           #if HAS_CLASSIC_JERK
             case MOTION_JERK:
               if (draw)
-                Draw_Menu_Item(row, ICON_MaxJerk, F("Max Jerk"), nullptr, true);
+                Draw_Menu_Item(row, ICON_MaxJerk, GET_TEXT_F(MSG_VEN_JERK), nullptr, true);
               else
                 Draw_Menu(MaxJerk);
               break;
           #endif
           case MOTION_STEPS:
             if (draw)
-              Draw_Menu_Item(row, ICON_Step, F("Steps/mm"), nullptr, true);
+              Draw_Menu_Item(row, ICON_Step, GET_TEXT_F(MSG_STEPS_PER_MM), nullptr, true);
             else
               Draw_Menu(Steps);
             break;
@@ -3018,7 +3032,7 @@
             #if EXTJYERSUI
               case MOTION_INVERT_DIR_EXTR:
                 if (draw) {
-                Draw_Menu_Item(row, ICON_Motion, F("Inv. Extruder Dir"));
+                Draw_Menu_Item(row, ICON_Motion, GET_TEXT_F(MSG_EXTRUDER_INVERT));
                 Draw_Checkbox(row, HMI_datas.invert_dir_extruder);
               }
               else {
@@ -3030,7 +3044,7 @@
             #endif
             case MOTION_FLOW:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Speed, F("Flow Rate"));
+                Draw_Menu_Item(row, ICON_Speed, GET_TEXT_F(MSG_FLOW));
                 Draw_Float(planner.flow_percentage[0], row, false, 1);
               }
               else
@@ -3055,7 +3069,7 @@
           
             case FWR_BACK:
             if (draw)
-              Draw_Menu_Item(row, ICON_Back, F("Back"));
+              Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
             else {
               if (flag_tune) {
                 flag_tune = false;
@@ -3068,7 +3082,7 @@
             break;
           case FWR_RET_LENGTH:
             if (draw) {
-              Draw_Menu_Item(row, ICON_FWRetLength, F("Retract mm"));
+              Draw_Menu_Item(row, ICON_FWRetLength, GET_TEXT_F(MSG_CONTROL_RETRACT));
               Draw_Float(fwretract.settings.retract_length, row, false, 10);
             }
             else
@@ -3076,7 +3090,7 @@
             break;
           case FWR_RET_SPEED:
             if (draw) {
-              Draw_Menu_Item(row, ICON_FWRetSpeed, F("Retr. Speed mm/s"));
+              Draw_Menu_Item(row, ICON_FWRetSpeed, GET_TEXT_F(MSG_SINGLENOZZLE_RETRACT_SPEED));
               Draw_Float(fwretract.settings.retract_feedrate_mm_s, row, false, 10);
             }
             else
@@ -3084,7 +3098,7 @@
             break;
           case FWR_ZLIFT:
             if (draw) {
-              Draw_Menu_Item(row, ICON_FWRetZRaise, F("Hop mm"));
+              Draw_Menu_Item(row, ICON_FWRetZRaise, GET_TEXT_F(MSG_CONTROL_RETRACT_ZHOP));
               Draw_Float(fwretract.settings.retract_zraise, row, false, 100);
             }
             else
@@ -3092,7 +3106,7 @@
             break;
           case FWR_REC_EXT_LENGTH:
             if (draw) {
-              Draw_Menu_Item(row, ICON_FWRecExtLength, F("Extra Unretr. mm"));
+              Draw_Menu_Item(row, ICON_FWRecExtLength, GET_TEXT_F(MSG_CONTROL_RETRACT_RECOVER));
               Draw_Float(fwretract.settings.retract_recover_extra, row, false, 10);
             }
             else
@@ -3100,7 +3114,7 @@
             break;
           case FWR_REC_SPEED:
             if (draw) {
-              Draw_Menu_Item(row, ICON_FWRecSpeed, F("Rec. Speed mm/s"));
+              Draw_Menu_Item(row, ICON_FWRecSpeed, GET_TEXT_F(MSG_SINGLENOZZLE_UNRETRACT_SPEED));
               Draw_Float(fwretract.settings.retract_recover_feedrate_mm_s, row, false, 10);
             }
             else
@@ -3108,7 +3122,7 @@
             break;
           case FWR_RESET:
             if (draw)
-              Draw_Menu_Item(row, ICON_StepE, F("Reset Values"));
+              Draw_Menu_Item(row, ICON_StepE, GET_TEXT_F(MSG_BUTTON_RESET));
             else {
               fwretract.reset();
               Redraw_Menu();
@@ -3130,13 +3144,13 @@
           switch (item) {
             case PARKMENU_BACK:
               if (draw)
-                Draw_Menu_Item(row, ICON_Back, F("Back"));
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
               else
                 Draw_Menu(Control, CONTROL_PARKMENU);
               break;
             case PARKMENU_POSX:
               if (draw) {
-                Draw_Menu_Item(row, ICON_ParkPosX, F("Park X Position"));
+                Draw_Menu_Item(row, ICON_ParkPosX, GET_TEXT_F(MSG_FILAMENT_PARK_X));
                 Draw_Float(HMI_datas.Park_point.x, row, false, 1);
               }
               else
@@ -3144,7 +3158,7 @@
               break;
             case PARKMENU_POSY:
               if (draw) {
-                Draw_Menu_Item(row, ICON_ParkPosY, F("Park Y Position"));
+                Draw_Menu_Item(row, ICON_ParkPosY, GET_TEXT_F(MSG_FILAMENT_PARK_Y));
                 Draw_Float(HMI_datas.Park_point.y, row, false, 1);
               }
               else
@@ -3152,7 +3166,7 @@
               break;
             case PARKMENU_POSZ:
               if (draw) {
-                Draw_Menu_Item(row, ICON_ParkPosX, F("Park Z Raise"));
+                Draw_Menu_Item(row, ICON_ParkPosZ, GET_TEXT_F(MSG_FILAMENT_PARK_Z));
                 Draw_Float(HMI_datas.Park_point.z, row, false, 1);
               }
               else
@@ -3172,13 +3186,13 @@
         switch (item) {
           case HOMEOFFSETS_BACK:
             if (draw)
-              Draw_Menu_Item(row, ICON_Back, F("Back"));
+              Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
             else
               Draw_Menu(Motion, MOTION_HOMEOFFSETS);
             break;
           case HOMEOFFSETS_XOFFSET:
             if (draw) {
-              Draw_Menu_Item(row, ICON_StepX, F("X Offset"));
+              Draw_Menu_Item(row, ICON_StepX, GET_TEXT_F(MSG_HOME_OFFSET_X));
               Draw_Float(home_offset.x, row, false, 100);
             }
             else
@@ -3186,7 +3200,7 @@
             break;
           case HOMEOFFSETS_YOFFSET:
             if (draw) {
-              Draw_Menu_Item(row, ICON_StepY, F("Y Offset"));
+              Draw_Menu_Item(row, ICON_StepY, GET_TEXT_F(MSG_HOME_OFFSET_Y));
               Draw_Float(home_offset.y, row, false, 100);
             }
             else
@@ -3206,13 +3220,13 @@
         switch (item) {
           case SPEED_BACK:
             if (draw)
-              Draw_Menu_Item(row, ICON_Back, F("Back"));
+              Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
             else
               Draw_Menu(Motion, MOTION_SPEED);
             break;
           case SPEED_X:
             if (draw) {
-              Draw_Menu_Item(row, ICON_MaxSpeedX, F("X Axis"));
+              Draw_Menu_Item(row, ICON_MaxSpeedX, GET_TEXT_F(MSG_MAXSPEED_X));
               Draw_Float(planner.settings.max_feedrate_mm_s[X_AXIS], row, false, 1);
             }
             else
@@ -3222,7 +3236,7 @@
           #if HAS_Y_AXIS
             case SPEED_Y:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MaxSpeedY, F("Y Axis"));
+                Draw_Menu_Item(row, ICON_MaxSpeedY, GET_TEXT_F(MSG_MAXSPEED_Y));
                 Draw_Float(planner.settings.max_feedrate_mm_s[Y_AXIS], row, false, 1);
               }
               else
@@ -3233,7 +3247,7 @@
           #if HAS_Z_AXIS
             case SPEED_Z:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MaxSpeedZ, F("Z Axis"));
+                Draw_Menu_Item(row, ICON_MaxSpeedZ, GET_TEXT_F(MSG_MAXSPEED_Z));
                 Draw_Float(planner.settings.max_feedrate_mm_s[Z_AXIS], row, false, 1);
               }
               else
@@ -3244,7 +3258,7 @@
           #if HAS_HOTEND
             case SPEED_E:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MaxSpeedE, F("Extruder"));
+                Draw_Menu_Item(row, ICON_MaxSpeedE, GET_TEXT_F(MSG_MAXSPEED_E));
                 Draw_Float(planner.settings.max_feedrate_mm_s[E_AXIS], row, false, 1);
               }
               else
@@ -3266,13 +3280,13 @@
         switch (item) {
           case ACCEL_BACK:
             if (draw)
-              Draw_Menu_Item(row, ICON_Back, F("Back"));
+              Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
             else
               Draw_Menu(Motion, MOTION_ACCEL);
             break;
           case ACCEL_X:
             if (draw) {
-              Draw_Menu_Item(row, ICON_MaxAccX, F("X Axis"));
+              Draw_Menu_Item(row, ICON_MaxAccX, GET_TEXT_F(MSG_AMAX_A));
               Draw_Float(planner.settings.max_acceleration_mm_per_s2[X_AXIS], row, false, 1);
             }
             else
@@ -3280,7 +3294,7 @@
             break;
           case ACCEL_Y:
             if (draw) {
-              Draw_Menu_Item(row, ICON_MaxAccY, F("Y Axis"));
+              Draw_Menu_Item(row, ICON_MaxAccY, GET_TEXT_F(MSG_AMAX_B));
               Draw_Float(planner.settings.max_acceleration_mm_per_s2[Y_AXIS], row, false, 1);
             }
             else
@@ -3288,7 +3302,7 @@
             break;
           case ACCEL_Z:
             if (draw) {
-              Draw_Menu_Item(row, ICON_MaxAccZ, F("Z Axis"));
+              Draw_Menu_Item(row, ICON_MaxAccZ, GET_TEXT_F(MSG_AMAX_C));
               Draw_Float(planner.settings.max_acceleration_mm_per_s2[Z_AXIS], row, false, 1);
             }
             else
@@ -3297,7 +3311,7 @@
           #if HAS_HOTEND
             case ACCEL_E:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MaxAccE, F("Extruder"));
+                Draw_Menu_Item(row, ICON_MaxAccE, GET_TEXT_F(MSG_AMAX_E));
                 Draw_Float(planner.settings.max_acceleration_mm_per_s2[E_AXIS], row, false, 1);
               }
               else
@@ -3319,13 +3333,13 @@
           switch (item) {
             case JERK_BACK:
               if (draw)
-                Draw_Menu_Item(row, ICON_Back, F("Back"));
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
               else
                 Draw_Menu(Motion, MOTION_JERK);
               break;
             case JERK_X:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MaxSpeedJerkX, F("X Axis"));
+                Draw_Menu_Item(row, ICON_MaxSpeedJerkX, GET_TEXT_F(MSG_VA_JERK));
                 Draw_Float(planner.max_jerk[X_AXIS], row, false, 10);
               }
               else
@@ -3333,7 +3347,7 @@
               break;
             case JERK_Y:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MaxSpeedJerkY, F("Y Axis"));
+                Draw_Menu_Item(row, ICON_MaxSpeedJerkY, GET_TEXT_F(MSG_VB_JERK));
                 Draw_Float(planner.max_jerk[Y_AXIS], row, false, 10);
               }
               else
@@ -3341,7 +3355,7 @@
               break;
             case JERK_Z:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MaxSpeedJerkZ, F("Z Axis"));
+                Draw_Menu_Item(row, ICON_MaxSpeedJerkZ, GET_TEXT_F(MSG_VC_JERK));
                 Draw_Float(planner.max_jerk[Z_AXIS], row, false, 10);
               }
               else
@@ -3350,7 +3364,7 @@
             #if HAS_HOTEND
               case JERK_E:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_MaxSpeedJerkE, F("Extruder"));
+                  Draw_Menu_Item(row, ICON_MaxSpeedJerkE, GET_TEXT_F(MSG_VE_JERK));
                   Draw_Float(planner.max_jerk[E_AXIS], row, false, 10);
                 }
                 else
@@ -3372,13 +3386,13 @@
         switch (item) {
           case STEPS_BACK:
             if (draw)
-              Draw_Menu_Item(row, ICON_Back, F("Back"));
+              Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
             else
               Draw_Menu(Motion, MOTION_STEPS);
             break;
           case STEPS_X:
             if (draw) {
-              Draw_Menu_Item(row, ICON_StepX, F("X Axis"));
+              Draw_Menu_Item(row, ICON_StepX, GET_TEXT_F(MSG_A_STEPS));
               Draw_Float(planner.settings.axis_steps_per_mm[X_AXIS], row, false, 100);
             }
             else
@@ -3386,7 +3400,7 @@
             break;
           case STEPS_Y:
             if (draw) {
-              Draw_Menu_Item(row, ICON_StepY, F("Y Axis"));
+              Draw_Menu_Item(row, ICON_StepY, GET_TEXT_F(MSG_B_STEPS));
               Draw_Float(planner.settings.axis_steps_per_mm[Y_AXIS], row, false, 100);
             }
             else
@@ -3394,7 +3408,7 @@
             break;
           case STEPS_Z:
             if (draw) {
-              Draw_Menu_Item(row, ICON_StepZ, F("Z Axis"));
+              Draw_Menu_Item(row, ICON_StepZ, GET_TEXT_F(MSG_C_STEPS));
               Draw_Float(planner.settings.axis_steps_per_mm[Z_AXIS], row, false, 100);
             }
             else
@@ -3403,7 +3417,7 @@
           #if HAS_HOTEND
             case STEPS_E:
               if (draw) {
-                Draw_Menu_Item(row, ICON_StepE, F("Extruder"));
+                Draw_Menu_Item(row, ICON_StepE, GET_TEXT_F(MSG_E_STEPS));
                 Draw_Float(planner.settings.axis_steps_per_mm[E_AXIS], row, false, 100);
               }
               else
@@ -3427,19 +3441,19 @@
         switch (item) {
           case VISUAL_BACK:
             if (draw)
-              Draw_Menu_Item(row, ICON_Back, F("Back"));
+              Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
             else
               Draw_Menu(Control, CONTROL_VISUAL);
             break;
           case VISUAL_BACKLIGHT:
             if (draw)
-              Draw_Menu_Item(row, ICON_Brightness, F("Display Off"));
+              Draw_Menu_Item(row, ICON_Brightness, GET_TEXT_F(MSG_BRIGHTNESS_OFF));
             else
               ui.set_brightness(0);
             break;
           case VISUAL_BRIGHTNESS:
             if (draw) {
-              Draw_Menu_Item(row, ICON_Brightness, F("LCD Brightness"));
+              Draw_Menu_Item(row, ICON_Brightness, GET_TEXT_F(MSG_BRIGHTNESS));
               Draw_Float(ui.brightness, row, false, 1);
             }
             else
@@ -3448,7 +3462,7 @@
           #if HAS_FAN
             case VISUAL_FAN_PERCENT:
               if (draw) {
-                Draw_Menu_Item(row, ICON_FanSpeed, F("Fan speed as %"));
+                Draw_Menu_Item(row, ICON_FanSpeed, GET_TEXT_F(MSG_FAN_SPEED_PERCENT));
                 Draw_Checkbox(row, HMI_datas.fan_percent);
               }
               else {
@@ -3460,7 +3474,7 @@
           #endif
           case VISUAL_TIME_FORMAT:
             if (draw) {
-              Draw_Menu_Item(row, ICON_PrintTime, F("Progress as __h__m"));
+              Draw_Menu_Item(row, ICON_PrintTime, GET_TEXT_F(MSG_PROGRESS_IN_HHMM));
               Draw_Checkbox(row, HMI_datas.time_format_textual);
             }
             else {
@@ -3470,7 +3484,7 @@
             break;
           case VISUAL_COLOR_THEMES:
             if (draw)
-              Draw_Menu_Item(row, ICON_MaxSpeed, F("UI Color Settings"), nullptr, true);
+              Draw_Menu_Item(row, ICON_MaxSpeed, GET_TEXT_F(MSG_COLORS_SELECT), nullptr, true);
             else
               Draw_Menu(ColorSettings);
           break;
@@ -3478,7 +3492,7 @@
             case VISUAL_FILE_TUMBNAILS:
               if (draw) {
                 sd_item_flag = false;
-                Draw_Menu_Item(row, ICON_File, F("Show file thumbnails"));
+                Draw_Menu_Item(row, ICON_File, GET_TEXT_F(MSG_GCODE_THUMBNAILS));
                 Draw_Checkbox(row, HMI_datas.show_gcode_thumbnails);
               }
               else {
@@ -3528,7 +3542,7 @@
         switch (item) {
           case COLORSETTINGS_BACK:
             if (draw)
-              Draw_Menu_Item(row, ICON_Back, F("Back"));
+              Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
             else
               Draw_Menu(Visual, VISUAL_COLOR_THEMES);
             break;
@@ -3765,7 +3779,7 @@
               break;
             case COLORSETTINGS_PROGRESS_STATUS_PERCENT:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MaxSpeed, F("Status Area T - %"));
+                Draw_Menu_Item(row, ICON_MaxSpeed, F("Status Area %"));
                 Draw_Option(HMI_datas.status_area_percent, color_names, row, false, true);
               }
               else {
@@ -3800,7 +3814,7 @@
         switch (item) {
           case HOSTSETTINGS_BACK:
             if (draw) {
-              Draw_Menu_Item(row, ICON_Back, F("Back"));
+              Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
             }
             else {
               Draw_Menu(Control, CONTROL_HOSTSETTINGS);
@@ -3810,7 +3824,7 @@
             case HOSTSETTINGS_ACTIONCOMMANDS:
               if (draw) {
                 sd_item_flag = false;
-                Draw_Menu_Item(row, ICON_File, F("Action Commands"));
+                Draw_Menu_Item(row, ICON_File, GET_TEXT_F(MSG_HOST_ACTIONS));
               }
               else {
                 Draw_Menu(ActionCommands);
@@ -3832,7 +3846,7 @@
         switch (item) {
           case ACTIONCOMMANDS_BACK:
             if (draw) {
-              Draw_Menu_Item(row, ICON_Back, F("Back"));
+              Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
             }
             else {
               Draw_Menu(HostSettings, HOSTSETTINGS_ACTIONCOMMANDS);
@@ -3889,7 +3903,7 @@
         switch (item) {
           case ADVANCED_BACK:
             if (draw)
-              Draw_Menu_Item(row, ICON_Back, F("Back"));
+              Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
             else
               Draw_Menu(Control, CONTROL_ADVANCED);
             break;
@@ -3897,7 +3911,7 @@
           #if ENABLED(SOUND_MENU_ITEM)
             case ADVANCED_BEEPER:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Version, F("LCD Beeper"));
+                Draw_Menu_Item(row, ICON_Version, GET_TEXT_F(MSG_SOUND_ENABLE));
                 Draw_Checkbox(row, ui.buzzer_enabled);
               }
               else {
@@ -3910,7 +3924,7 @@
           #if HAS_BED_PROBE
             case ADVANCED_PROBE:
               if (draw)
-                Draw_Menu_Item(row, ICON_StepX, F("Probe Menu"), nullptr, true);
+                Draw_Menu_Item(row, ICON_StepX, GET_TEXT_F(MSG_ZPROBE_SETTINGS), nullptr, true);
               else
                 Draw_Menu(ProbeMenu);
               break;
@@ -3918,7 +3932,7 @@
 
           case ADVANCED_CORNER:
             if (draw) {
-              Draw_Menu_Item(row, ICON_MaxAccelerated, F("Bed Screw Inset"));
+              Draw_Menu_Item(row, ICON_MaxAccelerated, GET_TEXT_F(MSG_BED_SCREW_INSET));
               Draw_Float(corner_pos, row, false, 10);
             }
             else
@@ -3928,7 +3942,7 @@
           #if ENABLED(LIN_ADVANCE)
             case ADVANCED_LA:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MaxAccelerated, F("Lin Advance Kp"));
+                Draw_Menu_Item(row, ICON_MaxAccelerated, GET_TEXT_F(MSG_ADVANCE_K_E));
                 Draw_Float(planner.extruder_advance_K[0], row, false, 100);
               }
               else
@@ -3938,14 +3952,14 @@
 
           case ADVANCED_FILMENU:
               if (draw)
-                Draw_Menu_Item(row, ICON_FilSet, F("Filament Settings"), nullptr, true);
+                Draw_Menu_Item(row, ICON_FilSet, GET_TEXT_F(MSG_FILAMENT_SET), nullptr, true);
               else
                 Draw_Menu(Filmenu);
               break;
           #if ENABLED(POWER_LOSS_RECOVERY)
             case ADVANCED_POWER_LOSS:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Motion, F("Power-loss Recovery"));
+                Draw_Menu_Item(row, ICON_Motion, GET_TEXT_F(MSG_OUTAGE_RECOVERY));
                 Draw_Checkbox(row, recovery.enabled);
               }
               else {
@@ -3956,8 +3970,10 @@
           #endif
           #if HAS_ES_DIAG
             case ADVANCED_ENDSDIAG:
-              if (draw) 
-                Draw_Menu_Item(row, ICON_ESDiag, F("End-stops diag."));
+              if (draw) {
+                sprintf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_LCD_ENDSTOPS), GET_TEXT(MSG_DEBUG_MENU));
+                Draw_Menu_Item(row, ICON_ESDiag, F(cmd));
+              }
               else 
                 EndSDiag.Draw_ends_diag();
               break;
@@ -3965,7 +3981,8 @@
           #if ENABLED(BAUD_RATE_GCODE)
             case ADVANCED_BAUDRATE_MODE:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Setspeed, F("115K Baud Rate"));
+                sprintf_P(cmd, PSTR("115K %s rate"), GET_TEXT(MSG_INFO_BAUDRATE));
+                Draw_Menu_Item(row, ICON_Setspeed, F(cmd));
                 Draw_Checkbox(row, HMI_datas.baudratemode);
                 }
                 else {
@@ -3973,7 +3990,7 @@
                   sprintf_P(cmd, PSTR("M575 P%i B%i"), BAUD_PORT, HMI_datas.baudratemode ? 115 : 250);
                   gcode.process_subcommands_now(cmd);
                   Draw_Checkbox(row, HMI_datas.baudratemode);
-                  sprintf_P(cmd, PSTR("Baud Rate now at %i baud, please restart HOST"), HMI_datas.baudratemode ? 115200 : 250000);
+                  sprintf_P(cmd, GET_TEXT(MSG_INFO_BAUDRATE_CHANGED), HMI_datas.baudratemode ? 115200 : 250000);
                   Update_Status(cmd);
                   }
               break;
@@ -4010,13 +4027,13 @@
           switch (item) {
               case PROBE_BACK:
                 if (draw)
-                  Draw_Menu_Item(row, ICON_Back, F("Back"));
+                  Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
                 else
                   Draw_Menu(Advanced, ADVANCED_PROBE);
                 break;
               case PROBE_XOFFSET:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_StepX, F("Probe X Offset"));
+                  Draw_Menu_Item(row, ICON_StepX, GET_TEXT_F(MSG_ZPROBE_XOFFSET));
                   Draw_Float(probe.offset.x, row, false, 10);
                 }
                 else
@@ -4024,7 +4041,7 @@
                 break;
               case PROBE_YOFFSET:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_StepY, F("Probe Y Offset"));
+                  Draw_Menu_Item(row, ICON_StepY, GET_TEXT_F(MSG_ZPROBE_YOFFSET));
                   Draw_Float(probe.offset.y, row, false, 10);
                 }
                 else
@@ -4032,7 +4049,7 @@
                 break;
               case PROBE_ZOFFSET:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_StepY, F("Probe Z Offset"));
+                  Draw_Menu_Item(row, ICON_StepY, GET_TEXT_F(MSG_ZPROBE_ZOFFSET));
                   Draw_Float(probe.offset.z, row, false, 100);
                 }
                 else
@@ -4041,7 +4058,7 @@
               #if EXTJYERSUI
                 case PROBE_PMARGIN:
                   if (draw) {
-                    Draw_Menu_Item(row, ICON_ProbeMargin, F("Probing Margin"));
+                    Draw_Menu_Item(row, ICON_ProbeMargin, GET_TEXT_F(MSG_ZPROBE_MARGIN));
                     Draw_Float(HMI_datas.probing_margin, row, false, 10);
                     }
                   else
@@ -4049,7 +4066,7 @@
                   break;
                 case PROBE_Z_FEEDR_FAST:
                   if (draw) {
-                    Draw_Menu_Item(row, ICON_ProbeZSpeed, F("P. Z Feed Rate F"));
+                    Draw_Menu_Item(row, ICON_ProbeZSpeed, GET_TEXT_F(MSG_ZPROBEF_FAST));
                     Draw_Float(HMI_datas.zprobefeedfast, row, false, 1);
                   }
                   else
@@ -4057,7 +4074,7 @@
                   break;
                 case PROBE_Z_FEEDR_SLOW:
                   if (draw) {
-                    Draw_Menu_Item(row, ICON_ProbeZSpeed, F("P. Z Feed Rate S"));
+                    Draw_Menu_Item(row, ICON_ProbeZSpeed, GET_TEXT_F(MSG_ZPROBEF_SLOW));
                     Draw_Float(HMI_datas.zprobefeedslow, row, false, 1);
                   }
                   else
@@ -4067,7 +4084,8 @@
               #if ENABLED(BLTOUCH)
                 case PROBE_HSMODE:
                   if (draw) {
-                    Draw_Menu_Item(row, ICON_StockConfiguration, F("BL-Touch HS Mode"));
+                    sprintf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_BLTOUCH), GET_TEXT(MSG_BLTOUCH_SPEED_MODE));
+                    Draw_Menu_Item(row, ICON_StockConfiguration, F(cmd));
                     Draw_Checkbox(row, bltouch.high_speed_mode);
                   }
                   else {
@@ -4077,7 +4095,7 @@
                   break;
                 case PROBE_ALARMR:
                   if (draw) {
-                  Draw_Menu_Item(row, ICON_StockConfiguration, F("Probe Alarm Release"));
+                  Draw_Menu_Item(row, ICON_StockConfiguration, GET_TEXT_F(MSG_BLTOUCH_RESET));
                   }
                   else {
                     gcode.process_subcommands_now(F("M280 P0 S160"));
@@ -4086,7 +4104,7 @@
                   break;
                 case PROBE_SELFTEST:
                   if (draw) {
-                    Draw_Menu_Item(row, ICON_StockConfiguration, F("Probe Self Test"));
+                    Draw_Menu_Item(row, ICON_StockConfiguration, GET_TEXT_F(MSG_BLTOUCH_SELFTEST));
                   }
                   else {
                     gcode.process_subcommands_now(F("M280 P0 S120\nG4 P1000\nM280 P0 S160"));
@@ -4096,7 +4114,7 @@
                   break;
                 case PROBE_MOVEP:
                   if (draw) {
-                    Draw_Menu_Item(row, ICON_StockConfiguration, F("Probe Pin UP/DOWN"));
+                    Draw_Menu_Item(row, ICON_StockConfiguration, GET_TEXT_F(MSG_BLTOUCH_DEPLOY));
                     Draw_Checkbox(row, probe_deployed);
                   }
                   else {
@@ -4109,7 +4127,7 @@
               #endif
               case PROBE_TEST:
                 if (draw)
-                  Draw_Menu_Item(row, ICON_StockConfiguration, F("M48 Probe Test"));
+                  Draw_Menu_Item(row, ICON_StockConfiguration, GET_TEXT_F(MSG_M48_TEST));
                 else {
                   sprintf_P(cmd, PSTR("G28O\nM48 X%s Y%s P%i"), dtostrf((X_BED_SIZE + X_MIN_POS) / 2.0f, 1, 3, str_1), dtostrf((Y_BED_SIZE + Y_MIN_POS) / 2.0f, 1, 3, str_2), testcount);
                   gcode.process_subcommands_now(cmd);
@@ -4117,7 +4135,7 @@
                 break;
               case PROBE_TEST_COUNT:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_StockConfiguration, F("Probe Test Count"));
+                  Draw_Menu_Item(row, ICON_StockConfiguration, GET_TEXT_F(MSG_M48_COUNT));
                   Draw_Float(testcount, row, false, 1);
                 }
                 else
@@ -4143,7 +4161,7 @@
         switch (item) {
           case FIL_BACK:
             if (draw)
-              Draw_Menu_Item(row, ICON_Back, F("Back"));
+              Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
             else
               Draw_Menu(Advanced, ADVANCED_FILMENU);
             break;
@@ -4151,7 +4169,7 @@
           #if ENABLED(FILAMENT_RUNOUT_SENSOR)
             case FIL_SENSORENABLED:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Extruder, F("Filament Sensor"));
+                Draw_Menu_Item(row, ICON_Extruder, GET_TEXT_F(MSG_RUNOUT_SENSOR));
                 if (runout.mode[0] == 0) runout.enabled[0] = false;
                 Draw_Checkbox(row, runout.enabled[0]);
               }
@@ -4164,7 +4182,7 @@
             #if EXTJYERSUI // A modifier...
               case FIL_RUNOUTACTIVE:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_FilSet, "Runout Active");
+                  Draw_Menu_Item(row, ICON_FilSet, GET_TEXT_F(MSG_RUNOUT_ENABLE));
                   Draw_Option(rsensormode, runoutsensor_modes, row);
                 }
                 else {
@@ -4178,7 +4196,7 @@
             //#if ENABLED(HAS_FILAMENT_RUNOUT_DISTANCE)
               case FIL_SENSORDISTANCE:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_MaxAccE, F("Runout Distance"));
+                  Draw_Menu_Item(row, ICON_MaxAccE, GET_TEXT_F(MSG_RUNOUT_DISTANCE_MM));
                   Draw_Float(runout.runout_distance(), row, false, 10);
                 }
                 else
@@ -4190,7 +4208,7 @@
           #if ENABLED(ADVANCED_PAUSE_FEATURE)
             case FIL_LOAD:
               if (draw) {
-                Draw_Menu_Item(row, ICON_WriteEEPROM, F("Load Length"));
+                Draw_Menu_Item(row, ICON_WriteEEPROM, GET_TEXT_F(MSG_FILAMENT_LOAD));
                 Draw_Float(fc_settings[0].load_length, row, false, 1);
               }
               else
@@ -4198,7 +4216,7 @@
               break;
             case FIL_UNLOAD:
               if (draw) {
-                Draw_Menu_Item(row, ICON_ReadEEPROM, F("Unload Length"));
+                Draw_Menu_Item(row, ICON_ReadEEPROM, GET_TEXT_F(MSG_FILAMENT_UNLOAD));
                 Draw_Float(fc_settings[0].unload_length, row, false, 1);
               }
               else
@@ -4207,7 +4225,7 @@
             #if EXTJYERSUI
               case FIL_UNLOAD_FEEDRATE:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_FilUnload, F("Fil Unload Speed"));
+                  Draw_Menu_Item(row, ICON_FilUnload, GET_TEXT_F(MSG_FILAMENT_UNLOAD_RATE));
                   Draw_Float(HMI_datas.fil_unload_feedrate, row, false, 1);
                 }
                 else
@@ -4215,7 +4233,7 @@
                 break;
               case FIL_FAST_LOAD_FEEDRATE:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_FilLoad, F("Fil load Speed"));
+                  Draw_Menu_Item(row, ICON_FilLoad, GET_TEXT_F(MSG_FILAMENT_LOAD_RATE));
                   Draw_Float(HMI_datas.fil_fast_load_feedrate, row, false, 1);
                 }
                 else
@@ -4227,7 +4245,7 @@
           #if ENABLED(PREVENT_COLD_EXTRUSION)
             case FIL_COLD_EXTRUDE:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Cool, F("Min. Extrusion T"));
+                Draw_Menu_Item(row, ICON_Cool, GET_TEXT_F(MSG_INFO_MIN_TEMP));
                 Draw_Float(thermalManager.extrude_min_temp, row, false, 1);
               }
               else {
@@ -4259,23 +4277,23 @@
         switch (item) {
           case INFO_BACK:
             if (draw) {
-              Draw_Menu_Item(row, ICON_Back, F("Back"));
+              Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
 
               #if ENABLED(PRINTCOUNTER)
                 char row1[50], row2[50], buf[32];
                 printStatistics ps = print_job_timer.getStats();
 
-                sprintf_P(row1, PSTR("%i prints, %i finished"), ps.totalPrints, ps.finishedPrints);
-                sprintf_P(row2, PSTR("%s m filament used"), dtostrf(ps.filamentUsed / 1000, 1, 2, str_1));
+                sprintf_P(row1, PSTR("%s: %i, %i %s"), GET_TEXT(MSG_INFO_PRINT_COUNT), ps.totalPrints, ps.finishedPrints, GET_TEXT(MSG_INFO_COMPLETED_PRINTS));
+                sprintf_P(row2, PSTR("%sm %s"), dtostrf(ps.filamentUsed / 1000, 1, 2, str_1), GET_TEXT(MSG_INFO_PRINT_FILAMENT));
                 Draw_Menu_Item(INFO_PRINTCOUNT, ICON_HotendTemp, row1, row2, false, true);
 
                 duration_t(print_job_timer.getStats().printTime).toString(buf);
-                sprintf_P(row1, PSTR("Printed: %s"), buf);
+                sprintf_P(row1, PSTR("%s: %s"), GET_TEXT(MSG_INFO_PRINT_TIME), buf);
                 duration_t(print_job_timer.getStats().longestPrint).toString(buf);
-                sprintf_P(row2, PSTR("Longest: %s"), buf);
+                sprintf_P(row2, PSTR("%s: %s"), GET_TEXT(MSG_INFO_PRINT_LONGEST), buf);
                 Draw_Menu_Item(INFO_PRINTTIME, ICON_PrintTime, row1, row2, false, true);
               #endif
-              sprintf_P(cmd, PSTR("%s - %s"), BUILD_NUMBER, STM_cpu);
+              sprintf_P(cmd, PSTR("%s (%s)"), BUILD_NUMBER, STM_cpu);
               Draw_Menu_Item(INFO_SIZE, ICON_PrintSize, F(MACHINE_SIZE), nullptr, false, true);
               Draw_Menu_Item(INFO_VERSION, ICON_Version, F(SHORT_BUILD_VERSION), F(cmd), false, true);
               Draw_Menu_Item(INFO_CONTACT, ICON_Contact, F(CORP_WEBSITE1), F(CORP_WEBSITE2), false, true);
@@ -4290,7 +4308,7 @@
           #if ENABLED(PRINTCOUNTER)
             case INFO_RESET_PRINTCOUNTER:
               if (draw) {
-                Draw_Menu_Item(row, ICON_HotendTemp, F("Reset Print Counter"));
+                Draw_Menu_Item(row, ICON_HotendTemp, GET_TEXT_F(MSG_INFO_PRINT_COUNT_RESET));
               }
               else {
                 print_job_timer.initStats();
@@ -4320,13 +4338,13 @@
           switch (item) {
             case LEVELING_BACK:
               if (draw)
-                Draw_Menu_Item(row, ICON_Back, F("Back"));
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
               else
                 Draw_Main_Menu(3);
               break;
             case LEVELING_ACTIVE:
               if (draw) {
-                Draw_Menu_Item(row, ICON_StockConfiguration, F("Leveling Active"));
+                Draw_Menu_Item(row, ICON_StockConfiguration, GET_TEXT_F(MSG_MESH_LEVELING));
                 Draw_Checkbox(row, planner.leveling_active);
               }
               else {
@@ -4346,7 +4364,7 @@
             #if BOTH(HAS_BED_PROBE, AUTO_BED_LEVELING_UBL)
               case LEVELING_GET_TILT:
                 if (draw)
-                  Draw_Menu_Item(row, ICON_Tilt, F("Autotilt Current Mesh"));
+                  Draw_Menu_Item(row, ICON_Tilt, GET_TEXT_F(MSG_UBL_MESH_LEVEL));
                 else {
                   if (ubl.storage_slot < 0) {
                     Popup_Handler(MeshSlot);
@@ -4354,7 +4372,7 @@
                   }
                   #if EITHER(PREHEAT_BEFORE_LEVELING, PREHEAT_BEFORE_LEVELING_PROBE_MANUALLY)
                     Popup_Handler(Heating);
-                    Update_Status("Heating...");
+                    Update_Status(GET_TEXT(MSG_HEATING));
                     #if HAS_HOTEND
                       if (thermalManager.degTargetHotend(0) < LEVELING_NOZZLE_TEMP)
                         thermalManager.setTargetHotend(LEVELING_NOZZLE_TEMP, 0);
@@ -4383,7 +4401,7 @@
             #endif
             case LEVELING_GET_MESH:
               if (draw)
-                Draw_Menu_Item(row, ICON_Mesh, F("Create New Mesh"));
+                Draw_Menu_Item(row, ICON_Mesh, GET_TEXT_F(MSG_UBL_BUILD_MESH_MENU));
               else {
                 #if ENABLED(AUTO_BED_LEVELING_UBL)
                     if (ubl.storage_slot <0) {
@@ -4393,7 +4411,7 @@
                 #endif             
                 #if EITHER(PREHEAT_BEFORE_LEVELING, PREHEAT_BEFORE_LEVELING_PROBE_MANUALLY)
                   Popup_Handler(Heating);
-                  Update_Status("Heating...");
+                  Update_Status(GET_TEXT(MSG_HEATING));
                   #if HAS_HOTEND
                     if (thermalManager.degTargetHotend(0) < LEVELING_NOZZLE_TEMP)
                       thermalManager.setTargetHotend(LEVELING_NOZZLE_TEMP, 0);
@@ -4416,7 +4434,7 @@
                     gcode.process_subcommands_now(F("G29 P1"));
                     gcode.process_subcommands_now(F("G29 P3\nG29 P3\nG29 P3\nG29 P3\nG29 P3\nG29 P3\nG29 P3\nG29 P3\nG29 P3\nG29 P3\nG29 P3\nG29 P3\nG29 P3\nG29 P3\nG29 P3\nM420 S1"));
                     planner.synchronize();
-                    Update_Status("Probed all reachable points");
+                    Update_Status(GET_TEXT(MSG_MESH_DONE));
                     //Popup_Handler(SaveLevel);
                     #if EXTJYERSUI
                       if (!HMI_flags.cancel_ubl) Viewmesh();
@@ -4458,7 +4476,7 @@
               break;
             case LEVELING_MANUAL:
               if (draw)
-                Draw_Menu_Item(row, ICON_Mesh, F("Manual Tuning"), nullptr, true);
+                Draw_Menu_Item(row, ICON_Mesh, GET_TEXT_F(MSG_UBL_MESH_EDIT), nullptr, true);
               else {
                 #if ENABLED(AUTO_BED_LEVELING_BILINEAR)
                   if (!leveling_is_valid()) {
@@ -4474,7 +4492,7 @@
                 #endif
                 #if EITHER(PREHEAT_BEFORE_LEVELING, PREHEAT_BEFORE_LEVELING_PROBE_MANUALLY)
                   Popup_Handler(Heating);
-                  Update_Status("Heating...");
+                  Update_Status(GET_TEXT(MSG_HEATING));
                   #if HAS_HOTEND
                     if (thermalManager.degTargetHotend(0) < LEVELING_NOZZLE_TEMP)
                       thermalManager.setTargetHotend(LEVELING_NOZZLE_TEMP, 0);
@@ -4515,14 +4533,14 @@
               break;
             case LEVELING_SETTINGS:
               if (draw)
-                Draw_Menu_Item(row, ICON_Step, F("Leveling Settings"), nullptr, true);
+                Draw_Menu_Item(row, ICON_Step, GET_TEXT_F(MSG_ADVANCED_SETTINGS), nullptr, true);
               else
                 Draw_Menu(LevelSettings);
               break;
             #if ENABLED(AUTO_BED_LEVELING_UBL)
             case LEVELING_SLOT:
               if (draw) {
-                Draw_Menu_Item(row, ICON_PrintSize, F("Mesh Slot"));
+                Draw_Menu_Item(row, ICON_PrintSize, GET_TEXT_F(MSG_UBL_STORAGE_SLOT));
                 Draw_Float(ubl.storage_slot, row, false, 1);
               }
               else
@@ -4530,7 +4548,7 @@
               break;
             case LEVELING_LOAD:
               if (draw)
-                Draw_Menu_Item(row, ICON_ReadEEPROM, F("Load Mesh"));
+                Draw_Menu_Item(row, ICON_ReadEEPROM, GET_TEXT_F(MSG_UBL_LOAD_MESH));
               else {
                 if (ubl.storage_slot < 0) {
                   Popup_Handler(MeshSlot);
@@ -4543,7 +4561,7 @@
               break;
             case LEVELING_SAVE:
               if (draw)
-                Draw_Menu_Item(row, ICON_WriteEEPROM, F("Save Mesh"));
+                Draw_Menu_Item(row, ICON_WriteEEPROM, GET_TEXT_F(MSG_UBL_SAVE_MESH));
               else {
                 if (ubl.storage_slot < 0) {
                   Popup_Handler(MeshSlot, true);
@@ -4569,7 +4587,7 @@
           switch (item) {
             case LEVELING_VIEW_BACK:
               if (draw)
-                Draw_Menu_Item(row, ICON_Back, F("Back"));
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
               else
                 Draw_Menu(Leveling, LEVELING_VIEW);
               break;
@@ -4581,7 +4599,7 @@
               break;
             case LEVELING_VIEW_TEXT:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Contact, F("Viewer Show Values"));
+                Draw_Menu_Item(row, ICON_Contact, GET_TEXT_F(MSG_MESH_VIEW_TEXT));
                 Draw_Checkbox(row, mesh_conf.viewer_print_value);
               }
               else {
@@ -4591,7 +4609,7 @@
               break;
             case LEVELING_VIEW_ASYMMETRIC:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Axis, F("Viewer Asymmetric"));
+                Draw_Menu_Item(row, ICON_Axis, GET_TEXT_F(MSG_MESH_VIEW_ASYMMETRIC));
                 Draw_Checkbox(row, mesh_conf.viewer_asymmetric_range);
               }
               else {
@@ -4615,13 +4633,13 @@
           switch (item) {
             case LEVELING_SETTINGS_BACK:
               if (draw)
-                Draw_Menu_Item(row, ICON_Back, F("Back"));
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
               else
                 Draw_Menu(Leveling, LEVELING_SETTINGS);
               break;
             case LEVELING_SETTINGS_FADE:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_Fade, F("Fade Mesh within"));
+                  Draw_Menu_Item(row, ICON_Fade, GET_TEXT_F(MSG_Z_FADE_HEIGHT));
                   Draw_Float(planner.z_fade_height, row, false, 1);
                 }
                 else {
@@ -4634,7 +4652,7 @@
             #if ENABLED(AUTO_BED_LEVELING_UBL)
               case LEVELING_SETTINGS_TILT:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_Tilt, F("Tilting Grid Size"));
+                  Draw_Menu_Item(row, ICON_Tilt, GET_TEXT_F(MSG_LCD_TILTING_GRID_SIZE));
                   Draw_Float(mesh_conf.tilt_grid, row, false, 1);
                 }
                 else
@@ -4642,7 +4660,7 @@
                 break;
               case LEVELING_SETTINGS_PLANE:
                 if (draw)
-                  Draw_Menu_Item(row, ICON_ResumeEEPROM, F("Convert Mesh to Plane"));
+                  Draw_Menu_Item(row, ICON_ResumeEEPROM, GET_TEXT_F(MSG_MESH_TO_PLANE));
                 else {
                   if (mesh_conf.create_plane_from_mesh()) {
                     Confirm_Handler(NocreatePlane);
@@ -4655,13 +4673,13 @@
                 break;
               case LEVELING_SETTINGS_ZERO:
                 if (draw)
-                  Draw_Menu_Item(row, ICON_Mesh, F("Zero Current Mesh"));
+                  Draw_Menu_Item(row, ICON_Mesh, GET_TEXT_F(MSG_MESH_ZERO));
                 else
                   ZERO(Z_VALUES_ARR);
                 break;
               case LEVELING_SETTINGS_UNDEF:
                 if (draw)
-                  Draw_Menu_Item(row, ICON_Mesh, F("Clear Current Mesh"));
+                  Draw_Menu_Item(row, ICON_Mesh, GET_TEXT_F(MSG_MESH_CLEAR));
                 else
                   ubl.invalidate();
                 break;
@@ -4675,7 +4693,7 @@
 
           if (item == MESHVIEW_BACK) {
             if (draw) {
-              Draw_Menu_Item(0, ICON_Back, F("Back"));
+              Draw_Menu_Item(0, ICON_Back, GET_TEXT_F(MSG_BACK));
               mesh_conf.Draw_Bed_Mesh();
               mesh_conf.Set_Mesh_Viewer_Status();
             }
@@ -4704,7 +4722,7 @@
           switch (item) {
             case LEVELING_M_BACK:
               if (draw)
-                Draw_Menu_Item(row, ICON_Back, F("Back"));
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
               else {
                 liveadjust = false;
                 flag_leveling_m = true;
@@ -4716,7 +4734,7 @@
               break;
             case LEVELING_M_MODELIVE:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Axis, F("Live Adjustement"));
+                Draw_Menu_Item(row, ICON_Axis, GET_TEXT_F(MSG_LIVE_ADJUSTMENT));
                 Draw_Checkbox(row, liveadjust);
               }
               else {
@@ -4726,7 +4744,7 @@
               break;
             case LEVELING_M_X:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MoveX, F("Mesh Point X"));
+                Draw_Menu_Item(row, ICON_MoveX, GET_TEXT_F(MSG_MESH_X));
                 Draw_Float(mesh_conf.mesh_x, row, 0, 1);
               }
               else
@@ -4734,7 +4752,7 @@
               break;
             case LEVELING_M_Y:
               if (draw) {
-                Draw_Menu_Item(row, ICON_MoveY, F("Mesh Point Y"));
+                Draw_Menu_Item(row, ICON_MoveY, GET_TEXT_F(MSG_MESH_Y));
                 Draw_Float(mesh_conf.mesh_y, row, 0, 1);
               }
               else
@@ -4743,9 +4761,9 @@
             case LEVELING_M_NEXT:
               if (draw) {
                 if (mesh_conf.mesh_x != (GRID_MAX_POINTS_X-1) || mesh_conf.mesh_y != (GRID_MAX_POINTS_Y-1))
-                  Draw_Menu_Item(row, ICON_More, F("Next Point"));
+                  Draw_Menu_Item(row, ICON_More, GET_TEXT_F(MSG_LEVEL_BED_NEXT_POINT));
                 else
-                  Draw_Menu_Item(row, ICON_More, F("Save Mesh"));
+                  Draw_Menu_Item(row, ICON_More, GET_TEXT_F(MSG_UBL_SAVE_MESH));
               }
               else {
                 if (mesh_conf.mesh_x != (GRID_MAX_POINTS_X - 1) || mesh_conf.mesh_y != (GRID_MAX_POINTS_Y - 1)) {
@@ -4778,7 +4796,7 @@
                 break;
             case LEVELING_M_PREV:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_More, F("Previous Point"));
+                  Draw_Menu_Item(row, ICON_More, GET_TEXT_F(MSG_LEVEL_BED_PREV_POINT));
                 }
                 else {
                   if (mesh_conf.mesh_x != 0 || mesh_conf.mesh_y != 0) {
@@ -4797,7 +4815,7 @@
                 break;
             case LEVELING_M_OFFSET:
               if (draw) {
-                Draw_Menu_Item(row, ICON_SetZOffset, F("Point Z Offset"));
+                Draw_Menu_Item(row, ICON_SetZOffset, GET_TEXT_F(MSG_OFFSET_Z));
                 Draw_Float(Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y], row, false, 100);
               }
               else {
@@ -4807,8 +4825,10 @@
               }
               break;
             case LEVELING_M_UP:
-              if (draw)
-                Draw_Menu_Item(row, ICON_Axis, F("Micro-step Up"));
+              if (draw){
+                sprintf_P(cmd, PSTR("%s Up"), GET_TEXT(MSG_BABYSTEP_Z));
+                Draw_Menu_Item(row, ICON_Axis, F(cmd));
+                }
               else if (Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] < MAX_Z_OFFSET) {
                 Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] += 0.01;
                 gcode.process_subcommands_now(F("M290 Z0.01"));
@@ -4819,8 +4839,10 @@
               }
               break;
             case LEVELING_M_DOWN:
-              if (draw)
-                Draw_Menu_Item(row, ICON_AxisD, F("Micro-step Down"));
+              if (draw){
+                sprintf_P(cmd, PSTR("%s Down"), GET_TEXT(MSG_BABYSTEP_Z));
+                Draw_Menu_Item(row, ICON_AxisD, F(cmd));
+                }
               else if (Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] > MIN_Z_OFFSET) {
                 Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] -= 0.01;
                 gcode.process_subcommands_now(F("M290 Z-0.01"));
@@ -4832,7 +4854,7 @@
               break;
             case LEVELING_M_GOTO_VALUE:
               if (draw) {
-                Draw_Menu_Item(row, ICON_StockConfiguration, F("Go to Mesh Z Value"));
+                Draw_Menu_Item(row, ICON_StockConfiguration, GET_TEXT_F(MSG_MESH_SNAP_Z));
                 Draw_Checkbox(row, mesh_conf.goto_mesh_value);
               }
               else {
@@ -4845,7 +4867,7 @@
             #if ENABLED(AUTO_BED_LEVELING_UBL)
             case LEVELING_M_UNDEF:
               if (draw)
-                Draw_Menu_Item(row, ICON_ResumeEEPROM, F("Clear Point Value"));
+                Draw_Menu_Item(row, ICON_ResumeEEPROM, GET_TEXT_F(MSG_LEVEL_BED_CLEAR_POINT));
               else {
                 mesh_conf.manual_value_update(true);
                 Redraw_Menu(false);
@@ -4871,7 +4893,7 @@
           switch (item) {
             case UBL_M_BACK:
               if (draw)
-                Draw_Menu_Item(row, ICON_Back, F("Back"));
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
               else {
                 liveadjust = false;
                 gcode.process_subcommands_now(F("M211 S1"));
@@ -4881,7 +4903,7 @@
               break;
             case UBL_M_MODELIVE:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Axis, F("Live Adjustement"));
+                Draw_Menu_Item(row, ICON_Axis, GET_TEXT_F(MSG_LIVE_ADJUSTMENT));
                 Draw_Checkbox(row, liveadjust);
               }
               else {
@@ -4892,9 +4914,9 @@
             case UBL_M_NEXT:
               if (draw) {
                 if (mesh_conf.mesh_x != (GRID_MAX_POINTS_X - 1) || mesh_conf.mesh_y != (GRID_MAX_POINTS_Y - 1))
-                  Draw_Menu_Item(row, ICON_More, F("Next Point"));
+                  Draw_Menu_Item(row, ICON_More, GET_TEXT_F(MSG_LEVEL_BED_NEXT_POINT));
                 else
-                  Draw_Menu_Item(row, ICON_More, F("Save Mesh"));
+                  Draw_Menu_Item(row, ICON_More, GET_TEXT_F(MSG_UBL_SAVE_MESH));
               }
               else {
                 if (mesh_conf.mesh_x != (GRID_MAX_POINTS_X - 1) || mesh_conf.mesh_y != (GRID_MAX_POINTS_Y - 1)) {
@@ -4919,7 +4941,7 @@
               break;
             case UBL_M_PREV:
               if (draw)
-                Draw_Menu_Item(row, ICON_More, F("Previous Point"));
+                Draw_Menu_Item(row, ICON_More, GET_TEXT_F(MSG_LEVEL_BED_PREV_POINT));
               else {
                 if (mesh_conf.mesh_x != 0 || mesh_conf.mesh_y != 0) {
                   if ((mesh_conf.mesh_x == (GRID_MAX_POINTS_X - 1) && mesh_conf.mesh_y % 2 == 1) || (mesh_conf.mesh_x == 0 && mesh_conf.mesh_y % 2 == 0))
@@ -4934,7 +4956,7 @@
               break;
             case UBL_M_OFFSET:
               if (draw) {
-                Draw_Menu_Item(row, ICON_SetZOffset, F("Point Z Offset"));
+                Draw_Menu_Item(row, ICON_SetZOffset, GET_TEXT_F(MSG_OFFSET_Z));
                 Draw_Float(Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y], row, false, 100);
               }
               else {
@@ -4945,7 +4967,8 @@
               break;
             case UBL_M_UP:
               if (draw)
-                Draw_Menu_Item(row, ICON_Axis, F("Micro-step Up"));
+                sprintf_P(cmd, PSTR("%s Up"), GET_TEXT(MSG_BABYSTEP_Z));
+                Draw_Menu_Item(row, ICON_Axis, F(cmd));
               else if (Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] < MAX_Z_OFFSET) {
                 Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] += 0.01;
                 gcode.process_subcommands_now(F("M290 Z0.01"));
@@ -4957,7 +4980,8 @@
               break;
             case UBL_M_DOWN:
               if (draw)
-                Draw_Menu_Item(row, ICON_Axis, F("Micro-step Down"));
+                sprintf_P(cmd, PSTR("%s Down"), GET_TEXT(MSG_BABYSTEP_Z));
+                Draw_Menu_Item(row, ICON_Axis, F(cmd));
               else if (Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] > MIN_Z_OFFSET) {
                 Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] -= 0.01;
                 gcode.process_subcommands_now(F("M290 Z-0.01"));
@@ -4986,7 +5010,7 @@
           switch (item) {
             case MMESH_BACK:
               if (draw)
-                Draw_Menu_Item(row, ICON_Back, F("Cancel"));
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BUTTON_CANCEL));
               else {
                 liveadjust = false;
                 gcode.process_subcommands_now(F("M211 S1\nG29 A"));
@@ -4997,7 +5021,7 @@
               break;
             case MMESH_MODELIVE:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Axis, F("Live Adjustement"));
+                Draw_Menu_Item(row, ICON_Axis, GET_TEXT_F(MSG_LIVE_ADJUSTMENT));
                 Draw_Checkbox(row, liveadjust);
               }
               else {
@@ -5008,9 +5032,9 @@
             case MMESH_NEXT:
               if (draw) {
                 if (gridpoint < GRID_MAX_POINTS)
-                  Draw_Menu_Item(row, ICON_More, F("Next Point"));
+                  Draw_Menu_Item(row, ICON_More, GET_TEXT_F(MSG_LEVEL_BED_NEXT_POINT));
                 else
-                  Draw_Menu_Item(row, ICON_More, F("Save Mesh"));
+                  Draw_Menu_Item(row, ICON_More, GET_TEXT_F(MSG_UBL_SAVE_MESH));
               }
               else if (gridpoint < GRID_MAX_POINTS) {
                 Popup_Handler(MoveWait);
@@ -5031,7 +5055,7 @@
               break;
             case MMESH_OFFSET:
               if (draw) {
-                Draw_Menu_Item(row, ICON_SetZOffset, F("Z Position"));
+                Draw_Menu_Item(row, ICON_SetZOffset, GET_TEXT_F(MSG_OFFSET_Z));
                 #ifdef MANUAL_PROBE_START_Z
                   current_position.z = MANUAL_PROBE_START_Z;
                 #endif
@@ -5042,7 +5066,8 @@
               break;
             case MMESH_UP:
               if (draw)
-                Draw_Menu_Item(row, ICON_Axis, F("Micro-step Up"));
+                sprintf_P(cmd, PSTR("%s Up"), GET_TEXT(MSG_BABYSTEP_Z));
+                Draw_Menu_Item(row, ICON_Axis, F(cmd));
               else if (current_position.z < MAX_Z_OFFSET) {
                 gcode.process_subcommands_now(F("M290 Z0.01"));
                 planner.synchronize();
@@ -5053,7 +5078,8 @@
               break;
             case MMESH_DOWN:
               if (draw)
-                Draw_Menu_Item(row, ICON_AxisD, F("Micro-step Down"));
+                sprintf_P(cmd, PSTR("%s Down"), GET_TEXT(MSG_BABYSTEP_Z));
+                Draw_Menu_Item(row, ICON_AxisD, F(cmd));
               else if (current_position.z > MIN_Z_OFFSET) {
                 gcode.process_subcommands_now(F("M290 Z-0.01"));
                 planner.synchronize();
@@ -5074,7 +5100,7 @@
               const float currval = Z_VALUES_ARR[mesh_x][mesh_y];
 
               if (draw) {
-                Draw_Menu_Item(row, ICON_Zoffset, F("Go to Mesh Value"));
+                Draw_Menu_Item(row, ICON_Zoffset, GET_DATA_F(MSG_MESH_EDIT_Z));
                 Draw_Float(currval, row, false, 100);
               }
               else if (!isnan(currval)) {
@@ -5111,13 +5137,13 @@
         switch (item) {
           case TUNE_BACK:
             if (draw)
-              Draw_Menu_Item(row, ICON_Back, F("Back"));
+              Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
             else
               Draw_Print_Screen();
             break;
           case TUNE_SPEED:
             if (draw) {
-              Draw_Menu_Item(row, ICON_Speed, F("Print Speed"));
+              Draw_Menu_Item(row, ICON_Speed, GET_TEXT_F(MSG_SPEED));
               Draw_Float(feedrate_percentage, row, false, 1);
             }
             else
@@ -5126,14 +5152,14 @@
           
           case TUNE_BACKLIGHT_OFF:
             if (draw)
-              Draw_Menu_Item(row, ICON_Brightness, F("Display Off"));
+              Draw_Menu_Item(row, ICON_Brightness, GET_TEXT_F(MSG_BRIGHTNESS_OFF));
             else
               ui.set_brightness(0);
             break;
 
           case TUNE_BACKLIGHT:
             if (draw) {
-              Draw_Menu_Item(row, ICON_Brightness, F("LCD Brightness"));
+              Draw_Menu_Item(row, ICON_Brightness, GET_TEXT_F(MSG_BRIGHTNESS));
               Draw_Float(ui.brightness, row, false, 1);
             }
             else
@@ -5143,7 +5169,7 @@
           #if HAS_HOTEND
             case TUNE_FLOW:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Speed, F("Flow Rate"));
+                Draw_Menu_Item(row, ICON_Speed, GET_TEXT_F(MSG_FLOW));
                 Draw_Float(planner.flow_percentage[0], row, false, 1);
               }
               else
@@ -5151,7 +5177,7 @@
               break;
             case TUNE_HOTEND:
               if (draw) {
-                Draw_Menu_Item(row, ICON_SetEndTemp, F("Hotend"));
+                Draw_Menu_Item(row, ICON_SetEndTemp, GET_TEXT_F(MSG_HOTEND_TEMPERATURE));
                 Draw_Float(thermalManager.temp_hotend[0].target, row, false, 1);
               }
               else
@@ -5162,7 +5188,7 @@
           #if HAS_HEATED_BED
             case TUNE_BED:
               if (draw) {
-                Draw_Menu_Item(row, ICON_SetBedTemp, F("Bed"));
+                Draw_Menu_Item(row, ICON_SetBedTemp, GET_TEXT_F(MSG_BED_TEMPERATURE));
                 Draw_Float(thermalManager.temp_bed.target, row, false, 1);
               }
               else
@@ -5173,7 +5199,7 @@
           #if HAS_FAN
             case TUNE_FAN:
               if (draw) {
-                Draw_Menu_Item(row, ICON_FanSpeed, F("Fan"));
+                Draw_Menu_Item(row, ICON_FanSpeed, GET_TEXT_F(MSG_FAN_SPEED));
                 Draw_Float(thermalManager.fan_speed[0], row, false, 1);
               }
               else
@@ -5184,7 +5210,7 @@
           #if HAS_ZOFFSET_ITEM
             case TUNE_ZOFFSET:
               if (draw) {
-                Draw_Menu_Item(row, ICON_FanSpeed, F("Z-Offset"));
+                Draw_Menu_Item(row, ICON_SetZOffset, GET_TEXT_F(MSG_OFFSET_Z));
                 Draw_Float(zoffsetvalue, row, false, 100);
               }
               else {
@@ -5192,8 +5218,10 @@
               }
               break;
             case TUNE_ZUP:
-              if (draw)
-                Draw_Menu_Item(row, ICON_Axis, F("Z-Offset Up"));
+              if (draw) {
+                sprintf_P(cmd, PSTR("%s Up"), GET_TEXT(MSG_OFFSET_Z));
+                Draw_Menu_Item(row, ICON_Axis, F(cmd));
+              }
               else if (zoffsetvalue < MAX_Z_OFFSET) {
                 gcode.process_subcommands_now(F("M290 Z0.01"));
                 zoffsetvalue += 0.01;
@@ -5201,8 +5229,10 @@
               }
               break;
             case TUNE_ZDOWN:
-              if (draw)
-                Draw_Menu_Item(row, ICON_AxisD, F("Z-Offset Down"));
+              if (draw) {
+                sprintf_P(cmd, PSTR("%s Down"), GET_TEXT(MSG_OFFSET_Z));
+                Draw_Menu_Item(row, ICON_AxisD, F(cmd));
+              }
               else if (zoffsetvalue > MIN_Z_OFFSET) {
                 gcode.process_subcommands_now(F("M290 Z-0.01"));
                 zoffsetvalue -= 0.01;
@@ -5214,7 +5244,7 @@
           #if ENABLED(FWRETRACT)
             case TUNE_FWRETRACT:
               if (draw)
-                Draw_Menu_Item(row, ICON_StepE, F("Firmw. Retraction"), nullptr, true);
+                Draw_Menu_Item(row, ICON_StepE, GET_TEXT_F(MSG_AUTORETRACT), nullptr, true);
               else {
                 flag_tune = true;
                 Draw_Menu(FwRetraction);
@@ -5226,7 +5256,7 @@
           #if ENABLED(FILAMENT_LOAD_UNLOAD_GCODES)
             case TUNE_CHANGEFIL:
               if (draw)
-                Draw_Menu_Item(row, ICON_ResumeEEPROM, F("Change Filament"));
+                Draw_Menu_Item(row, ICON_ResumeEEPROM, GET_TEXT_F(MSG_FILAMENTCHANGE));
               else
                 Popup_Handler(ConfFilChange);
               break;
@@ -5235,7 +5265,7 @@
           #if ENABLED(FILAMENT_RUNOUT_SENSOR)
             case TUNE_FILSENSORENABLED:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Extruder, F("Filament Sensor"));
+                Draw_Menu_Item(row, ICON_Extruder, GET_TEXT_F(MSG_RUNOUT_SENSOR));
                 Draw_Checkbox(row, runout.enabled[0]);
               }
               else {
@@ -5253,80 +5283,7 @@
 
         }
         break;
-
-      /**
-       * #if ENABLED(FWRETRACT)
-       * 
-       * case Tune_FwRetraction:
-       * 
-       *  #define TUNE_FWR_BACK 0
-       *  #define TUNE_FWR_RET_LENGTH (FWR_BACK + 1)
-       *  #define TUNE_FWR_RET_SPEED (FWR_RET_LENGTH + 1)
-       *  #define TUNE_FWR_ZLIFT (FWR_RET_SPEED + 1)
-       *  #define TUNE_FWR_REC_EXT_LENGTH (FWR_ZLIFT + 1)
-       *  #define TUNE_FWR_REC_SPEED (FWR_REC_EXT_LENGTH + 1)
-       *  #define TUNE_FWR_RESET (FWR_REC_SPEED + 1)
-       *  #define TUNE_FWR_TOTAL TUNE_FWR_RESET
-       *
-       *  switch (item) {
-       *   
-       *   case TUNE_FWR_BACK:
-       *    if (draw)
-       *       Draw_Menu_Item(row, ICON_Back, F("Back"));
-       *     else 
-       *       Draw_Menu(Tune, TUNE_FWRETRACT);
-       *     break;
-       *   case TUNE_FWR_RET_LENGTH:
-       *     if (draw) {
-       *       Draw_Menu_Item(row, ICON_FWRetLength, F("Retract mm"));
-       *       Draw_Float(fwretract.settings.retract_length, row, false, 10);
-       *     }
-       *     else
-       *       Modify_Value(fwretract.settings.retract_length, 0, 10, 10);
-       *     break;
-       *   case TUNE_FWR_RET_SPEED:
-       *     if (draw) {
-       *       Draw_Menu_Item(row, ICON_FWRetSpeed, F("Retr. Speed mm/s"));
-       *       Draw_Float(fwretract.settings.retract_feedrate_mm_s, row, false, 10);
-       *     }
-       *     else
-       *       Modify_Value(fwretract.settings.retract_feedrate_mm_s, 1, 90, 10);
-       *     break;
-       *   case TUNE_FWR_ZLIFT:
-       *     if (draw) {
-       *       Draw_Menu_Item(row, ICON_FWRetZRaise, F("Hop mm"));
-       *       Draw_Float(fwretract.settings.retract_zraise, row, false, 100);
-       *     }
-       *     else
-       *       Modify_Value(fwretract.settings.retract_zraise, 0, 10, 100);
-       *     break;
-       *   case TUNE_FWR_REC_EXT_LENGTH:
-       *     if (draw) {
-       *       Draw_Menu_Item(row, ICON_FWRecExtLength, F("Extra Unretr. mm"));
-       *       Draw_Float(fwretract.settings.retract_recover_extra, row, false, 10);
-       *     }
-       *     else
-       *       Modify_Value(fwretract.settings.retract_recover_extra, -10, 10, 10);
-       *     break;
-       *   case TUNE_FWR_REC_SPEED:
-       *     if (draw) {
-       *       Draw_Menu_Item(row, ICON_FWRecSpeed, F("Rec. Speed mm/s"));
-       *       Draw_Float(fwretract.settings.retract_recover_feedrate_mm_s, row, false, 10);
-       *     }
-       *     else
-       *       Modify_Value(fwretract.settings.retract_recover_feedrate_mm_s, 1, 90, 10);
-       *     break;
-       *   case TUNE_FWR_RESET:
-       *     if (draw)
-       *       Draw_Menu_Item(row, ICON_StepE, F("Reset Values"));
-       *     else
-       *       fwretract.reset();
-       *     break;
-       *   }
-       * break;
-       * #endif
-       */
-
+        
       case PreheatHotend:
 
           #define PREHEATHOTEND_BACK 0
@@ -5342,7 +5299,7 @@
           switch (item) {
             case PREHEATHOTEND_BACK:
               if (draw)
-                Draw_Menu_Item(row, ICON_Back, F("Cancel"));
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BUTTON_CANCEL));
               else {
                 thermalManager.setTargetHotend(0, 0);
                 thermalManager.set_fan_speed(0, 0);
@@ -5351,10 +5308,10 @@
               break;
             case PREHEATHOTEND_CONTINUE:
               if (draw)
-                Draw_Menu_Item(row, ICON_SetEndTemp, F("Continue"));
+                Draw_Menu_Item(row, ICON_SetEndTemp, GET_TEXT_F(MSG_BUTTON_CONTINUE));
               else {
                 Popup_Handler(Heating);
-                Update_Status("Heating...");
+                Update_Status(GET_TEXT(MSG_HEATING));
                 thermalManager.wait_for_hotend(0);
                 switch (last_menu) {
                   case Prepare:
@@ -5367,21 +5324,21 @@
                       switch (last_selection) {
                         case CHANGEFIL_LOAD:
                           Popup_Handler(FilLoad);
-                          Update_Status("Load Filament...");
+                          Update_Status(GET_TEXT(MSG_FILAMENTLOAD));
                           gcode.process_subcommands_now(F("M701"));
                           planner.synchronize();
                           Redraw_Menu(true, true, true);
                           break;
                         case CHANGEFIL_UNLOAD:
                           Popup_Handler(FilLoad, true);
-                          Update_Status("Unload Filament...");
+                          Update_Status(GET_TEXT(MSG_FILAMENTUNLOAD));
                           gcode.process_subcommands_now(F("M702"));
                           planner.synchronize();
                           Redraw_Menu(true, true, true);
                           break;
                         case CHANGEFIL_CHANGE:
                           Popup_Handler(FilChange);
-                          Update_Status("Change Filament...");
+                          Update_Status(GET_TEXT(MSG_FILAMENTCHANGE));
                           sprintf_P(cmd, PSTR("M600 B1 R%i"), thermalManager.temp_hotend[0].target);
                           gcode.process_subcommands_now(cmd);
                           break;
@@ -5436,7 +5393,7 @@
             #endif
             case PREHEATHOTEND_CUSTOM:
               if (draw) {
-                Draw_Menu_Item(row, ICON_Temperature, F("Custom"));
+                Draw_Menu_Item(row, ICON_Temperature, GET_TEXT_F(MSG_PREHEAT_CUSTOM));
                 Draw_Float(thermalManager.temp_hotend[0].target, row, false, 1);
               }
               else
@@ -5449,92 +5406,118 @@
 
   FSTR_P CrealityDWINClass::Get_Menu_Title(uint8_t menu) {
     switch (menu) {
-      case MainMenu:          return F("Main Menu");
-      case Prepare:           return F("Prepare");
-      case HomeMenu:          return F("Homing Menu");
-      case Move:              return F("Move");
-      case ManualLevel:       return F("Bed Tramming");
+      case MainMenu:          return GET_TEXT_F(MSG_MAIN);
+      case Prepare:           return GET_TEXT_F(MSG_PREPARE);
+      case HomeMenu:          return GET_TEXT_F(MSG_HOMING);
+      case Move:              return GET_TEXT_F(MSG_MOVE_AXIS);
+      case ManualLevel:       return GET_TEXT_F(MSG_BED_TRAMMING_MANUAL);
       #if HAS_ZOFFSET_ITEM
-        case ZOffset:         return F("Z Offset");
+        case ZOffset:         return GET_TEXT_F(MSG_OFFSET_Z);
       #endif
       #if HAS_PREHEAT
-        case Preheat:         return F("Preheat");
+        case Preheat:         return GET_TEXT_F(MSG_PREHEAT);
       #endif
       #if ENABLED(FILAMENT_LOAD_UNLOAD_GCODES)
-        case ChangeFilament:  return F("Change Filament");
+        case ChangeFilament:  return GET_TEXT_F(MSG_FILAMENTCHANGE);
       #endif
       #if ENABLED(HOST_ACTION_COMMANDS)
-        case HostActions:       return F("Host Action Commands");
+        case HostActions:       return GET_TEXT_F(MSG_HOST_ACTIONS);
       #endif
-      case Control:           return F("Control");
-      case TempMenu:          return F("Temperature");
+      case Control:           return GET_TEXT_F(MSG_CONTROL);
+      case TempMenu:          return GET_TEXT_F(MSG_TEMPERATURE);
       #if HAS_HOTEND || HAS_HEATED_BED
-        case PID:             return F("PID Menu");
+        case PID:             
+              sprintf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_PID), GET_TEXT(MSG_CONFIGURATION));
+              return F(cmd);
       #endif
       #if HAS_HOTEND
-        case HotendPID:       return F("Hotend PID Settings");
+        case HotendPID:       
+              sprintf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_HOTEND_TEMPERATURE), GET_TEXT(MSG_PID));
+              return F(cmd);
       #endif
       #if HAS_HEATED_BED
-        case BedPID:          return F("Bed PID Settings");
+        case BedPID:          
+              sprintf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_BED_TEMPERATURE), GET_TEXT(MSG_PID));
+              return F(cmd);
       #endif
       #if PREHEAT_COUNT >= 1
-        case Preheat1:        return F(PREHEAT_1_LABEL " Settings");
+        case Preheat1:        
+              sprintf_P(cmd, PSTR("%s %s"), PREHEAT_1_LABEL, GET_TEXT(MSG_CONFIGURATION));
+              return F(cmd);
       #endif
       #if PREHEAT_COUNT >= 2
-        case Preheat2:        return F(PREHEAT_2_LABEL " Settings");
+        case Preheat2:        
+              sprintf_P(cmd, PSTR("%s %s"), PREHEAT_2_LABEL, GET_TEXT(MSG_CONFIGURATION));
+              return F(cmd);
       #endif
       #if PREHEAT_COUNT >= 3
-        case Preheat3:        return F(PREHEAT_3_LABEL " Settings");
+        case Preheat3:        
+              sprintf_P(cmd, PSTR("%s %s"), PREHEAT_3_LABEL, GET_TEXT(MSG_CONFIGURATION));
+              return F(cmd);
       #endif
       #if PREHEAT_COUNT >= 4
-        case Preheat4:        return F(PREHEAT_4_LABEL " Settings");
+        case Preheat4:        
+              sprintf_P(cmd, PSTR("%s %s"), PREHEAT_4_LABEL, GET_TEXT(MSG_CONFIGURATION));
+              return F(cmd);
       #endif
       #if PREHEAT_COUNT >= 5
-        case Preheat5:        return F(PREHEAT_5_LABEL " Settings");
+        case Preheat5:        
+              sprintf_P(cmd, PSTR("%s %s"), PREHEAT_5_LABEL, GET_TEXT(MSG_CONFIGURATION));
+              return F(cmd);
       #endif
-      case Motion:            return F("Motion Settings");
+      case Motion:
+              sprintf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_MOTION), GET_TEXT(MSG_CONFIGURATION));
+              return F(cmd);
       #if ENABLED(FWRETRACT)
-        case FwRetraction:      return F("Firmware Retraction");
+        case FwRetraction:
+              sprintf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_FWRETRACT), GET_TEXT(MSG_CONFIGURATION));
+              return F(cmd);
         //case Tune_FwRetraction:      return F("Tune FW Retraction");
       #endif
       #if ENABLED(NOZZLE_PARK_FEATURE)
-        case Parkmenu:        return F("Park Menu Pos Settings");
+        case Parkmenu:
+              sprintf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_FILAMENT_PARK_ENABLED), GET_TEXT(MSG_CONFIGURATION));
+              return F(cmd);
       #endif
-      case HomeOffsets:       return F("Home Offsets");
-      case MaxSpeed:          return F("Max Speed");
-      case MaxAcceleration:   return F("Max Acceleration");
+      case HomeOffsets:       return GET_TEXT_F(MSG_SET_HOME_OFFSETS);
+      case MaxSpeed:          return GET_TEXT_F(MSG_SPEED);
+      case MaxAcceleration:   return GET_TEXT_F(MSG_ACCELERATION);
       #if HAS_CLASSIC_JERK
-        case MaxJerk:         return F("Max Jerk");
+        case MaxJerk:         return GET_TEXT_F(MSG_JERK);
       #endif
-      case Steps:             return F("Steps/mm");
-      case Visual:            return F("Visual Settings");
-      case HostSettings:      return F("Host Settings");
+      case Steps:             return GET_TEXT_F(MSG_STEPS_PER_MM);
+      case Visual:            return GET_TEXT_F(MSG_VISUAL_SETTINGS);
+      case HostSettings:      return GET_TEXT_F(MSG_HOST_SETTINGS);
       #if ENABLED(HOST_ACTION_COMMANDS)
-        case ActionCommands:    return F("Host Action Settings");
+        case ActionCommands:    return GET_TEXT_F(MSG_HOST_ACTIONS);
       #endif
-      case Advanced:          return F("Advanced Settings");
+      case Advanced:          return GET_TEXT_F(MSG_ADVANCED_SETTINGS);
       #if HAS_BED_PROBE
-        case ProbeMenu:       return F("Probe Menu");
+        case ProbeMenu:       return GET_TEXT_F(MSG_ZPROBE_SETTINGS);
       #endif
-      case Filmenu:           return F("Filament Settings");
-      case ColorSettings:     return F("UI Color Settings");
-      case Info:              return F("Info");
-      case InfoMain:          return F("Info");
+      case Filmenu:           return GET_TEXT_F(MSG_FILAMENT_SET);
+      case ColorSettings:     return GET_TEXT_F(MSG_COLORS_SELECT);
+      case Info:              return GET_TEXT_F(MSG_INFO_SCREEN);
+      case InfoMain:          return GET_TEXT_F(MSG_INFO_SCREEN);
       #if HAS_MESH
-        case Leveling:        return F("Leveling");
+        case Leveling:        return GET_TEXT_F(MSG_BED_LEVELING);
         case LevelView:       return GET_TEXT_F(MSG_MESH_VIEW);
-        case LevelSettings:   return F("Leveling Settings");
+        case LevelSettings:
+              sprintf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_BED_LEVELING), GET_TEXT(MSG_CONFIGURATION));
+              return F(cmd);
         case MeshViewer:      return GET_TEXT_F(MSG_MESH_VIEW);
-        case LevelManual:     return F("Manual Tuning");
+        case LevelManual:     return GET_TEXT_F(MSG_UBL_FINE_TUNE_MESH);
       #endif
       #if ENABLED(AUTO_BED_LEVELING_UBL) && !HAS_BED_PROBE
-        case UBLMesh:         return F("UBL Bed Leveling");
+        case UBLMesh:         return GET_TEXT_F(MSG_UBL_LEVEL_BED);
       #endif
       #if ENABLED(PROBE_MANUALLY)
-        case ManualMesh:      return F("Mesh Bed Leveling");
+        case ManualMesh:      return GET_TEXT_F(MSG_MESH_LEVELING);
       #endif
-      case Tune:              return F("Tune");
-      case PreheatHotend:     return F("Preheat Hotend");
+      case Tune:              return GET_TEXT_F(MSG_TUNE);
+      case PreheatHotend:
+              sprintf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_PREHEAT), GET_TEXT(MSG_HOTEND));
+              return F(cmd);
     }
     return F("");
   }
@@ -5635,26 +5618,29 @@
   void CrealityDWINClass::Popup_Handler(PopupID popupid, bool option/*=false*/) {
     popup = last_popup = popupid;
     switch (popupid) {
-      case Pause:         Draw_Popup(F("Pause Print"), F(""), F(""), Popup); break;
-      case Stop:          Draw_Popup(F("Stop Print"), F(""), F(""), Popup); break;
-      case Resume:        Draw_Popup(F("Resume Print?"), F("Looks like the last"), F("print was interrupted;"), Popup); break;
-      case ConfFilChange: Draw_Popup(F("Confirm Filament Change"), F(""), F(""), Popup); break;
-      case PurgeMore:     Draw_Popup(F("Purge more filament?"), F("(Cancel to finish process)"), F(""), Popup); break;
-      case SaveLevel:     Draw_Popup(option ? F("Tuning Complete") : F("Leveling Complete"), F("Save to EEPROM?"), F(""), Popup); break;
-      case MeshSlot:      Draw_Popup(F("Mesh slot not defined"), option ? F("To save Mesh") : F("To load Mesh"), F("Continue to process"), Popup, ICON_AutoLeveling); break;
-      case ETemp:         Draw_Popup(F("Nozzle is too cold"), F("Open Preheat Menu?"), F(""), Popup); break;
-      case ManualProbing: Draw_Popup(F("Manual Probing"), F("(Confirm to probe)"), F("(cancel to exit)"), Popup, ICON_AutoLeveling); break;
-      case Level:         Draw_Popup(option ? F("Probing in process") : F("Auto Bed Leveling"), F("Please wait until done"), F(""), Wait, ICON_AutoLeveling); break;
-      case Home:          Draw_Popup(option ? F("Parking") : F("Homing"), F("Please wait until done"), F(""), Wait, ICON_BLTouch); break;
-      case MoveWait:      Draw_Popup(F("Moving to Point"), F("Please wait until done"), F(""), Wait, ICON_BLTouch); break;
-      case Heating:       Draw_Popup(F("Heating"), F("Please wait until done"), F(""), Wait, ICON_BLTouch); break;
-      case FilLoad:       Draw_Popup(option ? F("Unloading Filament") : F("Loading Filament"), F("Please wait until done"), F(""), Wait, ICON_BLTouch); break;
-      case FilChange:     Draw_Popup(F("Filament Change"), F("Please wait for prompt"), F(""), Wait, ICON_BLTouch); break;
-      case TempWarn:      Draw_Popup(option ? F("Nozzle temp too low!") : F("Nozzle temp too high!"), F(""), F(""), Wait, option ? ICON_TempTooLow : ICON_TempTooHigh); break;
-      case Runout:        Draw_Popup(F("Filament Runout"), F(""), F(""), Wait, ICON_BLTouch); break;
-      case PIDWait:       Draw_Popup(option ? F("Bed PID Autotune") : F("Hotend PID Autotune"), F("in process"), F("Please wait until done"), Wait, ICON_BLTouch); break;
-      case Resuming:      Draw_Popup(F("Resuming Print"), F("Please wait until done"), F(""), Wait, ICON_BLTouch); break;
-      case ConfirmStartPrint: Draw_Popup(option ? F("Loading Preview...") : F("Print file?"), F(""), F(""), Popup); break;
+      case Pause:         Draw_Popup(GET_TEXT_F(MSG_PAUSE_PRINT), F(""), F(""), Popup); break;
+      case Stop:          Draw_Popup(GET_TEXT_F(MSG_STOP_PRINT), F(""), F(""), Popup); break;
+      case Resume:        Draw_Popup(GET_TEXT_F(MSG_RESUME_PRINT), GET_TEXT_F(MSG_RESUME_PRINT2), GET_TEXT_F(MSG_RESUME_PRINT3), Popup); break;
+      case ConfFilChange: 
+            sprintf_P(cmd,PSTR("%s %s"),GET_TEXT(MSG_BUTTON_CONFIRM),GET_TEXT(MSG_FILAMENT_CHANGE));
+            Draw_Popup(F(cmd), F(""), F(""), Popup); 
+            break;
+      case PurgeMore:     Draw_Popup(GET_TEXT_F(MSG_FILAMENT_CHANGE_OPTION_PURGE), GET_TEXT_F(MSG_FILAMENT_CHANGE_FINISH), F(""), Popup); break;
+      case SaveLevel:     Draw_Popup(option ? GET_TEXT_F(MSG_UBL_FINE_TUNE_MESH_COMPLETE) : GET_TEXT_F(MSG_LEVEL_BED_DONE), GET_TEXT_F(MSG_UBL_SAVE_TO_EEPROM), F(""), Popup); break;
+      case MeshSlot:      Draw_Popup(GET_TEXT_F(MSG_NO_VALID_MESH_SLOT), option ? GET_TEXT_F(MSG_NO_VALID_MESH2) : GET_TEXT_F(MSG_NO_VALID_MESH3), GET_TEXT_F(MSG_NO_VALID_MESH4), Popup, ICON_AutoLeveling); break;
+      case ETemp:         Draw_Popup(GET_TEXT_F(MSG_HOTEND_TOO_COLD), GET_TEXT_F(MSG_HOTEND_TOO_COLD2), F(""), Popup); break;
+      case ManualProbing: Draw_Popup(GET_TEXT_F(MSG_MANUAL_PROBING), GET_TEXT_F(MSG_MANUAL_PROBING_CONFIRM), GET_TEXT_F(MSG_MANUAL_PROBING_CANCEL), Popup, ICON_AutoLeveling); break;
+      case Level:         Draw_Popup(option ? GET_TEXT_F(MSG_PROBING_IN_PROGRESS) : GET_TEXT_F(MSG_AUTO_BED_LEVELING), GET_TEXT_F(MSG_PLEASE_WAIT), F(""), Wait, ICON_AutoLeveling); break;
+      case Home:          Draw_Popup(option ? GET_TEXT_F(MSG_PAUSE_PRINT_PARKING) : GET_TEXT_F(MSG_HOMING), GET_TEXT_F(MSG_PLEASE_WAIT), F(""), Wait, ICON_BLTouch); break;
+      case MoveWait:      Draw_Popup(GET_TEXT_F(MSG_MOVING), GET_TEXT_F(MSG_PLEASE_WAIT), F(""), Wait, ICON_BLTouch); break;
+      case Heating:       Draw_Popup(GET_TEXT_F(MSG_HEATING), GET_TEXT_F(MSG_PLEASE_WAIT), F(""), Wait, ICON_BLTouch); break;
+      case FilLoad:       Draw_Popup(option ? GET_TEXT_F(MSG_FILAMENT_UNLOADING) : GET_TEXT_F(MSG_FILAMENT_LOADING), GET_TEXT_F(MSG_PLEASE_WAIT), F(""), Wait, ICON_BLTouch); break;
+      case FilChange:     Draw_Popup(GET_TEXT_F(MSG_FILAMENT_CHANGE), GET_TEXT_F(MSG_PLEASE_WAIT), F(""), Wait, ICON_BLTouch); break;
+      case TempWarn:      Draw_Popup(option ? GET_TEXT_F(MSG_HOTEND_TOO_COLD) : GET_TEXT_F(MSG_HOTEND_TOO_HOT), F(""), F(""), Wait, option ? ICON_TempTooLow : ICON_TempTooHigh); break;
+      case Runout:        Draw_Popup(GET_TEXT_F(MSG_FILAMENT_RUNOUT), F(""), F(""), Wait, ICON_BLTouch); break;
+      case PIDWait:       Draw_Popup(option ? GET_TEXT_F(MSG_BED_PID_AUTOTUNE) : GET_TEXT_F(MSG_HOTEND_PID_AUTOTUNE), GET_TEXT_F(MSG_IN_PROGRESS), GET_TEXT_F(MSG_PLEASE_WAIT), Wait, ICON_BLTouch); break;
+      case Resuming:      Draw_Popup(GET_TEXT_F(MSG_RESUMING_PRINT), GET_TEXT_F(MSG_PLEASE_WAIT), F(""), Wait, ICON_BLTouch); break;
+      case ConfirmStartPrint: Draw_Popup(option ? GET_TEXT_F(MSG_LOADING_PREVIEW) : GET_TEXT_F(MSG_PRINT_FILE), F(""), F(""), Popup); break;
       default: break;
     }
   }
@@ -5662,17 +5648,17 @@
   void CrealityDWINClass::Confirm_Handler(PopupID popupid, bool option/*=false*/) {
     popup = popupid;
     switch (popupid) {
-      case FilInsert:         Draw_Popup(F("Insert Filament"), F("Press to Continue"), F(""), Confirm); break;
-      case HeaterTime:        Draw_Popup(F("Heater Timed Out"), F("Press to Reheat"), F(""), Confirm); break;
-      case UserInput:         Draw_Popup(option ? F("Stopped") : F("Waiting for Input"), F("Press to Continue"), F(""), Confirm); break;
-      case LevelError:        Draw_Popup(F("Couldn't enable leveling"), F("(Valid mesh must exist)"), F(""), Confirm); break;
-      case InvalidMesh:       Draw_Popup(F("Valid mesh must exist"), F("before tuning can be"), F("performed"), Confirm); break;
-      case NocreatePlane:     Draw_Popup(F("Couldn't create plane"), F("(Valid mesh must exist)"), F(""), Confirm); break;
-      case BadextruderNumber: Draw_Popup(F("PID Autotune failed"), F("Bad extruder number"), F(""), Confirm); break;
-      case TemptooHigh:       Draw_Popup(F("PID Autotune failed"), F("Temp too high!"), F(""), Confirm, ICON_TempTooHigh); break;
-      case PIDTimeout:        Draw_Popup(F("PID Autotune failed"), F("Timeout!"), F(""), Confirm);  break;
-      case PIDDone:           Draw_Popup(F("PID tuning done"), F(""), F(""), Confirm); break;
-      case Level2:            Draw_Popup(F("Auto Bed Leveling"), F("Please wait until done"), F("or (Cancel) to stop"), Confirm, ICON_AutoLeveling); break;
+      case FilInsert:         Draw_Popup(GET_TEXT_F(MSG_INSERT_FILAMENT), GET_TEXT_F(MSG_ADVANCED_PAUSE_WAITING), F(""), Confirm); break;
+      case HeaterTime:        Draw_Popup(GET_TEXT_F(MSG_HEATER_TIMEOUT), GET_TEXT_F(MSG_FILAMENT_CHANGE_HEAT), F(""), Confirm); break;
+      case UserInput:         Draw_Popup(option ? GET_TEXT_F(MSG_STOPPED) :  GET_TEXT_F(MSG_WAITING_FOR_INPUT), GET_TEXT_F(MSG_ADVANCED_PAUSE_WAITING), F(""), Confirm); break;
+      case LevelError:        Draw_Popup(GET_TEXT_F(MSG_COULDNT_ENABLE_LEVELING), GET_TEXT_F(MSG_VALID_MESH_MUST_EXIST), F(""), Confirm); break;
+      case InvalidMesh:       Draw_Popup(GET_TEXT_F(MSG_VALID_MESH_MUST_EXIST), GET_TEXT_F(MSG_VALID_MESH_MUST_EXIST2), GET_TEXT_F(MSG_VALID_MESH_MUST_EXIST3), Confirm); break;
+      case NocreatePlane:     Draw_Popup(GET_TEXT_F(MSG_COULDNT_CREATE_PLANE), GET_TEXT_F(MSG_VALID_MESH_MUST_EXIST), F(""), Confirm); break;
+      case BadextruderNumber: Draw_Popup(GET_TEXT_F(MSG_PID_FAILED), GET_TEXT_F(MSG_PID_BAD_EXTRUDER_NUM), F(""), Confirm); break;
+      case TemptooHigh:       Draw_Popup(GET_TEXT_F(MSG_PID_FAILED), GET_TEXT_F(MSG_PID_TEMP_TOO_HIGH), F(""), Confirm); break;
+      case PIDTimeout:        Draw_Popup(GET_TEXT_F(MSG_PID_FAILED), GET_TEXT_F(MSG_PID_TIMEOUT), F(""), Confirm); break;
+      case PIDDone:           Draw_Popup(GET_TEXT_F(MSG_PID_AUTOTUNE_DONE), F(""), F(""), Confirm); break;
+      case Level2:            Draw_Popup(GET_TEXT_F(MSG_AUTO_BED_LEVELING), GET_TEXT_F(MSG_PLEASE_WAIT), GET_TEXT_F(MSG_CANCEL_TO_STOP), Confirm, ICON_AutoLeveling); break;
       
       default: break;
     }
@@ -6236,7 +6222,7 @@
           bool has_header_time = find_and_decode_gcode_header(card.filename, Header_Time);
           if (has_header_time) {
             header_time_s = atof(str_1); 
-            sprintf_P(header1, PSTR("Time: %02dh %02dm %02ds"), (uint8_t)(header_time_s / 3600), (uint8_t)((header_time_s / 60)%60), (uint8_t)(header_time_s%60));
+            sprintf_P(header1, GET_TEXT(MSG_HEADER_TIME), (uint8_t)(header_time_s / 3600), (uint8_t)((header_time_s / 60)%60), (uint8_t)(header_time_s%60));
           }
           bool has_header_filament = find_and_decode_gcode_header(card.filename, Header_Filament);
           if (has_header_filament) {
@@ -6251,14 +6237,14 @@
             {
             str_2[nb+i] = str_1[nb+i];
             }
-            sprintf_P(header2, PSTR("Filament used:%sm"), str_2);
+            sprintf_P(header2, GET_TEXT(MSG_HEADER_FILAMENT_USED), str_2);
           }
           bool has_header_layer = find_and_decode_gcode_header(card.filename, Header_Layer);
           if (has_header_layer) {
-            sprintf_P(header3, PSTR("Layer heigth:%smm"), dtostrf(atof(str_1), 1, 2, str_3));
+            sprintf_P(header3, GET_TEXT(MSG_HEADER_LAYER_HEIGHT), dtostrf(atof(str_1), 1, 2, str_3));
           }
           Popup_Handler(ConfirmStartPrint, has_preview);
-          Draw_Title("Print file ?");
+          Draw_Title(GET_TEXT(MSG_PRINT_FILE));
           if (has_preview) {
             file_preview_image_address = image_address;
             TERN(DACAI_DISPLAY, DRAW_IconTH(48,78,image_address), DWIN_SRAM_Memory_Icon_Display(48,78,image_address));
@@ -6266,10 +6252,10 @@
           else gcode.process_subcommands_now(F("M117 Preview not found")); 
 
           if (has_header_time || has_header_filament || has_header_layer) {
-            sprintf_P(cmd, PSTR("%s - %s - %s..."), (has_header_time) ? header1 : "No header Time", (has_header_filament) ? header2 : "No header Filament used", (has_header_layer) ? header3 : "No header Layer height");
+            sprintf_P(cmd, PSTR("%s - %s - %s..."), (has_header_time) ? header1 : GET_TEXT(MSG_HEADER_NO_TIME), (has_header_filament) ? header2 : GET_TEXT(MSG_HEADER_NO_FILAMENT_USED), (has_header_layer) ? header3 : GET_TEXT(MSG_HEADER_NO_LAYER_HEIGHT));
             Update_Status(cmd);
           }
-          else gcode.process_subcommands_now(F("M117 Headers not found")); 
+          else gcode.process_subcommands_now(F("M117 Header not found")); 
         #else
           gcode.process_subcommands_now(F("M220 S100\nM221 S100"));  // Initialize Flow and Feerate to 100%
           card.openAndPrintFile(card.filename);
@@ -6416,11 +6402,11 @@
               //const float dif = probe.probe_at_point(current_position.x, current_position.y, PROBE_PT_STOW, 0, false) - corner_avg;
               zval = probe.probe_at_point(current_position.x, current_position.y, PROBE_PT_STOW, 0, false);
               if (isnan(zval))
-                Update_Status("Position not reachable, check probe offsets and bed screw inset");
+                Update_Status(GET_TEXT(MSG_ZPROBE_UNREACHABLE));
               else {
                 const float dif = zval - corner_avg;
-                if (dif == 0) Update_Status("Corner is to 0 !");
-                else sprintf_P(buf, dif > 0 ? PSTR("Corner is %smm high") : PSTR("Corner is %smm low"), dtostrf(abs(dif), 1, 3, str_1));
+                if (dif == 0) Update_Status(GET_TEXT(MSG_CORNER_ZEROED));
+                else sprintf_P(buf, dif > 0 ? GET_TEXT(MSG_CORNER_HIGH) : GET_TEXT(MSG_CORNER_LOW), dtostrf(abs(dif), 1, 3, str_1));
                 if (abs(dif) <= 0.005) AudioFeedback(true);
                 Update_Status(buf);
                 Popup_Handler(ManualProbing);
@@ -6441,11 +6427,11 @@
               else {
                 if (thermalManager.temp_hotend[0].celsius < thermalManager.temp_hotend[0].target - 2) {
                   Popup_Handler(Heating);
-                  Update_Status("Heating...");
+                  Update_Status(GET_TEXT(MSG_HEATING));
                   thermalManager.wait_for_hotend(0);
                 }
                 Popup_Handler(FilChange);
-                Update_Status("Change Filament...");
+                Update_Status(GET_TEXT(MSG_FILAMENTCHANGE));
                 sprintf_P(cmd, PSTR("M600 B1 R%i"), thermalManager.temp_hotend[0].target);
                 gcode.process_subcommands_now(cmd);
               }
@@ -6514,15 +6500,15 @@
         #if EXTJYERSUI && HAS_MESH
           case Level2:
           TERN(AUTO_BED_LEVELING_UBL, HMI_flags.cancel_ubl = 1, HMI_flags.cancel_abl = 1);
-          Update_Status("Probing canceled and Mesh not completed");
+          Update_Status(GET_TEXT(MSG_PROBING_CANCELLED));
           wait_for_user = false;
           Redraw_Menu(true, true, false);
           break;
         #endif
         #if HAS_ES_DIAG
           case endsdiag:
-            Redraw_Menu(true, true, false);
             wait_for_user = false;
+			Redraw_Menu(true, true, false);
             break;  
         #endif
         case Complete:
@@ -6536,7 +6522,7 @@
           break;
         case HeaterTime:
           Popup_Handler(Heating);
-          Update_Status("Heating...");
+          Update_Status(GET_TEXT(MSG_HEATING));
           wait_for_user = false;
           break;
 		#if HAS_MESH
@@ -6550,13 +6536,13 @@
             DWIN_Draw_Rectangle(1, GetColor(HMI_datas.background, Color_Bg_Black), 0, KEY_Y_START, DWIN_WIDTH-2, DWIN_HEIGHT-2);
             Draw_Status_Area(true);
             Update_Status_Bar(true);
-            Popup_Handler(SaveLevel);
             wait_for_user = false;
+            Popup_Handler(SaveLevel);
             break;
 		#endif
         default:
-          Redraw_Menu(true, true, false);
           wait_for_user = false;
+          Redraw_Menu(true, true, false);
           break;
       }
     }
@@ -6808,7 +6794,7 @@
     sdprint = false;
     thermalManager.cooldown();
     duration_t printing_time = print_job_timer.duration();
-    sprintf_P(cmd, PSTR("Printing Time: %02dh %02dm %02ds"), (uint8_t)(printing_time.value / 3600), (uint8_t)((printing_time.value / 60) %60), (uint8_t)(printing_time.value %60));
+    sprintf_P(cmd, PSTR("%s: %02dh %02dm %02ds"), GET_TEXT(MSG_INFO_PRINT_TIME), (uint8_t)(printing_time.value / 3600), (uint8_t)((printing_time.value / 60) %60), (uint8_t)(printing_time.value %60));
     Update_Status(cmd);
     TERN_(LCD_SET_PROGRESS_MANUALLY, ui.set_progress(100 * (PROGRESS_SCALE)));
     TERN_(USE_M73_REMAINING_TIME, ui.set_remaining_time(0));
@@ -6923,7 +6909,7 @@
           if (Encoder_ReceiveAnalyze() != ENCODER_DIFF_NO) break;
           if (i + scrollpos == 0) {
             if (card.flag.workDirIsRoot)
-              Draw_Menu_Item(0, ICON_Back, "Back");
+              Draw_Menu_Item(0, ICON_Back, GET_TEXT_F(MSG_BACK));
             else
               Draw_Menu_Item(0, ICON_Back, "..");
           } else {
@@ -7041,17 +7027,18 @@
     if (ui.buzzer_enabled)
     DONE_BUZZ(success);
     else
-      Update_Status(success ? "Success" : "Failed");
+      Update_Status(success ? GET_TEXT(MSG_SUCCESS) : GET_TEXT(MSG_FAILED));
   }
 
   #if HAS_PID_HEATING
-      void CrealityDWINClass::onPidTuning(const result_t rst) {
-        switch (rst) {
+      void CrealityDWINClass::PidTuning(const pidresult_t pidresult) {
+        switch (pidresult) {
+          case PID_STARTED:  break;
           case PID_BAD_EXTRUDER_NUM:  Confirm_Handler(BadextruderNumber);  break;
           case PID_TEMP_TOO_HIGH:  Confirm_Handler(TemptooHigh);  break;
           case PID_TUNING_TIMEOUT:  Confirm_Handler(PIDTimeout);  break;
           case PID_DONE:  Confirm_Handler(PIDDone);  break;
-          case PID_STARTED:  break;
+          default: break;
         }
       }
     #endif

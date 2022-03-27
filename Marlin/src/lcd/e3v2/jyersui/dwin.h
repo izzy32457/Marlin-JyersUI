@@ -262,8 +262,8 @@ public:
   static void DWIN_C997();
 
 
-  enum result_t   : uint8_t { PID_STARTED, PID_BAD_EXTRUDER_NUM, PID_TEMP_TOO_HIGH, PID_TUNING_TIMEOUT, PID_DONE };
-  static void onPidTuning(const result_t rst);
+  enum pidresult_t   : uint8_t { PID_STARTED, PID_BAD_EXTRUDER_NUM, PID_TEMP_TOO_HIGH, PID_TUNING_TIMEOUT, PID_DONE };
+  static void PidTuning(const pidresult_t pidresult);
 
   
 };
