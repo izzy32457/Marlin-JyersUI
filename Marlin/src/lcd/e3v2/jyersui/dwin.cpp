@@ -7182,6 +7182,10 @@
     planner.finish_and_disable();
     DWIN_RebootScreen();
     hal.reboot();
+    #if ENABLED(BAUD_RATE_GCODE)
+      sprintf_P(cmd, PSTR("M575 P%i B%i"), BAUD_PORT, HMI_datas.baudratemode ? 115 : 250);
+      gcode.process_subcommands_now(cmd);
+    #endif
   }
 
   void CrealityDWINClass::DWIN_RebootScreen() {
