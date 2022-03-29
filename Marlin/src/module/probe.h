@@ -192,7 +192,7 @@ public:
       }
     #endif
     
-     #if EXTJYERSUI
+     #if EXTJYERSUI && HAS_BED_PROBE
       static float _min_x(const xy_pos_t &probe_offset_xy = offset_xy);
       static float _max_x(const xy_pos_t &probe_offset_xy = offset_xy);
       static float _min_y(const xy_pos_t &probe_offset_xy = offset_xy);
