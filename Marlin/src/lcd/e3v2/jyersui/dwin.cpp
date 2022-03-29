@@ -1529,12 +1529,10 @@
 
           #if ENABLED(HOST_ACTION_COMMANDS)
             case PREPARE_ACTIONCOMMANDS:
-            if (draw) {
+            if (draw)
               Draw_Menu_Item(row, ICON_SetHome, GET_TEXT_F(MSG_HOST_ACTIONS), nullptr, true);
-            }
-            else {
+            else 
               Draw_Menu(HostActions);
-            }
             break;
           #endif
 
@@ -2234,12 +2232,10 @@
 
           switch(item) {
             case HOSTACTIONS_BACK:
-              if (draw) {
+              if (draw) 
                 Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
-              }
-              else {
+              else
                 Draw_Menu(Prepare, PREPARE_ACTIONCOMMANDS);
-              }
               break;
             case HOSTACTIONS_1:
               if (draw) {
@@ -3778,12 +3774,10 @@
 
         switch (item) {
           case HOSTSETTINGS_BACK:
-            if (draw) {
+            if (draw)
               Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
-            }
-            else {
+            else
               Draw_Menu(Control, CONTROL_HOSTSETTINGS);
-            }
             break;
           #if ENABLED(HOST_ACTION_COMMANDS)
             case HOSTSETTINGS_ACTIONCOMMANDS:
@@ -4931,9 +4925,10 @@
               }
               break;
             case UBL_M_UP:
-              if (draw)
+              if (draw) {
                 sprintf_P(cmd, PSTR("%s Up"), GET_TEXT(MSG_BABYSTEP_Z));
                 Draw_Menu_Item(row, ICON_Axis, F(cmd));
+              }
               else if (Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] < MAX_Z_OFFSET) {
                 Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] += 0.01;
                 gcode.process_subcommands_now(F("M290 Z0.01"));
@@ -4941,12 +4936,13 @@
                 current_position.z += 0.01f;
                 sync_plan_position();
                 Draw_Float(Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y], row - 1, false, 100);
-              }
+                }
               break;
             case UBL_M_DOWN:
-              if (draw)
+              if (draw) {
                 sprintf_P(cmd, PSTR("%s Down"), GET_TEXT(MSG_BABYSTEP_Z));
                 Draw_Menu_Item(row, ICON_Axis, F(cmd));
+              }
               else if (Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] > MIN_Z_OFFSET) {
                 Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] -= 0.01;
                 gcode.process_subcommands_now(F("M290 Z-0.01"));
@@ -5030,21 +5026,23 @@
                 Modify_Value(current_position.z, MIN_Z_OFFSET, MAX_Z_OFFSET, 100);
               break;
             case MMESH_UP:
-              if (draw)
+              if (draw) {
                 sprintf_P(cmd, PSTR("%s Up"), GET_TEXT(MSG_BABYSTEP_Z));
                 Draw_Menu_Item(row, ICON_Axis, F(cmd));
+              }
               else if (current_position.z < MAX_Z_OFFSET) {
                 gcode.process_subcommands_now(F("M290 Z0.01"));
                 planner.synchronize();
                 current_position.z += 0.01f;
                 sync_plan_position();
                 Draw_Float(current_position.z, row - 1, false, 100);
-              }
+                }
               break;
             case MMESH_DOWN:
-              if (draw)
+              if (draw) {
                 sprintf_P(cmd, PSTR("%s Down"), GET_TEXT(MSG_BABYSTEP_Z));
                 Draw_Menu_Item(row, ICON_AxisD, F(cmd));
+              }
               else if (current_position.z > MIN_Z_OFFSET) {
                 gcode.process_subcommands_now(F("M290 Z-0.01"));
                 planner.synchronize();
