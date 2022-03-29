@@ -102,7 +102,7 @@
 
   #include <stdio.h>
   bool sd_item_flag = false;
-  #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW)
+  #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW) && DISABLED(DACAI_DISPLAY)
   #include "../../../libs/base64.hpp"
   #include <map>
   //#include <string>
@@ -218,6 +218,7 @@
   char statusmsg[128];
   char filename[LONG_FILENAME_LENGTH];
   char Hostfilename[LONG_FILENAME_LENGTH];
+  char reprint_filename[13];
   char STM_cpu[5];
   
   bool paused = false;
@@ -256,7 +257,7 @@
 
   bool probe_deployed = false;
 
-  #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW)
+  #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW) && DISABLED(DACAI_DISPLAY)
   std::map<string, int> image_cache;
   uint16_t next_available_address = 1;
   static millis_t thumbtime = 0;
@@ -638,9 +639,9 @@
     if (label1) DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.items_menu_text, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), label1_offset_x, MBASE(row) - 1 - label_offset_y, label1); // Draw Label
     if (label2) DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.items_menu_text, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), label2_offset_x, MBASE(row) - 1 + label_offset_y, label2); // Draw Label
     //_Decorate_Menu_Item(row, icon, more);
-    #ifdef DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW
+    #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW) && DISABLED(DACAI_DISPLAY)
       if ((HMI_datas.show_gcode_thumbnails) && (sd_item_flag) && (icon == ICON_File) && find_and_decode_gcode_preview(card.filename, Thumnail_Icon, &image_address, onlyCachedFileIcon))
-        TERN(DACAI_DISPLAY, DRAW_IconTH(9, MBASE(row) - 18, image_address), DWIN_SRAM_Memory_Icon_Display(9, MBASE(row) - 18, image_address));
+        DWIN_SRAM_Memory_Icon_Display(9, MBASE(row) - 18, image_address);
       else 
         if (icon) DRAW_IconWTB(ICON, icon, 26, MBASE(row) - 3);   //Draw Menu Icon
     #else
@@ -657,9 +658,9 @@
     if (flabel1) DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.items_menu_text, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), label1_offset_x, MBASE(row) - 1 - label_offset_y, flabel1); // Draw Label
     if (flabel2) DWIN_Draw_String(false, DWIN_FONT_MENU, GetColor(HMI_datas.items_menu_text, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), label2_offset_x, MBASE(row) - 1 + label_offset_y, flabel2); // Draw Label
     //_Decorate_Menu_Item(row, icon, more);
-    #ifdef DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW
-    if ((HMI_datas.show_gcode_thumbnails) && (sd_item_flag) && (icon == ICON_File) && find_and_decode_gcode_preview(card.filename, Thumnail_Icon, &image_address, onlyCachedFileIcon))
-      TERN(DACAI_DISPLAY, DRAW_IconTH(9, MBASE(row) - 18, image_address), DWIN_SRAM_Memory_Icon_Display(9, MBASE(row) - 18, image_address));
+    #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW) && DISABLED(DACAI_DISPLAY)
+      if ((HMI_datas.show_gcode_thumbnails) && (sd_item_flag) && (icon == ICON_File) && find_and_decode_gcode_preview(card.filename, Thumnail_Icon, &image_address, onlyCachedFileIcon))
+      DWIN_SRAM_Memory_Icon_Display(9, MBASE(row) - 18, image_address);
     else 
       if (icon) DRAW_IconWTB(ICON, icon, 26, MBASE(row) - 3);   //Draw Menu Icon
     #else
@@ -879,42 +880,6 @@
   // }
   // 
 
-
-  //
-  // void CrealityDWINClass::Draw_Print_Filename(const bool reset/*=false*/) {
-  //  static uint8_t namescrl = 0;
-  //  if (reset) namescrl = 0;
-  //  if (process == Print) {
-  //    Make_name_without_ext(shift_filename, filename, 100);
-  //    constexpr int8_t maxlen = STATUS_CHAR_LIMIT;
-  //    char *outstr = shift_filename;
-  //    size_t slen = strlen(shift_filename);
-  //    int8_t outlen = slen;
-  //    if (slen > maxlen) {
-  //      char dispname[maxlen + 1];
-  //      int8_t pos = slen - namescrl, len = maxlen;
-  //      if (pos >= 0) {
-  //        NOMORE(len, pos);
-  //        LOOP_L_N(i, len) dispname[i] = filename[i + namescrl];
-  //      }
-  //      else {
-  //        const int8_t mp = maxlen + pos;
-  //        LOOP_L_N(i, mp) dispname[i] = ' ';
-  //        LOOP_S_L_N(i, mp, maxlen) dispname[i] = filename[i - mp];
-  //        if (mp <= 0) namescrl = 0;
-  //      }
-  //      dispname[len] = '\0';
-  //      outstr = dispname;
-  //      outlen = maxlen;
-  //      namescrl++;
-  //    }
-  //    DWIN_Draw_Rectangle(1, GetColor(HMI_datas.background, Color_Bg_Black), 8, 50, DWIN_WIDTH - 8, 80);
-  //    const int8_t npos = (DWIN_WIDTH - outlen * MENU_CHR_W) / 2;
-  //    DWIN_Draw_String(false, DWIN_FONT_MENU, Color_White, GetColor(HMI_datas.background, Color_Bg_Black), npos, 60, outstr);
-  //  }
-  //}
-  //
-
   void CrealityDWINClass::Draw_Print_Filename(const bool reset/*=false*/) {
     static uint8_t namescrl = 0;
     if (reset) namescrl = 0;
@@ -988,7 +953,7 @@
     process = Confirm;
     popup = Complete;
     DWIN_Draw_Rectangle(1, GetColor(HMI_datas.background, Color_Bg_Black), 8, 252, 263, 351);
-    #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW)
+    #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW) && DISABLED(DACAI_DISPLAY)
           if (file_preview) {
             //Clear_Screen();
             DWIN_Draw_Rectangle(1, GetColor(HMI_datas.background, Color_Bg_Black), 45, 75, 231, 261);
@@ -1278,7 +1243,7 @@
     DWIN_Draw_String(false, DWIN_FONT_STAT, Color_White, Color_Bg_Window, 96, 416, GET_TEXT_F(MSG_BUTTON_CONTINUE));
   }
 
-  void MarlinUI::kill_screen(FSTR_P const error, FSTR_P const) {
+  void MarlinUI::kill_screen(FSTR_P const error, FSTR_P const component) {
     CrealityDWIN.Draw_Popup(GET_TEXT_F(MSG_KILLED), error, GET_TEXT_F(MSG_SWITCH_PS_OFF), Wait, ICON_BLTouch);
   }
 
@@ -3435,7 +3400,7 @@
         #define VISUAL_FAN_PERCENT (VISUAL_BRIGHTNESS + HAS_FAN)
         #define VISUAL_TIME_FORMAT (VISUAL_FAN_PERCENT + 1)
         #define VISUAL_COLOR_THEMES (VISUAL_TIME_FORMAT + 1)
-        #define VISUAL_FILE_TUMBNAILS (VISUAL_COLOR_THEMES + ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW))
+        #define VISUAL_FILE_TUMBNAILS (VISUAL_COLOR_THEMES + (ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW) && DISABLED(DACAI_DISPLAY)))
         #define VISUAL_TOTAL VISUAL_FILE_TUMBNAILS
 
         switch (item) {
@@ -3488,7 +3453,7 @@
             else
               Draw_Menu(ColorSettings);
           break;
-          #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW)
+          #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW) && DISABLED(DACAI_DISPLAY)
             case VISUAL_FILE_TUMBNAILS:
               if (draw) {
                 sd_item_flag = false;
@@ -4520,7 +4485,7 @@
               break;
             case LEVELING_VIEW:
               if (draw)
-                Draw_Menu_Item(row, ICON_Mesh, GET_TEXT(MSG_MESH_VIEW), nullptr, true);
+                Draw_Menu_Item(row, ICON_Mesh, GET_TEXT_F(MSG_MESH_VIEW), nullptr, true);
               else {
                 #if ENABLED(AUTO_BED_LEVELING_UBL)
                   if (ubl.storage_slot < 0) {
@@ -5100,7 +5065,7 @@
               const float currval = Z_VALUES_ARR[mesh_x][mesh_y];
 
               if (draw) {
-                Draw_Menu_Item(row, ICON_Zoffset, GET_DATA_F(MSG_MESH_EDIT_Z));
+                Draw_Menu_Item(row, ICON_Zoffset, GET_TEXT_F(MSG_MESH_EDIT_Z));
                 Draw_Float(currval, row, false, 100);
               }
               else if (!isnan(currval)) {
@@ -5641,6 +5606,7 @@
       case PIDWait:       Draw_Popup(option ? GET_TEXT_F(MSG_BED_PID_AUTOTUNE) : GET_TEXT_F(MSG_HOTEND_PID_AUTOTUNE), GET_TEXT_F(MSG_IN_PROGRESS), GET_TEXT_F(MSG_PLEASE_WAIT), Wait, ICON_BLTouch); break;
       case Resuming:      Draw_Popup(GET_TEXT_F(MSG_RESUMING_PRINT), GET_TEXT_F(MSG_PLEASE_WAIT), F(""), Wait, ICON_BLTouch); break;
       case ConfirmStartPrint: Draw_Popup(option ? GET_TEXT_F(MSG_LOADING_PREVIEW) : GET_TEXT_F(MSG_PRINT_FILE), F(""), F(""), Popup); break;
+      case Reprint:       Draw_Popup(GET_TEXT_F(MSG_REPRINT_FILE), F(""), F(""), Popup); break;
       default: break;
     }
   }
@@ -5939,7 +5905,7 @@
   }
 
 
-  #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW)
+  #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW) && DISABLED(DACAI_DISPLAY)
   bool CrealityDWINClass::find_and_decode_gcode_preview(char *name, uint8_t preview_type, uint16_t *address, bool onlyCachedFileIcon/*=false*/) {
     // Won't work if we don't copy the name
     // for (char *c = &name[0]; *c; c++) *c = tolower(*c);
@@ -6165,7 +6131,7 @@
         Draw_SD_Item(selection, selection - scrollpos, true);
       }
 
-      #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW)
+      #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW) && DISABLED(DACAI_DISPLAY)
         thumbtime = millis() + SCROLL_WAIT;
         name_scroll_time = millis() + SCROLL_WAIT;
       #endif
@@ -6187,7 +6153,7 @@
         Draw_SD_Item(selection, selection - scrollpos, true);
       }
 
-      #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW)
+      #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW) && DISABLED(DACAI_DISPLAY)
         thumbtime = millis() + SCROLL_WAIT;
         name_scroll_time = millis() + SCROLL_WAIT;
       #endif
@@ -6215,7 +6181,7 @@
           Draw_SD_List();
         }
         else {
-          #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW)
+          #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW) && DISABLED(DACAI_DISPLAY)
           uint16_t image_address;
           bool has_preview = find_and_decode_gcode_preview(card.filename, Thumnail_Preview, &image_address);
           file_preview = has_preview;
@@ -6247,7 +6213,7 @@
           Draw_Title(GET_TEXT(MSG_PRINT_FILE));
           if (has_preview) {
             file_preview_image_address = image_address;
-            TERN(DACAI_DISPLAY, DRAW_IconTH(48,78,image_address), DWIN_SRAM_Memory_Icon_Display(48,78,image_address));
+            DWIN_SRAM_Memory_Icon_Display(48,78,image_address);
           }
           else gcode.process_subcommands_now(F("M117 Preview not found")); 
 
@@ -6258,6 +6224,7 @@
           else gcode.process_subcommands_now(F("M117 Header not found")); 
         #else
           gcode.process_subcommands_now(F("M220 S100\nM221 S100"));  // Initialize Flow and Feerate to 100%
+          strcpy(reprint_filename, card.filename);
           card.openAndPrintFile(card.filename);
         #endif
         }
@@ -6454,11 +6421,26 @@
         case ConfirmStartPrint:
           if (selection==0) {
             gcode.process_subcommands_now(F("M220 S100\nM221 S100"));  // Initialize Flow and Feerate to 100%
+            strcpy(reprint_filename, card.filename);
             card.openAndPrintFile(card.filename);}
           else{
             Redraw_Menu(true, true, true);
             gcode.process_subcommands_now(F("M117"));}
-          break;   
+          break;
+
+        case Reprint:
+          if (selection==0) {
+            #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW) && DISABLED(DACAI_DISPLAY)
+              file_preview = true;
+            #endif
+            gcode.process_subcommands_now(F("M220 S100\nM221 S100"));  // Initialize Flow and Feerate to 100%
+            card.openAndPrintFile(reprint_filename);
+            }
+          else { 
+          TERN_(DEBUG_DWIN, SERIAL_ECHOLNPGM("DWIN_Print_Finished"));
+          Draw_Main_Menu();
+          }
+          break;
 
         #if ENABLED(EEPROM_SETTINGS) && HAS_MESH 
           case SaveLevel:
@@ -6512,9 +6494,11 @@
             break;  
         #endif
         case Complete:
-          TERN_(DEBUG_DWIN, SERIAL_ECHOLNPGM("DWIN_Print_Finished"));
           queue.inject(F("M84"));
-          Draw_Main_Menu();
+          Popup_Handler(Reprint);
+          //TERN_(DEBUG_DWIN, SERIAL_ECHOLNPGM("DWIN_Print_Finished"));
+          //queue.inject(F("M84"));
+          //Draw_Main_Menu();
           break;
         case FilInsert:
           Popup_Handler(FilChange);
@@ -6761,7 +6745,7 @@
             SdFile *diveDir = nullptr;
             const char * const fname = card.diveToFile(true, diveDir, recovery.info.sd_filename);
             card.selectFileByName(fname);
-            #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW)
+            #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW) && DISABLED(DACAI_DISPLAY)
               uint16_t image_address;
               bool has_preview = find_and_decode_gcode_preview(card.filename, Thumnail_Preview, &image_address);
               file_preview = has_preview;
@@ -6887,7 +6871,7 @@
     static bool mounted = card.isMounted();
     if (mounted != card.isMounted()) {
       mounted = card.isMounted();
-      #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW)
+      #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW) && DISABLED(DACAI_DISPLAY)
       image_cache.clear();
       #endif
       if (process == File) {
@@ -6897,7 +6881,7 @@
       else sd_item_flag = false;
     }
 
-    #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW)
+    #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW) && DISABLED(DACAI_DISPLAY)
     if (HMI_datas.show_gcode_thumbnails && ELAPSED(millis(), thumbtime)) {
       uint16_t cColor = GetColor(HMI_datas.cursor_color, Rectangle_Color);
       thumbtime = millis() + 60000;
@@ -7310,9 +7294,10 @@
     JYERSUI::backcolor = Color_Bg_Black;
     JYERSUI::buttoncolor = RGB( 0, 23, 16);
     JYERSUI::font = font8x16;
-    TERN(SHOW_BOOTSCREEN,,DWIN_Frame_Clear(Color_Bg_Black));
     DWIN_JPG_CacheTo1(Language_English);
+    TERN(SHOW_BOOTSCREEN,,DWIN_Frame_Clear(Color_Bg_Black));
     DWIN_JPG_ShowAndCache(3);
+    DWIN_UpdateLCD();
     CrealityDWIN.Redraw_Screen();
   }
 
