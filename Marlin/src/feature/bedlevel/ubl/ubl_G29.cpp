@@ -737,7 +737,7 @@ void unified_bed_leveling::shift_mesh_height() {
       if (do_ubl_mesh_map) display_map(param.T_map_type);
       
       #if EXTJYERSUI
-        if (HMI_flags.cancel_abl) {
+        if (HMI_flags.cancel_ubl) {
           probe.stow();
           probe.move_z_after_probing();
           restore_ubl_active_state_and_leave();
