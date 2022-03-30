@@ -742,13 +742,6 @@ void unified_bed_leveling::shift_mesh_height() {
 
       #if EXTJYERSUI
         if (HMI_flags.cancel_ubl) {
-          probe.stow();
-          probe.move_z_after_probing();
-          restore_ubl_active_state_and_leave();
-          do_blocking_move_to_xy(
-              constrain(nearby.x - probe.offset_xy.x, MESH_MIN_X, MESH_MAX_X),
-              constrain(nearby.y - probe.offset_xy.y, MESH_MIN_Y, MESH_MAX_Y)
-            );
           SERIAL_ECHOLNPGM("\nMesh only partially populated.\n");
           break;
         }
