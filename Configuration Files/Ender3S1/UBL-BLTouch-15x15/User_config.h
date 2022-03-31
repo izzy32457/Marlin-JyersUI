@@ -47,7 +47,7 @@
  * With this firmware, you can use 3 types of LCD Display :
  * - DWIN Display -> Stock Ender3V2 display (printers sold since their launch and
  *                   until December 2022 (subject to change)).
- * - DACAI Display -> New Ender3V2 / Ender3S1 display (printers sold since December 2022 (subject to change)).
+ * - DACAI Display -> New Ender3V2 / Ender3S1 display (printers sold since December 2021 (subject to change)).
  * - AQUILA Display -> LCD Display (sold by Voxelab) - 100% Compatible with DWIN Display.
  * 
  * If you haven't a DWIN Display, uncomment your type #define DACAI_DISPLAY or #define AQUILA_DISPLAY
