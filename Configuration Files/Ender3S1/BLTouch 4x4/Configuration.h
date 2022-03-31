@@ -1420,8 +1420,8 @@
 #define X_MIN_POS -10  // Ender 3S1 v301 Configs
 #define Y_MIN_POS -8   // Ender 3S1 v301 Configs
 #define Z_MIN_POS 0
-#define X_MAX_POS X_230  // Ender 3S1 v301 Configs
-#define Y_MAX_POS Y_220  // Ender 3S1 v301 Configs
+#define X_MAX_POS X 230  // Ender 3S1 v301 Configs
+#define Y_MAX_POS Y 220  // Ender 3S1 v301 Configs
 #define Z_MAX_POS 270    // Ender 3S1 v301 Configs
 //#define I_MIN_POS 0
 //#define I_MAX_POS 50
