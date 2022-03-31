@@ -61,8 +61,8 @@
   #undef BABYSTEP_ZPROBE_OFFSET
 #endif
 
-// For Boot screen perso
-//#define BOOTPERSO
+
+#define BOOTPERSO
 
 
 typedef struct { 

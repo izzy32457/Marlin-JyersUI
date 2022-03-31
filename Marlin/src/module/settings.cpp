@@ -1596,7 +1596,7 @@ void MarlinSettings::postprocess() {
       TERN_(HOST_PROMPT_SUPPORT, hostui.notify(GET_TEXT_F(MSG_SETTINGS_STORED)));
     }
 
-    TERN_(EXTENSIBLE_UI, ExtUI::onConfigurationStoreWritten(!eeprom_error));
+    TERN_(EXTENSIBLE_UI, ExtUI::onSettingsStored(!eeprom_error));
 
     return !eeprom_error;
   }
@@ -2609,7 +2609,7 @@ void MarlinSettings::postprocess() {
   bool MarlinSettings::load() {
     if (validate()) {
       const bool success = _load();
-      TERN_(EXTENSIBLE_UI, ExtUI::onConfigurationStoreRead(success));
+      TERN_(EXTENSIBLE_UI, ExtUI::onSettingsLoaded(success));
       return success;
     }
     reset();
@@ -3156,9 +3156,9 @@ void MarlinSettings::reset() {
   //
 
   #if ENABLED(LIN_ADVANCE)
-    LOOP_L_N(i, EXTRUDERS) {
-      planner.extruder_advance_K[i] = LIN_ADVANCE_K;
-      TERN_(EXTRA_LIN_ADVANCE_K, other_extruder_advance_K[i] = LIN_ADVANCE_K);
+    EXTRUDER_LOOP() {
+      planner.extruder_advance_K[e] = LIN_ADVANCE_K;
+      TERN_(EXTRA_LIN_ADVANCE_K, other_extruder_advance_K[e] = LIN_ADVANCE_K);
     }
   #endif
 
@@ -3203,7 +3203,7 @@ void MarlinSettings::reset() {
   // Advanced Pause filament load & unload lengths
   //
   #if ENABLED(ADVANCED_PAUSE_FEATURE)
-    LOOP_L_N(e, EXTRUDERS) {
+    EXTRUDER_LOOP() {
       fc_settings[e].unload_length = FILAMENT_CHANGE_UNLOAD_LENGTH;
       fc_settings[e].load_length = FILAMENT_CHANGE_FAST_LOAD_LENGTH;
     }

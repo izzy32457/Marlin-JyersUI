@@ -624,17 +624,17 @@ volatile bool Temperature::raw_temps_ready = false;
     #endif
 
     TERN_(HAS_FAN_LOGIC, fan_update_ms = next_temp_ms + fan_update_interval_ms);
-
+    TERN_(DWIN_CREALITY_LCD_JYERSUI, CrealityDWINClass::PidTuning(CrealityDWINClass::pidresult_t::PID_STARTED));
     TERN_(EXTENSIBLE_UI, ExtUI::onPidTuning(ExtUI::result_t::PID_STARTED));
     TERN_(DWIN_LCD_PROUI, DWIN_PidTuning(isbed ? PID_BED_START : PID_EXTR_START));
-    TERN_(DWIN_CREALITY_LCD_JYERSUI, CrealityDWINClass::PidTuning(CrealityDWINClass::pidresult_t::PID_STARTED));
+    
 
     if (target > GHV(CHAMBER_MAX_TARGET, BED_MAX_TARGET, temp_range[heater_id].maxtemp - (HOTEND_OVERSHOOT))) {
-      SERIAL_ECHOLNPGM(STR_PID_TEMP_TOO_HIGH);
+      TERN_(DWIN_CREALITY_LCD_JYERSUI, CrealityDWINClass::PidTuning(CrealityDWINClass::pidresult_t::PID_TEMP_TOO_HIGH));
       TERN_(EXTENSIBLE_UI, ExtUI::onPidTuning(ExtUI::result_t::PID_TEMP_TOO_HIGH));
       TERN_(DWIN_LCD_PROUI, DWIN_PidTuning(PID_TEMP_TOO_HIGH));
-      TERN_(DWIN_CREALITY_LCD_JYERSUI, CrealityDWINClass::PidTuning(CrealityDWINClass::pidresult_t::PID_TEMP_TOO_HIGH));
       TERN_(HOST_PROMPT_SUPPORT, hostui.notify(GET_TEXT_F(MSG_PID_TEMP_TOO_HIGH)));
+      SERIAL_ECHOLNPGM(STR_PID_TEMP_TOO_HIGH);
       return;
     }
 
@@ -655,7 +655,7 @@ volatile bool Temperature::raw_temps_ready = false;
 
     // PID Tuning loop
     wait_for_heatup = true; // Can be interrupted with M108
-    TERN_(HAS_STATUS_MESSAGE, ui.set_status(F("Wait for heat up...")));
+    LCD_MESSAGE(MSG_HEATING);
     while (wait_for_heatup) {
 
       const millis_t ms = millis();
@@ -722,11 +722,11 @@ volatile bool Temperature::raw_temps_ready = false;
         #define MAX_OVERSHOOT_PID_AUTOTUNE 30
       #endif
       if (current_temp > target + MAX_OVERSHOOT_PID_AUTOTUNE) {
-        SERIAL_ECHOLNPGM(STR_PID_TEMP_TOO_HIGH);
+        TERN_(DWIN_CREALITY_LCD_JYERSUI, CrealityDWINClass::PidTuning(CrealityDWINClass::pidresult_t::PID_TEMP_TOO_HIGH));
         TERN_(EXTENSIBLE_UI, ExtUI::onPidTuning(ExtUI::result_t::PID_TEMP_TOO_HIGH));
         TERN_(DWIN_LCD_PROUI, DWIN_PidTuning(PID_TEMP_TOO_HIGH));
-        TERN_(DWIN_CREALITY_LCD_JYERSUI, CrealityDWINClass::PidTuning(CrealityDWINClass::pidresult_t::PID_TEMP_TOO_HIGH));
         TERN_(HOST_PROMPT_SUPPORT, hostui.notify(GET_TEXT_F(MSG_PID_TEMP_TOO_HIGH)));
+        SERIAL_ECHOLNPGM(STR_PID_TEMP_TOO_HIGH);
         break;
       }
 
@@ -761,10 +761,10 @@ volatile bool Temperature::raw_temps_ready = false;
         #define MAX_CYCLE_TIME_PID_AUTOTUNE 20L
       #endif
       if ((ms - _MIN(t1, t2)) > (MAX_CYCLE_TIME_PID_AUTOTUNE * 60L * 1000L)) {
+        TERN_(DWIN_CREALITY_LCD_JYERSUI, CrealityDWINClass::PidTuning(CrealityDWINClass::pidresult_t::PID_TUNING_TIMEOUT));
         TERN_(DWIN_CREALITY_LCD, DWIN_Popup_Temperature(0));
         TERN_(DWIN_LCD_PROUI, DWIN_PidTuning(PID_TUNING_TIMEOUT));
         TERN_(EXTENSIBLE_UI, ExtUI::onPidTuning(ExtUI::result_t::PID_TUNING_TIMEOUT));
-        TERN_(DWIN_CREALITY_LCD_JYERSUI, CrealityDWINClass::PidTuning(CrealityDWINClass::pidresult_t::PID_TUNING_TIMEOUT));
         TERN_(HOST_PROMPT_SUPPORT, hostui.notify(GET_TEXT_F(MSG_PID_TIMEOUT)));
         SERIAL_ECHOLNPGM(STR_PID_TIMEOUT);
         break;
@@ -817,10 +817,10 @@ volatile bool Temperature::raw_temps_ready = false;
           GHV(_set_chamber_pid(tune_pid), _set_bed_pid(tune_pid), _set_hotend_pid(heater_id, tune_pid));
 
         TERN_(PRINTER_EVENT_LEDS, printerEventLEDs.onPidTuningDone(color));
-
+        TERN_(DWIN_CREALITY_LCD_JYERSUI, CrealityDWINClass::PidTuning(CrealityDWINClass::pidresult_t::PID_DONE));
         TERN_(EXTENSIBLE_UI, ExtUI::onPidTuning(ExtUI::result_t::PID_DONE));
         TERN_(DWIN_LCD_PROUI, DWIN_PidTuning(PID_DONE));
-        TERN_(DWIN_CREALITY_LCD_JYERSUI, CrealityDWINClass::PidTuning(CrealityDWINClass::pidresult_t::PID_DONE));
+        
         
         goto EXIT_M303;
       }
@@ -836,10 +836,10 @@ volatile bool Temperature::raw_temps_ready = false;
     disable_all_heaters();
 
     TERN_(PRINTER_EVENT_LEDS, printerEventLEDs.onPidTuningDone(color));
-
+    TERN_(DWIN_CREALITY_LCD_JYERSUI, CrealityDWINClass::PidTuning(CrealityDWINClass::pidresult_t::PID_DONE));
     TERN_(EXTENSIBLE_UI, ExtUI::onPidTuning(ExtUI::result_t::PID_DONE));
     TERN_(DWIN_LCD_PROUI, DWIN_PidTuning(PID_DONE));
-    TERN_(DWIN_CREALITY_LCD_JYERSUI, CrealityDWINClass::PidTuning(CrealityDWINClass::pidresult_t::PID_DONE));
+    
 
     EXIT_M303:
       TERN_(NO_FAN_SLOWING_IN_PID_TUNING, adaptive_fan_slowing = true);
@@ -3639,7 +3639,7 @@ void Temperature::isr() {
   #endif
 
   #if HAS_HOTEND && HAS_STATUS_MESSAGE
-    void Temperature::set_heating_message(const uint8_t e) {
+    void Temperature::set_heating_message(const uint8_t e, const bool isM104/*=false*/) {
       const bool heating = isHeatingHotend(e);
       ui.status_printf(0,
         #if HAS_MULTI_HOTEND
@@ -3649,6 +3649,14 @@ void Temperature::isr() {
         #endif
         , heating ? GET_TEXT(MSG_HEATING) : GET_TEXT(MSG_COOLING)
       );
+
+      if (isM104) {
+        static uint8_t wait_e; wait_e = e;
+        ui.set_status_reset_fn([]{
+          const celsius_t c = degTargetHotend(wait_e);
+          return c < 30 || degHotendNear(wait_e, c);
+        });
+      }
     }
   #endif
 

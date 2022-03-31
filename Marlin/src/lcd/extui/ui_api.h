@@ -297,17 +297,15 @@ namespace ExtUI {
   #endif
 
   #if HAS_FILAMENT_SENSOR
-    //bool getFilamentRunoutEnabled();
-    //void setFilamentRunoutEnabled(const bool);
-    bool getFilamentRunoutEnabled(const extruder_t extruder=E0);
-    void setFilamentRunoutEnabled(const bool, const extruder_t extruder=E0);
+    bool getFilamentRunoutEnabled();
+    void setFilamentRunoutEnabled(const bool);
     bool getFilamentRunoutState();
     void setFilamentRunoutState(const bool);
 
-    //#if HAS_FILAMENT_RUNOUT_DISTANCE
+    #if HAS_FILAMENT_RUNOUT_DISTANCE
       float getFilamentRunoutDistance_mm();
       void setFilamentRunoutDistance_mm(const_float_t);
-    //#endif
+    #endif
   #endif
 
   #if ENABLED(CASE_LIGHT_ENABLE)
@@ -422,8 +420,8 @@ namespace ExtUI {
   void onStoreSettings(char *);
   void onLoadSettings(const char *);
   void onPostprocessSettings();
-  void onConfigurationStoreWritten(bool success);
-  void onConfigurationStoreRead(bool success);
+  void onSettingsStored(bool success);
+  void onSettingsLoaded(bool success);
   #if ENABLED(POWER_LOSS_RECOVERY)
     void onPowerLossResume();
   #endif

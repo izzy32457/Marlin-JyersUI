@@ -689,7 +689,7 @@ G29_TYPE GcodeSuite::G29() {
 
           abl.reenable = false;
           idle_no_sleep();
-          TERN_(EXTJYERSUI, if (HMI_flags.cancel_abl)  break; );
+          TERN_(EXTJYERSUI, if (HMI_flags.cancel_abl) break; );
 
         } // inner
       } // outer
