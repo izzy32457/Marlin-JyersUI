@@ -5886,8 +5886,8 @@
            case 2: runout.mode[0] = 2; break; // mode LOW
            case 3: runout.mode[0] = 7; break; // mode MOTION
           }
-          runout.reset();
           runout.enabled[0] = State_runoutenable;
+          runout.reset();
           Redraw_Menu(false);
         }
       #endif  
