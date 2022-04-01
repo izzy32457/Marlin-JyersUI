@@ -4687,7 +4687,7 @@
                 flag_leveling_m = true;
                 gcode.process_subcommands_now(F("M211 S1"));
                 set_bed_leveling_enabled(level_state);
-                TERN_(AUTO_BED_LEVELING_BILINEAR, refresh_bed_level());
+                TERN_(AUTO_BED_LEVELING_BILINEAR, bbl.refresh_bed_level());
                 Popup_Handler(SaveLevel, true);
               }
               break;
@@ -4747,7 +4747,7 @@
                       #endif
                     #endif
                     liveadjust = false;
-                    TERN_(AUTO_BED_LEVELING_BILINEAR, refresh_bed_level());
+                    TERN_(AUTO_BED_LEVELING_BILINEAR, bbl.refresh_bed_level());
                     planner.synchronize();
                     Draw_Menu(Leveling, LEVELING_MANUAL);
                   }
