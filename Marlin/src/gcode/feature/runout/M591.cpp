@@ -59,7 +59,9 @@ void GcodeSuite::M591() {
     if (parser.seen('P')) {
       const uint8_t tmp_mode = parser.value_int();
       if (tmp_mode < 3 || tmp_mode == 7) {
+        runout.reset();
         runout.mode[tool] = tmp_mode;
+        runout.setRunoutState();
         runout.reset();
       }
     }

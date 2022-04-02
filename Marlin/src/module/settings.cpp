@@ -2814,6 +2814,7 @@ void MarlinSettings::reset() {
     COPY(runout.enabled, fred);
     COPY(runout.mode, frm);
     LOOP_L_N(e, NRS) runout.set_runout_distance(frd[e], e);
+    runout.setRunoutState();
     runout.reset();
   #endif
 

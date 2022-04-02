@@ -1184,8 +1184,10 @@
       DWIN_Draw_Rectangle(1, GetColor(HMI_datas.ico_continue_bg, Confirm_Color), 87, 280, 186, 317);
       DWIN_Draw_Rectangle(0, GetColor(HMI_datas.popup_highlight, Color_White), 86, 279, 187, 318);
       DWIN_Draw_Rectangle(0, GetColor(HMI_datas.popup_highlight, Color_White), 85, 278, 188, 319);
-      DWIN_Draw_String(false, DWIN_FONT_STAT, GetColor(HMI_datas.ico_continue_txt, Color_White), GetColor(HMI_datas.ico_continue_bg, Confirm_Color), 96, 290, 
+      DWIN_Draw_String(false, DWIN_FONT_STAT, GetColor(HMI_datas.ico_continue_txt, Color_White), GetColor(HMI_datas.ico_continue_bg, Confirm_Color), 
           #if EXTJYERSUI
+            (popup == Level2) ? 104 : 96, 
+            290,
             (popup == Level2) ? GET_TEXT_F(MSG_BUTTON_CANCEL) : GET_TEXT_F(MSG_BUTTON_CONFIRM)
           #else
             GET_TEXT_F(MSG_BUTTON_CONTINUE)
@@ -5886,8 +5888,9 @@
            case 2: runout.mode[0] = 2; break; // mode LOW
            case 3: runout.mode[0] = 7; break; // mode MOTION
           }
-          runout.enabled[0] = State_runoutenable;
+          if (runout.mode[0] !=0) runout.setRunoutState();
           runout.reset();
+          runout.enabled[0] = State_runoutenable;
           Redraw_Menu(false);
         }
       #endif  
