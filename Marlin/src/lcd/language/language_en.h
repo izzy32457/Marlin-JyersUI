@@ -351,6 +351,7 @@ namespace Language_en {
     LSTR MSG_PID_BAD_EXTRUDER_NUM           = _UxGT("Bad extruder number");
     LSTR MSG_PID_TEMP_TOO_HIGH              = _UxGT("Temperature too high!");
     LSTR MSG_PID_TIMEOUT                    = _UxGT("Timeout!");
+    LSTR MSG_PID_VALUE                      = _UxGT("Value");
   #else
     LSTR MSG_PID_BAD_EXTRUDER_NUM           = _UxGT("Autotune failed. Bad extruder.");
     LSTR MSG_PID_TEMP_TOO_HIGH              = _UxGT("Autotune failed. Temperature too high.");
@@ -618,7 +619,11 @@ namespace Language_en {
   LSTR MSG_INFO_BOARD_MENU                = _UxGT("Board Info");
   LSTR MSG_INFO_THERMISTOR_MENU           = _UxGT("Thermistors");
   LSTR MSG_INFO_EXTRUDERS                 = _UxGT("Extruders");
+#if ENABLED(DWIN_CREALITY_LCD_JYERSUI)
   LSTR MSG_INFO_BAUDRATE                  = _UxGT("Baud");
+#else
+  LSTR MSG_INFO_BAUDRATE                  = STR_INFO_BAUDRATE _UxGT(" rate");
+#endif
   LSTR MSG_INFO_PROTOCOL                  = _UxGT("Protocol");
   LSTR MSG_INFO_RUNAWAY_OFF               = _UxGT("Runaway Watch: OFF");
   LSTR MSG_INFO_RUNAWAY_ON                = _UxGT("Runaway Watch: ON");
@@ -635,11 +640,12 @@ namespace Language_en {
     LSTR MSG_PLEASE_PREHEAT               = _UxGT("Please preheat the hot end.");
     LSTR MSG_INFO_PRINT_COUNT_RESET       = _UxGT("Reset Print Counter");
     #if ENABLED(DWIN_CREALITY_LCD_JYERSUI)
-      LSTR MSG_INFO_PRINT_COUNT             = _UxGT("prints");
-      LSTR MSG_INFO_PRINT_TIME              = _UxGT("Printed");
+      LSTR MSG_INFO_PRINT_COUNT             = _UxGT("Prints");
+      LSTR MSG_INFO_PRINT_TIME              = _UxGT("Print Time");
+      LSTR MSG_INFO_PRINT_TOTAL              = _UxGT("Total");
       LSTR MSG_INFO_PRINT_LONGEST           = _UxGT("Longest");
-      LSTR MSG_INFO_PRINT_FILAMENT          = _UxGT("filament used");
-      LSTR MSG_INFO_COMPLETED_PRINTS          = _UxGT("finished");
+      LSTR MSG_INFO_PRINT_FILAMENT          = _UxGT("filament used.");
+      LSTR MSG_INFO_COMPLETED_PRINTS          = _UxGT("finished.");
     #else
       LSTR MSG_INFO_PRINT_COUNT             = _UxGT("Print Count");
       LSTR MSG_INFO_PRINT_TIME              = _UxGT("Print Time");
@@ -649,7 +655,7 @@ namespace Language_en {
     #endif
     LSTR MSG_COLORS_GET                   = _UxGT("Get Color");
     #if ENABLED(DWIN_CREALITY_LCD_JYERSUI)
-      LSTR MSG_COLORS_SELECT                = _UxGT("Select Colors UI");
+      LSTR MSG_COLORS_SELECT                = _UxGT("Select UI Colors");
     #else
       LSTR MSG_COLORS_SELECT                = _UxGT("Select Colors");
     #endif
@@ -678,6 +684,8 @@ namespace Language_en {
     LSTR MSG_HOST_SETTINGS                  = _UxGT("Host Settings");
     LSTR MSG_LIVE_ADJUSTMENT                = _UxGT("Live adjustment");
     LSTR MSG_OFFSET_Z                       = _UxGT("Z-Offset");
+    LSTR MSG_UP                             = _UxGT("Up");
+    LSTR MSG_DOWN                           = _UxGT("Down");
     LSTR MSG_PREHEAT                        = _UxGT("Preheat");
     LSTR MSG_HOTEND                         = _UxGT("Hotend");
     LSTR MSG_MESH_VIEW_TEXT                 = _UxGT("Text Mesh View");
