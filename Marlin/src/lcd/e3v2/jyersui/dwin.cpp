@@ -96,6 +96,8 @@
     #include "../../../feature/powerloss.h"
   #endif
 
+  #include "../../../module/stepper.h"
+
   #if HAS_ES_DIAG
     #include "diag_endstops.h"
   #endif
@@ -490,7 +492,9 @@
   constexpr const char * const CrealityDWINClass::color_names[16];
   constexpr const char * const CrealityDWINClass::preheat_modes[3];
   constexpr const char * const CrealityDWINClass::zoffset_modes[3];
-  constexpr const char * const CrealityDWINClass::runoutsensor_modes[4];
+  #if HAS_FILAMENT_SENSOR
+    constexpr const char * const CrealityDWINClass::runoutsensor_modes[4];
+  #endif
 
 
   // Clear a part of the screen
