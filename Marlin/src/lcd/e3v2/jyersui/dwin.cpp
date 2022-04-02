@@ -1192,7 +1192,7 @@
           #if EXTJYERSUI
             (popup == Level2) ? 104 : 96, 
             290,
-            (popup == Level2) ? GET_TEXT_F(MSG_BUTTON_CANCEL) : GET_TEXT_F(MSG_BUTTON_CONFIRM)
+            (popup == Level2) ? GET_TEXT_F(MSG_BUTTON_CANCEL) : GET_TEXT_F(MSG_BUTTON_CONTINUE)
           #else
             GET_TEXT_F(MSG_BUTTON_CONTINUE)
           #endif
@@ -2003,7 +2003,7 @@
               break;
             case ZOFFSET_UP:
               if (draw) {
-                sprintf_P(cmd, PSTR("%s Up"), GET_TEXT(MSG_BABYSTEP_Z));
+                sprintf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_BABYSTEP_Z), GET_TEXT(MSG_UP));
                 Draw_Menu_Item(row, ICON_Axis, F(cmd));
                 }
                else {
@@ -2020,7 +2020,7 @@
               break;
             case ZOFFSET_DOWN:
               if (draw) {
-                sprintf_P(cmd, PSTR("%s Down"), GET_TEXT(MSG_BABYSTEP_Z));
+                sprintf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_BABYSTEP_Z), GET_TEXT(MSG_DOWN));
                 Draw_Menu_Item(row, ICON_AxisD, F(cmd));
                 }
                else {
@@ -2593,7 +2593,7 @@
             #endif
             case HOTENDPID_KP:
               if (draw) {
-                sprintf_P(cmd, PSTR("%s Value: "), GET_TEXT(MSG_PID_P));
+                sprintf_P(cmd, PSTR("%s %s: "), GET_TEXT(MSG_PID_P), GET_TEXT(MSG_PID_VALUE));
                 Draw_Menu_Item(row, ICON_Version, F(cmd));
                 Draw_Float(thermalManager.temp_hotend[0].pid.Kp, row, false, 100);
               }
@@ -2602,7 +2602,7 @@
               break;
             case HOTENDPID_KI:
               if (draw) {
-                sprintf_P(cmd, PSTR("%s Value: "), GET_TEXT(MSG_PID_I));
+                sprintf_P(cmd, PSTR("%s %s: "), GET_TEXT(MSG_PID_I), GET_TEXT(MSG_PID_VALUE));
                 Draw_Menu_Item(row, ICON_Version, F(cmd));
                 Draw_Float(unscalePID_i(thermalManager.temp_hotend[0].pid.Ki), row, false, 100);
               }
@@ -2611,7 +2611,7 @@
               break;
             case HOTENDPID_KD:
               if (draw) {
-                sprintf_P(cmd, PSTR("%s Value: "), GET_TEXT(MSG_PID_D));
+                sprintf_P(cmd, PSTR("%s %s: "), GET_TEXT(MSG_PID_D), GET_TEXT(MSG_PID_VALUE));
                 Draw_Menu_Item(row, ICON_Version, F(cmd));
                 Draw_Float(unscalePID_d(thermalManager.temp_hotend[0].pid.Kd), row, false, 100);
               }
@@ -2663,7 +2663,7 @@
               break;
             case BEDPID_KP:
               if (draw) {
-                sprintf_P(cmd, PSTR("%s Value: "), GET_TEXT(MSG_PID_P));
+                sprintf_P(cmd, PSTR("%s %s: "), GET_TEXT(MSG_PID_P), GET_TEXT(MSG_PID_VALUE));
                 Draw_Menu_Item(row, ICON_Version, F(cmd));
                 Draw_Float(thermalManager.temp_bed.pid.Kp, row, false, 100);
               }
@@ -2673,7 +2673,7 @@
               break;
             case BEDPID_KI:
               if (draw) {
-                sprintf_P(cmd, PSTR("%s Value: "), GET_TEXT(MSG_PID_I));
+                sprintf_P(cmd, PSTR("%s %s: "), GET_TEXT(MSG_PID_I), GET_TEXT(MSG_PID_VALUE));
                 Draw_Menu_Item(row, ICON_Version, F(cmd));
                 Draw_Float(unscalePID_i(thermalManager.temp_bed.pid.Ki), row, false, 100);
               }
@@ -2682,7 +2682,7 @@
               break;
             case BEDPID_KD:
               if (draw) {
-                sprintf_P(cmd, PSTR("%s Value: "), GET_TEXT(MSG_PID_D));
+                sprintf_P(cmd, PSTR("%s %s: "), GET_TEXT(MSG_PID_D), GET_TEXT(MSG_PID_VALUE));
                 Draw_Menu_Item(row, ICON_Version, F(cmd));
                 Draw_Float(unscalePID_d(thermalManager.temp_bed.pid.Kd), row, false, 100);
               }
@@ -3946,7 +3946,7 @@
           #if ENABLED(BAUD_RATE_GCODE)
             case ADVANCED_BAUDRATE_MODE:
               if (draw) {
-                sprintf_P(cmd, PSTR("115K %s rate"), GET_TEXT(MSG_INFO_BAUDRATE));
+                sprintf_P(cmd, PSTR("115K %s"), GET_TEXT(MSG_INFO_BAUDRATE));
                 Draw_Menu_Item(row, ICON_Setspeed, F(cmd));
                 Draw_Checkbox(row, HMI_datas.baudratemode);
                 }
@@ -4253,7 +4253,7 @@
                 Draw_Menu_Item(INFO_PRINTCOUNT, ICON_HotendTemp, row1, row2, false, true);
 
                 duration_t(print_job_timer.getStats().printTime).toString(buf);
-                sprintf_P(row1, PSTR("%s: %s"), GET_TEXT(MSG_INFO_PRINT_TIME), buf);
+                sprintf_P(row1, PSTR("%s: %s"), GET_TEXT(MSG_INFO_PRINT_TOTAL), buf);
                 duration_t(print_job_timer.getStats().longestPrint).toString(buf);
                 sprintf_P(row2, PSTR("%s: %s"), GET_TEXT(MSG_INFO_PRINT_LONGEST), buf);
                 Draw_Menu_Item(INFO_PRINTTIME, ICON_PrintTime, row1, row2, false, true);
@@ -4791,7 +4791,7 @@
               break;
             case LEVELING_M_UP:
               if (draw){
-                sprintf_P(cmd, PSTR("%s Up"), GET_TEXT(MSG_BABYSTEP_Z));
+                sprintf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_BABYSTEP_Z), GET_TEXT(MSG_UP));
                 Draw_Menu_Item(row, ICON_Axis, F(cmd));
                 }
               else if (Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] < MAX_Z_OFFSET) {
@@ -4805,7 +4805,7 @@
               break;
             case LEVELING_M_DOWN:
               if (draw){
-                sprintf_P(cmd, PSTR("%s Down"), GET_TEXT(MSG_BABYSTEP_Z));
+                sprintf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_BABYSTEP_Z), GET_TEXT(MSG_DOWN));
                 Draw_Menu_Item(row, ICON_AxisD, F(cmd));
                 }
               else if (Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] > MIN_Z_OFFSET) {
@@ -4932,7 +4932,7 @@
               break;
             case UBL_M_UP:
               if (draw) {
-                sprintf_P(cmd, PSTR("%s Up"), GET_TEXT(MSG_BABYSTEP_Z));
+                sprintf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_BABYSTEP_Z), GET_TEXT(MSG_UP));
                 Draw_Menu_Item(row, ICON_Axis, F(cmd));
               }
               else if (Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] < MAX_Z_OFFSET) {
@@ -4946,7 +4946,7 @@
               break;
             case UBL_M_DOWN:
               if (draw) {
-                sprintf_P(cmd, PSTR("%s Down"), GET_TEXT(MSG_BABYSTEP_Z));
+                printf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_BABYSTEP_Z), GET_TEXT(MSG_DOWN));
                 Draw_Menu_Item(row, ICON_Axis, F(cmd));
               }
               else if (Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] > MIN_Z_OFFSET) {
@@ -5033,7 +5033,7 @@
               break;
             case MMESH_UP:
               if (draw) {
-                sprintf_P(cmd, PSTR("%s Up"), GET_TEXT(MSG_BABYSTEP_Z));
+                sprintf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_BABYSTEP_Z), GET_TEXT(MSG_UP));
                 Draw_Menu_Item(row, ICON_Axis, F(cmd));
               }
               else if (current_position.z < MAX_Z_OFFSET) {
@@ -5046,7 +5046,7 @@
               break;
             case MMESH_DOWN:
               if (draw) {
-                sprintf_P(cmd, PSTR("%s Down"), GET_TEXT(MSG_BABYSTEP_Z));
+                sprintf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_BABYSTEP_Z), GET_TEXT(MSG_DOWN));
                 Draw_Menu_Item(row, ICON_AxisD, F(cmd));
               }
               else if (current_position.z > MIN_Z_OFFSET) {
@@ -5188,7 +5188,7 @@
               break;
             case TUNE_ZUP:
               if (draw) {
-                sprintf_P(cmd, PSTR("%s Up"), GET_TEXT(MSG_OFFSET_Z));
+                sprintf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_OFFSET_Z), GET_TEXT(MSG_UP));
                 Draw_Menu_Item(row, ICON_Axis, F(cmd));
               }
               else if (zoffsetvalue < MAX_Z_OFFSET) {
@@ -5199,7 +5199,7 @@
               break;
             case TUNE_ZDOWN:
               if (draw) {
-                sprintf_P(cmd, PSTR("%s Down"), GET_TEXT(MSG_OFFSET_Z));
+                sprintf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_OFFSET_Z), GET_TEXT(MSG_DOWN));
                 Draw_Menu_Item(row, ICON_AxisD, F(cmd));
               }
               else if (zoffsetvalue > MIN_Z_OFFSET) {
