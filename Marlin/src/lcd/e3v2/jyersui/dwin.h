@@ -166,7 +166,7 @@ public:
   static void Draw_Menu_Item(uint16_t row, uint8_t icon=0, const char * const label1=nullptr, const char * const label2=nullptr, bool more=false, bool centered=false, bool onlyCachedFileIcon=false);
   static void Draw_Menu_Item(uint8_t row, uint8_t icon=0, FSTR_P const flabel1=nullptr, FSTR_P const flabel2=nullptr, bool more=false, bool centered=false, bool onlyCachedFileIcon=false);
   static void Draw_Menu(uint8_t menu, uint8_t select=0, uint8_t scroll=0);
-  static void Redraw_Menu(bool lastprocess=true, bool lastselection=false, bool lastmenu=false);
+  static void Redraw_Menu(bool lastprocess=true, bool lastselection=false, bool lastmenu=false, bool flag_scroll=false);
   static void Redraw_Screen();
 
   static void Main_Menu_Icons();

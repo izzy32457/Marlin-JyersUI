@@ -29,9 +29,6 @@
 #include "dwin.h"
 #include "../../../gcode/gcode.h"
 
-#if HAS_FILAMENT_SENSOR
-  #include "../../../feature/runout.h"
-#endif
 #include "extjyersui.h"
 
 

@@ -154,7 +154,8 @@ Stepper stepper; // Singleton
   #endif
 #endif
 
-axis_flags_t Stepper::axis_enabled; // {0}
+//axis_flags_t Stepper::axis_enabled; // {0}
+stepper_flags_t Stepper::axis_enabled; // {0}
 
 // private:
 

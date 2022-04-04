@@ -590,20 +590,25 @@ void _O2 Endstops::report_states() {
       const uint8_t rm = runout.mode[i - 1],
                     state = runout.out_state(i - 1);
       //
-      SERIAL_ECHOPGM(STR_FILAMENT);
-      if (i > 1) SERIAL_CHAR(' ', '0' + i);
-      //add
-      SERIAL_ECHOPGM(": ");
-      if (rm == 0)
-        SERIAL_ECHOLNPGM("DISABLED");
-      else if (rm == 7) {
-        SERIAL_ECHOPGM("MOTION : ");
-        print_es_state(extDigitalRead(pin) == state);
-      }
-      else
-        SERIAL_ECHOLNPGM_P(extDigitalRead(pin) == state ? PSTR("MISSING") : PSTR("PRESENT"));
-     //
+      #if DISABLED(SLIM_LCD_MENUS)
+        SERIAL_ECHOPGM(STR_FILAMENT);
+        if (i > 1) SERIAL_CHAR(' ', '0' + i);
+        //add
+        SERIAL_ECHOPGM(": ");
+        if (rm == 0)
+          SERIAL_ECHOLNPGM("DISABLED");
+        else if (rm == 7) {
+          SERIAL_ECHOPGM("MOTION : ");
+          print_es_state(extDigitalRead(pin) == state);
+        }
+        else
+          SERIAL_ECHOLNPGM_P(extDigitalRead(pin) == state ? PSTR("MISSING") : PSTR("PRESENT"));
+      #else
+        print_es_state(extDigitalRead(pin) == outval, F(STR_FILAMENT));
+      #endif
+    //
     }
+
   #endif
 
   TERN_(BLTOUCH, bltouch._reset_SW_mode());
