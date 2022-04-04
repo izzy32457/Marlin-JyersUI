@@ -619,11 +619,11 @@ namespace Language_en {
   LSTR MSG_INFO_BOARD_MENU                = _UxGT("Board Info");
   LSTR MSG_INFO_THERMISTOR_MENU           = _UxGT("Thermistors");
   LSTR MSG_INFO_EXTRUDERS                 = _UxGT("Extruders");
-  #if ENABLED(DWIN_CREALITY_LCD_JYERSUI)
-    LSTR MSG_INFO_BAUDRATE                  = STR_INFO_BAUDRATE _UxGT(" rate");
-  #else
-    LSTR MSG_INFO_BAUDRATE                  = _UxGT("Baud");
-  #endif
+#if ENABLED(DWIN_CREALITY_LCD_JYERSUI)
+  LSTR MSG_INFO_BAUDRATE                  = STR_INFO_BAUDRATE _UxGT(" rate");
+#else
+  LSTR MSG_INFO_BAUDRATE                  = _UxGT("Baud");
+#endif
   LSTR MSG_INFO_PROTOCOL                  = _UxGT("Protocol");
   LSTR MSG_INFO_RUNAWAY_OFF               = _UxGT("Runaway Watch: OFF");
   LSTR MSG_INFO_RUNAWAY_ON                = _UxGT("Runaway Watch: ON");
