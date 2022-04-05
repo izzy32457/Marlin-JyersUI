@@ -4254,7 +4254,7 @@
                 Draw_Menu_Item(INFO_PRINTCOUNT, ICON_HotendTemp, row1, row2, false, true);
 
                 duration_t(print_job_timer.getStats().printTime).toString(buf);
-                sprintf_P(row1, PSTR("%s: %s"), GET_TEXT(MSG_INFO_PRINT_TOTAL), buf);
+                sprintf_P(row1, PSTR("%s: %s"), GET_TEXT(MSG_INFO_PRINT_TIME), buf);
                 duration_t(print_job_timer.getStats().longestPrint).toString(buf);
                 sprintf_P(row2, PSTR("%s: %s"), GET_TEXT(MSG_INFO_PRINT_LONGEST), buf);
                 Draw_Menu_Item(INFO_PRINTTIME, ICON_PrintTime, row1, row2, false, true);
@@ -4948,7 +4948,7 @@
               break;
             case UBL_M_DOWN:
               if (draw) {
-                printf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_BABYSTEP_Z), GET_TEXT(MSG_DOWN));
+                sprintf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_BABYSTEP_Z), GET_TEXT(MSG_DOWN));
                 Draw_Menu_Item(row, ICON_Axis, F(cmd));
               }
               else if (Z_VALUES_ARR[mesh_conf.mesh_x][mesh_conf.mesh_y] > MIN_Z_OFFSET) {
