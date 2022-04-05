@@ -197,7 +197,7 @@
   
   uint8_t scrollpos = 0;
   uint8_t active_menu = MainMenu, last_menu = MainMenu;
-  uint8_t selection = 0, last_selection = 0, last_tune_selection = 0;
+  uint8_t selection = 0, last_selection = 0, last_pos_selection = 0;
   uint8_t process = Main, last_process = Main;
   PopupID popup, last_popup;
   bool keyboard_restrict, reset_keyboard, numeric_keyboard = false;
@@ -205,6 +205,7 @@
   char *stringpointer = nullptr;
 
   bool flag_tune = false;
+  bool flag_chg_fil = false;
   bool flag_viewmesh = false;
   bool flag_leveling_m = false;
 
@@ -718,7 +719,7 @@
   void CrealityDWINClass::Redraw_Menu(bool lastprocess/*=true*/, bool lastselection/*=false*/, bool lastmenu/*=false*/, bool flag_scroll/*=false*/) {
     switch ((lastprocess) ? last_process : process) {
       case Menu:
-        if (flag_tune) {last_selection = last_tune_selection; flag_tune = false;}
+        if (flag_tune) {last_selection = last_pos_selection; flag_tune = false; }
         Draw_Menu((lastmenu) ? last_menu : active_menu, (lastselection) ? last_selection : selection, (flag_scroll) ? 0 : scrollpos);
         break;
       case Main:  Draw_Main_Menu((lastselection) ? last_selection : selection); break;
@@ -954,7 +955,8 @@
   }
 
   void CrealityDWINClass::Draw_Print_confirm() {
-    Draw_Print_Screen();
+    if (!file_preview) Draw_Print_Screen(); 
+    else {Clear_Screen(); Draw_Title(GET_TEXT(MSG_PRINTING));}
     process = Confirm;
     popup = Complete;
     DWIN_Draw_Rectangle(1, GetColor(HMI_datas.background, Color_Bg_Black), 8, 252, 263, 351);
@@ -964,8 +966,8 @@
             DWIN_Draw_Rectangle(1, GetColor(HMI_datas.background, Color_Bg_Black), 45, 75, 231, 261);
             DWIN_Draw_Rectangle(0, GetColor(HMI_datas.highlight_box, Color_White), 45, 75, 231, 261);
             TERN(DACAI_DISPLAY, DRAW_IconTH(48 ,78 , file_preview_image_address), DWIN_SRAM_Memory_Icon_Display(48 ,78 , file_preview_image_address));
+            Update_Status(cmd);
           }
-          file_preview = false;
     #endif
     //DRAW_IconWTB(ICON, ICON_Confirm_E, 87, 283);
     DWIN_Draw_Rectangle(1, GetColor(HMI_datas.ico_confirm_bg , Confirm_Color), 87, 288, 186, 335);
@@ -1108,11 +1110,21 @@
       }
       #if HAS_MESH
         static bool _leveling_active = false;
-        _leveling_active = (planner.leveling_active || _leveling_active);
-        if ((_leveling_active = planner.leveling_active && ui.get_blink()))
+        static bool _printing_leveling_active = false;
+        if (printingIsActive()) {
+          _printing_leveling_active = ((planner.leveling_active && planner.leveling_active_at_z(destination.z)) || _leveling_active);   
+          if ((_printing_leveling_active = (planner.leveling_active && planner.leveling_active_at_z(destination.z)) && ui.get_blink()))
             DWIN_Draw_Rectangle(0, GetColor(HMI_datas.status_area_text, Color_White), 187, 415, 204, 435);
           else 
-            DWIN_Draw_Rectangle(0, GetColor(HMI_datas.background, Color_Bg_Black), 187, 415, 204, 435);   
+            DWIN_Draw_Rectangle(0, GetColor(HMI_datas.background, Color_Bg_Black), 187, 415, 204, 435);
+        }
+        else {
+          _leveling_active = (planner.leveling_active || _leveling_active);
+          if ((_leveling_active = planner.leveling_active && ui.get_blink()))
+            DWIN_Draw_Rectangle(0, GetColor(HMI_datas.status_area_text, Color_White), 187, 415, 204, 435);
+          else 
+            DWIN_Draw_Rectangle(0, GetColor(HMI_datas.background, Color_Bg_Black), 187, 415, 204, 435);
+        }  
       #endif
     #endif
 
@@ -1566,6 +1578,7 @@
                   if (thermalManager.temp_hotend[0].target < thermalManager.extrude_min_temp)
                     Popup_Handler(ETemp);
                   else {
+                    flag_chg_fil = true;
                     if (thermalManager.temp_hotend[0].celsius < thermalManager.temp_hotend[0].target - 2) {
                       Popup_Handler(Heating);
                       Update_Status(GET_TEXT(MSG_HEATING));
@@ -1575,6 +1588,8 @@
                     Update_Status(GET_TEXT(MSG_FILAMENT_CHANGE_INIT));
                     sprintf_P(cmd, PSTR("M600 B1 R%i"), thermalManager.temp_hotend[0].target);
                     gcode.process_subcommands_now(cmd);
+                    flag_chg_fil = false;
+                    Draw_Menu(Prepare, PREPARE_CHANGEFIL);
                   }
                 #endif
               }
@@ -2171,6 +2186,7 @@
                 if (thermalManager.temp_hotend[0].target < thermalManager.extrude_min_temp)
                   Popup_Handler(ETemp);
                 else {
+                  flag_chg_fil = true;
                   if (thermalManager.temp_hotend[0].celsius < thermalManager.temp_hotend[0].target - 2) {
                     Update_Status(GET_TEXT(MSG_FILAMENT_CHANGE_HEATING));
                     Popup_Handler(Heating);
@@ -2178,36 +2194,17 @@
                   }
                   Popup_Handler(FilLoad);
                   Update_Status(GET_TEXT(MSG_FILAMENT_CHANGE_LOAD));
-                  gcode.process_subcommands_now(F("M701 Z20"));
+                  gcode.process_subcommands_now(F("M701"));
                   planner.synchronize();
-                  Redraw_Menu(true, true);
+                  flag_chg_fil = false;
+                  Draw_Menu(ChangeFilament, CHANGEFIL_LOAD);
+                  //Redraw_Menu(true, true);
                 }
               }
               break;
             case CHANGEFIL_UNLOAD:
               if (draw)
                 Draw_Menu_Item(row, ICON_ReadEEPROM, GET_TEXT_F(MSG_FILAMENTUNLOAD));
-              else {
-                if (thermalManager.temp_hotend[0].target < thermalManager.extrude_min_temp) {
-                  Popup_Handler(ETemp);
-                }
-                else {
-                  if (thermalManager.temp_hotend[0].celsius < thermalManager.temp_hotend[0].target - 2) {
-                    Update_Status(GET_TEXT(MSG_FILAMENT_CHANGE_HEATING));
-                    Popup_Handler(Heating);
-                    thermalManager.wait_for_hotend(0);
-                  }
-                  Popup_Handler(FilLoad, true);
-                  Update_Status(GET_TEXT(MSG_FILAMENT_CHANGE_UNLOAD));
-                  gcode.process_subcommands_now(F("M702 Z20"));
-                  planner.synchronize();
-                  Redraw_Menu(true, true);
-                }
-              }
-              break;
-            case CHANGEFIL_CHANGE:
-              if (draw)
-                Draw_Menu_Item(row, ICON_ResumeEEPROM, GET_TEXT_F(MSG_FILAMENTCHANGE));
               else {
                 if (thermalManager.temp_hotend[0].target < thermalManager.extrude_min_temp)
                   Popup_Handler(ETemp);
@@ -2217,10 +2214,35 @@
                     Popup_Handler(Heating);
                     thermalManager.wait_for_hotend(0);
                   }
+                  Popup_Handler(FilLoad, true);
+                  Update_Status(GET_TEXT(MSG_FILAMENT_CHANGE_UNLOAD));
+                  gcode.process_subcommands_now(F("M702"));
+                  planner.synchronize();
+                  Draw_Menu(ChangeFilament, CHANGEFIL_UNLOAD);
+                  //Redraw_Menu(true, true);
+                }
+              }
+              break;
+            case CHANGEFIL_CHANGE:
+              if (draw)
+                Draw_Menu_Item(row, ICON_ResumeEEPROM, GET_TEXT_F(MSG_FILAMENTCHANGE));
+              else {
+                if (thermalManager.temp_hotend[0].target < thermalManager.extrude_min_temp) {
+                  Popup_Handler(ETemp);
+                }
+                else {
+                  flag_chg_fil = true;
+                  if (thermalManager.temp_hotend[0].celsius < thermalManager.temp_hotend[0].target - 2) {
+                    Update_Status(GET_TEXT(MSG_FILAMENT_CHANGE_HEATING));
+                    Popup_Handler(Heating);
+                    thermalManager.wait_for_hotend(0);
+                  }
                   Popup_Handler(FilChange);
                   Update_Status(GET_TEXT(MSG_FILAMENT_CHANGE_HEADER));
                   sprintf_P(cmd, PSTR("M600 B1 R%i"), thermalManager.temp_hotend[0].target);
                   gcode.process_subcommands_now(cmd);
+                  flag_chg_fil = false;
+                  Draw_Menu(ChangeFilament, CHANGEFIL_CHANGE);
                 }
               }
               break;
@@ -5230,7 +5252,7 @@
                 Draw_Menu_Item(row, ICON_ResumeEEPROM, GET_TEXT_F(MSG_FILAMENTCHANGE));
               else {
                 flag_tune = true;
-                last_tune_selection = selection;
+                last_pos_selection = selection;
                 Popup_Handler(ConfFilChange);
               }
               break;
@@ -5289,32 +5311,42 @@
                 thermalManager.wait_for_hotend(0);
                 switch (last_menu) {
                   case Prepare:
+                    flag_chg_fil = true;
                     Popup_Handler(FilChange);
                     sprintf_P(cmd, PSTR("M600 B1 R%i"), thermalManager.temp_hotend[0].target);
                     gcode.process_subcommands_now(cmd);
+                    flag_chg_fil = false;
+                    Draw_Menu(Prepare, PREPARE_CHANGEFIL);
                     break;
                   #if ENABLED(FILAMENT_LOAD_UNLOAD_GCODES)
                     case ChangeFilament:
                       switch (last_selection) {
                         case CHANGEFIL_LOAD:
+                          flag_chg_fil = true;
                           Popup_Handler(FilLoad);
-                          Update_Status(GET_TEXT(MSG_FILAMENTLOAD));
+                          Update_Status(GET_TEXT(MSG_FILAMENTLOAD)); 
                           gcode.process_subcommands_now(F("M701"));
                           planner.synchronize();
-                          Redraw_Menu(true, true, true);
+                          flag_chg_fil = false;
+                          Draw_Menu(ChangeFilament, CHANGEFIL_LOAD);
+                          //Redraw_Menu(true, true, true);
                           break;
                         case CHANGEFIL_UNLOAD:
                           Popup_Handler(FilLoad, true);
                           Update_Status(GET_TEXT(MSG_FILAMENTUNLOAD));
                           gcode.process_subcommands_now(F("M702"));
                           planner.synchronize();
-                          Redraw_Menu(true, true, true);
+                          Draw_Menu(ChangeFilament, CHANGEFIL_UNLOAD);
+                          //Redraw_Menu(true, true, true);
                           break;
                         case CHANGEFIL_CHANGE:
+                          flag_chg_fil = true;
                           Popup_Handler(FilChange);
                           Update_Status(GET_TEXT(MSG_FILAMENTCHANGE));
                           sprintf_P(cmd, PSTR("M600 B1 R%i"), thermalManager.temp_hotend[0].target);
                           gcode.process_subcommands_now(cmd);
+                          flag_chg_fil = false;
+                          Draw_Menu(ChangeFilament, CHANGEFIL_CHANGE);
                           break;
                       }
                       break;
@@ -5609,7 +5641,7 @@
       case MoveWait:      Draw_Popup(GET_TEXT_F(MSG_MOVING), GET_TEXT_F(MSG_PLEASE_WAIT), F(""), Wait, ICON_BLTouch); break;
       case Heating:       Draw_Popup(GET_TEXT_F(MSG_HEATING), GET_TEXT_F(MSG_PLEASE_WAIT), F(""), Wait, ICON_BLTouch); break;
       case FilLoad:       Draw_Popup(option ? GET_TEXT_F(MSG_FILAMENT_UNLOADING) : GET_TEXT_F(MSG_FILAMENT_LOADING), GET_TEXT_F(MSG_PLEASE_WAIT), F(""), Wait, ICON_BLTouch); break;
-      case FilChange:     Draw_Popup(GET_TEXT_F(MSG_FILAMENT_CHANGE), GET_TEXT_F(MSG_PLEASE_WAIT), F(""), Wait, ICON_BLTouch); break;
+      case FilChange:     Draw_Popup(option ? GET_TEXT_F(MSG_END_PROCESS) : GET_TEXT_F(MSG_FILAMENT_CHANGE), GET_TEXT_F(MSG_PLEASE_WAIT), F(""), Wait, ICON_BLTouch); break;
       case TempWarn:      Draw_Popup(option ? GET_TEXT_F(MSG_HOTEND_TOO_COLD) : GET_TEXT_F(MSG_HOTEND_TOO_HOT), F(""), F(""), Wait, option ? ICON_TempTooLow : ICON_TempTooHigh); break;
       case Runout:        Draw_Popup(GET_TEXT_F(MSG_FILAMENT_RUNOUT), F(""), F(""), Wait, ICON_BLTouch); break;
       case PIDWait:       Draw_Popup(option ? GET_TEXT_F(MSG_BED_PID_AUTOTUNE) : GET_TEXT_F(MSG_HOTEND_PID_AUTOTUNE), GET_TEXT_F(MSG_IN_PROGRESS), GET_TEXT_F(MSG_PLEASE_WAIT), Wait, ICON_BLTouch); break;
@@ -6402,6 +6434,7 @@
               if (thermalManager.temp_hotend[0].target < thermalManager.extrude_min_temp)
                 Popup_Handler(ETemp);
               else {
+                flag_chg_fil = true;
                 if (thermalManager.temp_hotend[0].celsius < thermalManager.temp_hotend[0].target - 2) {
                   Popup_Handler(Heating);
                   Update_Status(GET_TEXT(MSG_HEATING));
@@ -6424,7 +6457,10 @@
             else {
               pause_menu_response = PAUSE_RESPONSE_RESUME_PRINT;
               if (printing) Popup_Handler(Resuming);
-              else Redraw_Menu(true, true, (active_menu==PreheatHotend));
+              else {
+                if (flag_chg_fil) Popup_Handler(FilChange, true);
+                else Redraw_Menu(true, true, (active_menu==PreheatHotend));
+              }
             }
             break;
         #endif // ADVANCED_PAUSE_FEATURE
@@ -6504,11 +6540,9 @@
             break;  
         #endif
         case Complete:
+          file_preview = false;
           queue.inject(F("M84"));
           Popup_Handler(Reprint);
-          //TERN_(DEBUG_DWIN, SERIAL_ECHOLNPGM("DWIN_Print_Finished"));
-          //queue.inject(F("M84"));
-          //Draw_Main_Menu();
           break;
         case FilInsert:
           Popup_Handler(FilChange);
@@ -6789,7 +6823,7 @@
     thermalManager.cooldown();
     duration_t printing_time = print_job_timer.duration();
     sprintf_P(cmd, PSTR("%s: %02dh %02dm %02ds"), GET_TEXT(MSG_INFO_PRINT_TIME), (uint8_t)(printing_time.value / 3600), (uint8_t)((printing_time.value / 60) %60), (uint8_t)(printing_time.value %60));
-    Update_Status(cmd);
+    if (!file_preview) Update_Status(cmd);
     TERN_(LCD_SET_PROGRESS_MANUALLY, ui.set_progress(100 * (PROGRESS_SCALE)));
     TERN_(USE_M73_REMAINING_TIME, ui.set_remaining_time(0));
     #if HAS_MESH
@@ -6839,7 +6873,10 @@
           Popup_Handler(FilChange);
         else if (pause_menu_response == PAUSE_RESPONSE_RESUME_PRINT) {
           if (printing) Popup_Handler(Resuming);
-          else Redraw_Menu(true, true, (active_menu==PreheatHotend));
+          else {
+            if (flag_chg_fil) Popup_Handler(FilChange, true);
+            else Redraw_Menu(true, true, (active_menu==PreheatHotend));
+          }
         }
       }
     #endif

@@ -619,11 +619,11 @@ namespace Language_en {
   LSTR MSG_INFO_BOARD_MENU                = _UxGT("Board Info");
   LSTR MSG_INFO_THERMISTOR_MENU           = _UxGT("Thermistors");
   LSTR MSG_INFO_EXTRUDERS                 = _UxGT("Extruders");
-#if ENABLED(DWIN_CREALITY_LCD_JYERSUI)
-  LSTR MSG_INFO_BAUDRATE                  = STR_INFO_BAUDRATE _UxGT(" rate");
-#else
-  LSTR MSG_INFO_BAUDRATE                  = _UxGT("Baud");
-#endif
+  #if ENABLED(DWIN_CREALITY_LCD_JYERSUI)
+    LSTR MSG_INFO_BAUDRATE                  = STR_INFO_BAUDRATE _UxGT(" rate");
+  #else
+    LSTR MSG_INFO_BAUDRATE                  = _UxGT("Baud");
+  #endif
   LSTR MSG_INFO_PROTOCOL                  = _UxGT("Protocol");
   LSTR MSG_INFO_RUNAWAY_OFF               = _UxGT("Runaway Watch: OFF");
   LSTR MSG_INFO_RUNAWAY_ON                = _UxGT("Runaway Watch: ON");
@@ -723,6 +723,7 @@ namespace Language_en {
     LSTR MSG_RESUME_PRINT3                  = _UxGT("print was interrupted.");
     LSTR MSG_FILAMENT_CHANGE                = _UxGT("Filament Change");
     LSTR MSG_FILAMENT_CHANGE_FINISH         = _UxGT("(Cancel to finish process)");
+    LSTR MSG_END_PROCESS                    = _UxGT("End of process");
     LSTR MSG_UBL_FINE_TUNE_MESH_COMPLETE    = _UxGT("Tuning Complete");
     LSTR MSG_UBL_SAVE_TO_EEPROM             = _UxGT("Save to EEPROM?");
     LSTR MSG_NO_VALID_MESH2                 = _UxGT("To Save Mesh");
