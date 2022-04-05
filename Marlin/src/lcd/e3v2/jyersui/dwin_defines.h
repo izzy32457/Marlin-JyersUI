@@ -61,30 +61,7 @@
   #undef BABYSTEP_ZPROBE_OFFSET
 #endif
 
-#ifndef FILAMENT_RUNOUT_SENSOR
-  #define FILAMENT_RUNOUT_SENSOR
-  #if ENABLED(FILAMENT_RUNOUT_SENSOR)
-    #define NUM_RUNOUT_SENSORS   1
-    
-    #define FIL_RUNOUT_ENABLED { false }
-    #define FIL_RUNOUT_MODE { 1 } // Array set that will take the place of FIL_RUNOUT_STATE and FIL_RUNOUT_ENABLED_DEFAULT as this code matures
-                                  // 0 -> None, 1 -> HIGH switch, 2 -> LOW switch, 7 -> Motion Sensor detector
-    //#define WATCH_ALL_RUNOUT_SENSORS 
-    #define FILAMENT_RUNOUT_SCRIPT "M600"
-
-    // In Mode 1 or 2, continue printing this length of filament after a run out occurs before executing the
-    // runout script. Useful for a sensor at the end of a feed tube or debounce on a flakey sensor.
-    // In Mode 7, extrusion distance to expect a change of state.
-    // Override with M591EnLnn
-    #define FIL_RUNOUT_DISTANCE_MM { 15 }
-
-    #define FIL_RUNOUT_PULLUP               // Use internal pullup for filament runout pins.
-    //#define FIL_RUNOUT_PULLDOWN
-  #endif 
-#endif
-
 //#define BOOTPERSO
-
 
 typedef struct { 
 
