@@ -677,6 +677,10 @@ namespace Language_en {
 
   // Extra strings for JyersUI
   #if ENABLED(DWIN_CREALITY_LCD_JYERSUI)
+    LSTR MSG_CHGFIL                         = _UxGT("Change Fil");
+    LSTR MSG_M_TRAMMING                     = _UxGT("M. Tramming");
+    LSTR MSG_DIS_STEPS                      = _UxGT("Dis Steps M"); 
+    LSTR MSG_MAIN_SHORTCUT                  = _UxGT("Main Shortcut");
     LSTR MSG_LEVEL_BED_CLEAR_POINT          = _UxGT("Clear Point Value");
     LSTR MSG_UBL_AUTOTILT                   = _UxGT("Autotilt Current Mesh");
     LSTR MSG_VISUAL_SETTINGS                = _UxGT("Visual Settings");
