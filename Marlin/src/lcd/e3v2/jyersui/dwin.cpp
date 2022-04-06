@@ -99,12 +99,12 @@
   #endif
 
   #include <stdio.h>
+  
   bool sd_item_flag = false;
+  
   #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW) && DISABLED(DACAI_DISPLAY)
   #include "../../../libs/base64.hpp"
   #include <map>
-  //#include <string>
-  //using namespace std;
   #endif
   #include <string>
   using namespace std;
@@ -261,15 +261,15 @@
   bool probe_deployed = false;
 
   #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW) && DISABLED(DACAI_DISPLAY)
-  std::map<string, int> image_cache;
-  uint16_t next_available_address = 1;
-  static millis_t thumbtime = 0;
-  static millis_t name_scroll_time = 0;
-  #define SCROLL_WAIT 1000
-  bool file_preview = false;
-  uint16_t file_preview_image_address = 1;
-  uint16_t header_time_s = 0;
-  char header1[40], header2[40], header3[40];
+    std::map<string, int> image_cache;
+    uint16_t next_available_address = 1;
+    static millis_t thumbtime = 0;
+    static millis_t name_scroll_time = 0;
+    #define SCROLL_WAIT 1000
+    uint16_t file_preview_image_address = 1;
+    bool file_preview = false;
+    uint16_t header_time_s = 0;
+    char header1[40], header2[40], header3[40];
   #endif
 
   #if HAS_LEVELING
@@ -1021,8 +1021,12 @@
   }
 
   void CrealityDWINClass::Draw_Print_confirm() {
-    if (!file_preview) Draw_Print_Screen(); 
-    else {Clear_Screen(); Draw_Title(GET_TEXT(MSG_PRINTING));}
+    #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW) && DISABLED(DACAI_DISPLAY)
+      if (!file_preview) Draw_Print_Screen(); 
+      else {Clear_Screen(); Draw_Title(GET_TEXT(MSG_PRINTING));}
+    #else
+      Draw_Print_Screen();
+    #endif
     process = Confirm;
     popup = Complete;
     DWIN_Draw_Rectangle(1, GetColor(HMI_datas.background, Color_Bg_Black), 8, 252, 263, 351);
@@ -6636,7 +6640,9 @@
             break;  
         #endif
         case Complete:
-          file_preview = false;
+          #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW) && DISABLED(DACAI_DISPLAY)
+            file_preview = false;
+          #endif
           queue.inject(F("M84"));
           Popup_Handler(Reprint);
           break;
@@ -6919,7 +6925,11 @@
     thermalManager.cooldown();
     duration_t printing_time = print_job_timer.duration();
     sprintf_P(cmd, PSTR("%s: %02dh %02dm %02ds"), GET_TEXT(MSG_INFO_PRINT_TIME), (uint8_t)(printing_time.value / 3600), (uint8_t)((printing_time.value / 60) %60), (uint8_t)(printing_time.value %60));
-    if (!file_preview) Update_Status(cmd);
+    #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW) && DISABLED(DACAI_DISPLAY)
+      if (!file_preview) Update_Status(cmd);
+    #else
+      Update_Status(cmd);
+    #endif
     TERN_(LCD_SET_PROGRESS_MANUALLY, ui.set_progress(100 * (PROGRESS_SCALE)));
     TERN_(USE_M73_REMAINING_TIME, ui.set_remaining_time(0));
     #if HAS_MESH
