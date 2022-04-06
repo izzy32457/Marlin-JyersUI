@@ -25,13 +25,11 @@
  * lcd/e3v2/jyersui/dwin.h
  */
 
-//#include "../../../inc/MarlinConfigPre.h"
+
 #include "dwin_defines.h"
 #include "dwin_lcd.h"
 #include "jyersui.h"
-//#include "../common/dwin_set.h"
-//#include "../common/dwin_font.h"
-//#include "../common/dwin_color.h"
+
 #include "../common/encoder.h"
 #include "../../../libs/BL24CXX.h"
 
@@ -42,8 +40,6 @@
 #ifndef DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW
   #define DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW
 #endif
-
-//#include "dwin_defines.h"
 
 enum processID : uint8_t {
   Main, Print, Menu, Value, Option, File, Popup, Confirm, Keyboard, Wait, Locked
@@ -110,8 +106,15 @@ enum colorID : uint8_t {
   Default, White, Light_White, Blue, Yellow, Orange, Red, Light_Red, Green, Light_Green, Magenta, Light_Magenta, Cyan, Light_Cyan, Brown, Black
 };
 
+enum shortcutID : uint8_t {
+  Preheat_menu, Cooldown, Disable_stepper, Autohome, ZOffsetmenu , M_Tramming_menu, Change_Fil
+};
+
 
 extern char Hostfilename[66];
+
+#define Color_Shortcut_0    0x10E4
+#define Color_Shortcut_1    0x29A6
 
 #define Custom_Colors_no_Black 14
 #define Custom_Colors       15
@@ -151,8 +154,9 @@ public:
   #if HAS_FILAMENT_SENSOR
    static constexpr const char * const runoutsensor_modes[4] = { "   NONE" , "   HIGH" , "    LOW", " MOTION" };
   #endif
+  static constexpr const char * const shortcut_list[7] = { "Preheat" , " Coold." , "D. Step" , "HomeXYZ" , "ZOffset" , "M.Tram." , "Chg Fil" };
+  static constexpr const char * const _shortcut_list[7] = { GET_TEXT(MSG_PREHEAT) , GET_TEXT(MSG_COOLDOWN) , GET_TEXT(MSG_DIS_STEPS) , GET_TEXT(MSG_AUTO_HOME) , GET_TEXT(MSG_OFFSET_Z) , GET_TEXT(MSG_M_TRAMMING) , GET_TEXT(MSG_CHGFIL) };
 
-  static void Init_process();
   static void Clear_Screen(uint8_t e=3);
   static void Draw_Float(float value, uint8_t row, bool selected=false, uint8_t minunit=10);
   static void Draw_Option(uint8_t value, const char * const * options, uint8_t row, bool selected=false, bool color=false);
@@ -160,6 +164,7 @@ public:
   static const uint64_t Encode_String(const char * string);
   static void Decode_String(const uint64_t num, char string[8]);
   static uint16_t GetColor(uint8_t color, uint16_t original, bool light=false);
+  static void Apply_shortcut(uint8_t shortcut);
   static void Draw_Checkbox(uint8_t row, bool value);
   static void Draw_Title(const char * title);
   static void Draw_Title(FSTR_P const title);
