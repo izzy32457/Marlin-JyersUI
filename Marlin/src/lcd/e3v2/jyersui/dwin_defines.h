@@ -25,7 +25,6 @@
 //#define DEBUG_DWIN 1
 
 #include "../../../core/types.h"
-//#include "../../../core/macros.h"
 #include "../common/dwin_color.h"
 
 
@@ -62,7 +61,7 @@
   #undef BABYSTEP_ZPROBE_OFFSET
 #endif
 
-#if DISABLED(AQUILA_DISPLAY) && DISABLED(DACAI_DISPLAY)
+#if NONE(AQUILA_DISPLAY, DACAI_DISPLAY)
   #define DWIN_DISPLAY
 #endif
 
@@ -199,7 +198,6 @@ typedef struct {
     #endif
     
     #if EXTJYERSUI
-      //TERN_(HAS_FILAMENT_SENSOR, bool Runout_active_state = FIL_RUNOUT_STATE);
       #if ENABLED(NOZZLE_PARK_FEATURE)
           xyz_int_t Park_point = DEF_NOZZLE_PARK_POINT;
       #endif
