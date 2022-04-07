@@ -25,6 +25,7 @@
 //#define DEBUG_DWIN 1
 
 #include "../../../core/types.h"
+//#include "../../../core/macros.h"
 #include "../common/dwin_color.h"
 
 
@@ -76,7 +77,7 @@
     #define PRINTERNAME "Aquila"
   #endif
 #elif MB(CREALITY_V427)
-  #if #if ANY(DWIN_DISPLAY, DACAI_DISPLAY)
+  #if ANY(DWIN_DISPLAY, DACAI_DISPLAY)
     #define PRINTERNAME "Ender-3 Series"
   #else
     #define PRINTERNAME "Aquila"
@@ -198,6 +199,7 @@ typedef struct {
     #endif
     
     #if EXTJYERSUI
+      //TERN_(HAS_FILAMENT_SENSOR, bool Runout_active_state = FIL_RUNOUT_STATE);
       #if ENABLED(NOZZLE_PARK_FEATURE)
           xyz_int_t Park_point = DEF_NOZZLE_PARK_POINT;
       #endif
