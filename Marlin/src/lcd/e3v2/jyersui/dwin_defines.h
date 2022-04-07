@@ -25,6 +25,7 @@
 //#define DEBUG_DWIN 1
 
 #include "../../../core/types.h"
+//#include "../../../core/macros.h"
 #include "../common/dwin_color.h"
 
 
@@ -59,6 +60,67 @@
 
 #ifdef BABYSTEP_ZPROBE_OFFSET
   #undef BABYSTEP_ZPROBE_OFFSET
+#endif
+
+#if DISABLED(AQUILA_DISPLAY) && DISABLED(DACAI_DISPLAY)
+  #define DWIN_DISPLAY
+#endif
+
+#if DISABLED(REVERSE_ENCODER_DIRECTION) && ENABLED(AQUILA_DISPLAY)
+  #define REVERSE_ENCODER_DIRECTION
+#endif
+
+#if (MB(CREALITY_V4) || MB(CREALITY_V422))
+  #if ANY(DWIN_DISPLAY, DACAI_DISPLAY)
+    #define PRINTERNAME "Ender-3 V2"
+  #else
+    #define PRINTERNAME "Aquila"
+  #endif
+#elif MB(CREALITY_V427)
+  #if #if ANY(DWIN_DISPLAY, DACAI_DISPLAY)
+    #define PRINTERNAME "Ender-3 Series"
+  #else
+    #define PRINTERNAME "Aquila"
+  #endif
+#elif MB(CREALITY_V423)
+  #define PRINTERNAME "Ender-2 Pro"
+#elif (MB(CREALITY_V24S1_301) || MB(CREALITY_V24S1))
+  #define PRINTERNAME "Ender-3 S1"
+#endif
+
+#if ENABLED(AUTO_BED_LEVELING_BILINEAR)
+  #if ENABLED(BLTOUCH)
+    #define MODEFW " BLTouch"
+  #elif ENABLED(FIX_MOUNTED_PROBE)
+    #define MODEFW " ABL Probe"
+  #elif ENABLED(TOUCH_MI_PROBE)
+    #define MODEFW " TouchMI"
+  #elif ENABLED(PROBE_MANUALLY)
+    #define MODEFW " ManualMesh"
+  #endif
+#elif ENABLED(AUTO_BED_LEVELING_UBL)
+  #if NONE(PROBE_MANUALLY, BLTOUCH, FIX_MOUNTED_PROBE, TOUCH_MI_PROBE)
+    #define MODEFW " UBL-Noprobe"
+  #elif ENABLED(BLTOUCH)
+    #define MODEFW " UBL-BLTouch"
+  #elif ENABLED(FIX_MOUNTED_PROBE)
+    #define MODEFW " UBL-ABL"
+  #elif ENABLED(TOUCH_MI_PROBE)
+    #define MODEFW " UBL-TouchMI"
+  #endif
+#else
+  #define MODEFW ""
+#endif
+
+#if ANY(AUTO_BED_LEVELING_BILINEAR, AUTO_BED_LEVELING_UBL)
+  #define GRIDFW " " STRINGIFY(GRID_MAX_POINTS_X) "x" STRINGIFY(GRID_MAX_POINTS_Y)
+#else
+  #define GRIDFW ""
+#endif
+
+
+#ifndef CUSTOM_MACHINE_NAME
+  #define CUSTOM_MACHINE_NAME PRINTERNAME MODEFW GRIDFW
 #endif
 
 //#define BOOTPERSO
