@@ -677,6 +677,7 @@ namespace Language_en {
 
   // Extra strings for JyersUI
   #if ENABLED(DWIN_CREALITY_LCD_JYERSUI)
+    LSTR MSG_JUNCTION_DEVIATION_MENU        = _UxGT("Junction Dev in mm"); 
     LSTR MSG_CHGFIL                         = _UxGT("Change Fil");
     LSTR MSG_M_TRAMMING                     = _UxGT("M. Tramming");
     LSTR MSG_DIS_STEPS                      = _UxGT("Dis Steps M"); 

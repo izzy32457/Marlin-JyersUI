@@ -177,6 +177,12 @@
     constexpr float default_max_jerk[]            = { DEFAULT_XJERK, DEFAULT_YJERK, DEFAULT_ZJERK, DEFAULT_EJERK };
   #endif
 
+  #if HAS_JUNCTION_DEVIATION
+    #define MIN_JD_MM  0.01
+    #define MAX_JD_MM  0.3
+  #endif
+
+
   enum SelectItem : uint8_t {
     PAGE_PRINT = 0,
     PAGE_PREPARE,
@@ -767,7 +773,7 @@
   void CrealityDWINClass::Redraw_Menu(bool lastprocess/*=true*/, bool lastselection/*=false*/, bool lastmenu/*=false*/, bool flag_scroll/*=false*/) {
     switch ((lastprocess) ? last_process : process) {
       case Menu:
-        if (flag_tune) {last_selection = last_pos_selection; flag_tune = false; }
+        if (flag_tune) { last_selection = last_pos_selection; flag_tune = false; }
         Draw_Menu((lastmenu) ? last_menu : active_menu, (lastselection) ? last_selection : selection, (flag_scroll) ? 0 : scrollpos);
         break;
       case Main:  Draw_Main_Menu((lastselection) ? last_selection : selection); break;
@@ -3043,7 +3049,8 @@
         #define MOTION_SPEED (MOTION_HOMEOFFSETS + 1)
         #define MOTION_ACCEL (MOTION_SPEED + 1)
         #define MOTION_JERK (MOTION_ACCEL + ENABLED(HAS_CLASSIC_JERK))
-        #define MOTION_STEPS (MOTION_JERK + 1)
+        #define MOTION_JD (MOTION_JERK + ENABLED(HAS_JUNCTION_DEVIATION))
+        #define MOTION_STEPS (MOTION_JD + 1)
         #define MOTION_INVERT_DIR_EXTR (MOTION_STEPS + (ENABLED(HAS_HOTEND) && EXTJYERSUI))
         #define MOTION_FLOW (MOTION_INVERT_DIR_EXTR + ENABLED(HAS_HOTEND))
         #define MOTION_TOTAL MOTION_FLOW
@@ -3080,6 +3087,14 @@
                 Draw_Menu_Item(row, ICON_MaxJerk, GET_TEXT_F(MSG_VEN_JERK), nullptr, true);
               else
                 Draw_Menu(MaxJerk);
+              break;
+          #endif
+          #if HAS_JUNCTION_DEVIATION
+            case MOTION_JD:
+              if (draw)
+                Draw_Menu_Item(row, ICON_MaxJerk, GET_TEXT_F(MSG_JUNCTION_DEVIATION_MENU), nullptr, true);
+              else
+                Draw_Menu(JDmenu);
               break;
           #endif
           case MOTION_STEPS:
@@ -3138,7 +3153,6 @@
               else
                 Draw_Menu(Control, CONTROL_FWRETRACT);
             }
-              //Draw_Menu(Control, CONTROL_FWRETRACT);
             break;
           case FWR_RET_LENGTH:
             if (draw) {
@@ -3185,7 +3199,7 @@
               Draw_Menu_Item(row, ICON_StepE, GET_TEXT_F(MSG_BUTTON_RESET));
             else {
               fwretract.reset();
-              Redraw_Menu();
+              Draw_Menu(FwRetraction);
             }
             break;
           }
@@ -3431,6 +3445,33 @@
                   Modify_Value(planner.max_jerk[E_AXIS], 0, default_max_jerk[E_AXIS] * 2, 10);
                 break;
             #endif
+          }
+          break;
+      #endif
+      #if HAS_JUNCTION_DEVIATION
+        case JDmenu:
+
+          #define JD_BACK 0
+          #define JD_SETTING_JD_MM (JD_BACK + ENABLED(HAS_HOTEND))
+          #define JD_TOTAL JD_SETTING_JD_MM
+
+          switch (item) {
+            case JD_BACK:
+              if (draw)
+                Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
+              else
+                Draw_Menu(Motion, MOTION_JD);
+              break;
+            #if HAS_HOTEND
+              case JD_SETTING_JD_MM:
+                if (draw) {
+                  Draw_Menu_Item(row, ICON_MaxJerk, GET_TEXT_F(MSG_JUNCTION_DEVIATION));
+                  Draw_Float(planner.junction_deviation_mm, row, false, 100);
+                }
+                else
+                  Modify_Value(planner.junction_deviation_mm, MIN_JD_MM, MAX_JD_MM, 100);
+                break;
+              #endif
           }
           break;
       #endif
@@ -5335,7 +5376,6 @@
               else {
                 flag_tune = true;
                 Draw_Menu(FwRetraction);
-                //Draw_Menu(Tune_FwRetraction);
                 }
               break;
           #endif
@@ -5572,7 +5612,6 @@
         case FwRetraction:
               sprintf_P(cmd, PSTR("%s %s"), GET_TEXT(MSG_FWRETRACT), GET_TEXT(MSG_CONFIGURATION));
               return F(cmd);
-        //case Tune_FwRetraction:      return F("Tune FW Retraction");
       #endif
       #if ENABLED(NOZZLE_PARK_FEATURE)
         case Parkmenu:
@@ -5584,6 +5623,9 @@
       case MaxAcceleration:   return GET_TEXT_F(MSG_ACCELERATION);
       #if HAS_CLASSIC_JERK
         case MaxJerk:         return GET_TEXT_F(MSG_JERK);
+      #endif
+      #if HAS_JUNCTION_DEVIATION
+        case JDmenu:          return GET_TEXT_F(MSG_JUNCTION_DEVIATION_MENU);
       #endif
       case Steps:             return GET_TEXT_F(MSG_STEPS_PER_MM);
       case Visual:            return GET_TEXT_F(MSG_VISUAL_SETTINGS);
@@ -5669,7 +5711,6 @@
       case Motion:            return MOTION_TOTAL;
       #if ENABLED(FWRETRACT)
         case FwRetraction:    return FWR_TOTAL;
-        //case Tune_FwRetraction:    return TUNE_FWR_TOTAL;
       #endif
       #if ENABLED(NOZZLE_PARK_FEATURE)
         case Parkmenu:        return PARKMENU_TOTAL;
@@ -5679,6 +5720,9 @@
       case MaxAcceleration:   return ACCEL_TOTAL;
       #if HAS_CLASSIC_JERK
         case MaxJerk:         return JERK_TOTAL;
+      #endif
+      #if HAS_JUNCTION_DEVIATION
+        case JDmenu:          return JD_TOTAL;
       #endif
       case Steps:             return STEPS_TOTAL;
       case Visual:            return VISUAL_TOTAL;
