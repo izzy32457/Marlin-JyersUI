@@ -42,7 +42,7 @@
 #endif
 
 enum processID : uint8_t {
-  Main, Print, Menu, Value, Option, File, Popup, Confirm, Keyboard, Wait, Locked
+  Main, Print, Menu, Value, Option, File, Popup, Confirm, Keyboard, Wait, Locked, Short_cuts
 };
 
 enum PopupID : uint8_t {
@@ -108,7 +108,7 @@ enum colorID : uint8_t {
 };
 
 enum shortcutID : uint8_t {
-  Preheat_menu, Cooldown, Disable_stepper, Autohome, ZOffsetmenu , M_Tramming_menu, Change_Fil
+  Preheat_menu, Cooldown, Disable_stepper, Autohome, ZOffsetmenu , M_Tramming_menu, Change_Fil, Move_rel_Z, ScreenL
 };
 
 
@@ -116,6 +116,7 @@ extern char Hostfilename[66];
 
 #define Color_Shortcut_0    0x10E4
 #define Color_Shortcut_1    0x29A6
+#define NB_Shortcuts        8
 
 #define Custom_Colors_no_Black 14
 #define Custom_Colors       15
@@ -149,14 +150,14 @@ class CrealityDWINClass {
 public:
   
   static bool printing;
-  static constexpr const char * const color_names[16] = {"Default","  White","L_White","   Blue"," Yellow"," Orange","    Red","  L_Red","  Green","L_Green","Magenta","L_Magen","   Cyan"," L_Cyan","  Brown","  Black"};
+  static constexpr const char * const color_names[Custom_Colors + 1] = {"Default","  White","L_White","   Blue"," Yellow"," Orange","    Red","  L_Red","  Green","L_Green","Magenta","L_Magen","   Cyan"," L_Cyan","  Brown","  Black"};
   static constexpr const char * const preheat_modes[3] = { "Both", "Hotend", "Bed" };
   static constexpr const char * const zoffset_modes[3] = { "No Live" , "OnClick", "   Live" };
   #if HAS_FILAMENT_SENSOR
    static constexpr const char * const runoutsensor_modes[4] = { "   NONE" , "   HIGH" , "    LOW", " MOTION" };
   #endif
-  static constexpr const char * const shortcut_list[7] = { "Preheat" , " Coold." , "D. Step" , "HomeXYZ" , "ZOffset" , "M.Tram." , "Chg Fil" };
-  static constexpr const char * const _shortcut_list[7] = { GET_TEXT(MSG_PREHEAT) , GET_TEXT(MSG_COOLDOWN) , GET_TEXT(MSG_DIS_STEPS) , GET_TEXT(MSG_AUTO_HOME) , GET_TEXT(MSG_OFFSET_Z) , GET_TEXT(MSG_M_TRAMMING) , GET_TEXT(MSG_CHGFIL) };
+  static constexpr const char * const shortcut_list[NB_Shortcuts + 1] = { "Preheat" , " Coold." , "D. Step" , "HomeXYZ" , "ZOffset" , "M.Tram." , "Chg Fil" , "Move Z", "ScreenL" };
+  static constexpr const char * const _shortcut_list[NB_Shortcuts + 1] = { GET_TEXT(MSG_PREHEAT) , GET_TEXT(MSG_COOLDOWN) , GET_TEXT(MSG_DIS_STEPS) , GET_TEXT(MSG_AUTO_HOME) , GET_TEXT(MSG_OFFSET_Z) , GET_TEXT(MSG_M_TRAMMING) , GET_TEXT(MSG_CHGFIL) , GET_TEXT(MSG_MOVE_Z) , GET_TEXT(MSG_SCREENLOCK) };
 
   static void Clear_Screen(uint8_t e=3);
   static void Draw_Float(float value, uint8_t row, bool selected=false, uint8_t minunit=10);
@@ -252,6 +253,13 @@ public:
   static void DWIN_Hostheader(const char *text);
   static void DWIN_Init_diag_endstops();
   static bool DWIN_iSprinting () { return printing; }
+
+  #if HAS_SHORTCUTS
+    static void DWIN_Move_Z();
+    static void DWIN_QuitMove_Z();
+    static void HMI_Move_Z();
+  #endif
+
 
   #if HAS_FILAMENT_SENSOR
     static void DWIN_Filament_Runout(const uint8_t extruder);

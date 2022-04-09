@@ -98,6 +98,10 @@
     #include "diag_endstops.h"
   #endif
 
+  #if HAS_SHORTCUTS
+    #include "shortcuts.h"
+  #endif
+
   #include <stdio.h>
   
   bool sd_item_flag = false;
@@ -506,8 +510,8 @@
   #if HAS_FILAMENT_SENSOR
     constexpr const char * const CrealityDWINClass::runoutsensor_modes[4];
   #endif
-  constexpr const char * const CrealityDWINClass::shortcut_list[7];
-  constexpr const char * const CrealityDWINClass::_shortcut_list[7];
+  constexpr const char * const CrealityDWINClass::shortcut_list[NB_Shortcuts + 1];
+  constexpr const char * const CrealityDWINClass::_shortcut_list[NB_Shortcuts + 1];
 
   // Clear a part of the screen
   //  4=Entire screen
@@ -619,6 +623,14 @@
           #endif
         break;
       #endif
+      #if HAS_SHORTCUTS
+        case Move_rel_Z:
+          DWIN_Move_Z();
+          break;
+      #endif
+      case ScreenL:
+        DWIN_ScreenLock();
+        break;
       default : break;
     }
   }
@@ -1311,6 +1323,29 @@
     if (screenLock.isUnlocked()) DWIN_ScreenUnLock();
   }
 
+  #if HAS_SHORTCUTS
+    void CrealityDWINClass::DWIN_Move_Z() {
+      process = Short_cuts;
+      if  (!shortcuts.quitmenu) {
+        shortcuts.initZ();
+      }
+    }
+
+    void CrealityDWINClass::DWIN_QuitMove_Z() {
+      if (shortcuts.quitmenu) {
+        shortcuts.quitmenu = false;
+        queue.inject(F("M84"));
+        Draw_Main_Menu();
+      }
+    }
+
+    void CrealityDWINClass::HMI_Move_Z() {
+      EncoderState encoder_diffState = Encoder_ReceiveAnalyze();
+      if (encoder_diffState == ENCODER_DIFF_NO) return;
+      shortcuts.onEncoderZ(encoder_diffState);
+      if (shortcuts.isQuitedZ()) DWIN_QuitMove_Z();
+    }
+  #endif
 
   void CrealityDWINClass::Viewmesh() {
     Clear_Screen(4);
@@ -3599,7 +3634,7 @@
             }
             else {
               flag_shortcut = false;
-              Modify_Option(shortcut0, shortcut_list, 6);
+              Modify_Option(shortcut0, shortcut_list, NB_Shortcuts);
             }
             break;
           case VISUAL_SHORTCUT1:
@@ -3610,7 +3645,7 @@
             }
             else {
               flag_shortcut = true;
-              Modify_Option(shortcut1, shortcut_list, 6);
+              Modify_Option(shortcut1, shortcut_list, NB_Shortcuts);
             }
             break;
           #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW) && DISABLED(DACAI_DISPLAY)
@@ -4400,6 +4435,7 @@
         switch (item) {
           case INFO_BACK:
             if (draw) {
+              Update_Status(CUSTOM_MACHINE_NAME);
               Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
 
               #if ENABLED(PRINTCOUNTER)
@@ -4422,6 +4458,7 @@
               Draw_Menu_Item(INFO_CONTACT, ICON_Contact, F(CORP_WEBSITE1), F(CORP_WEBSITE2), false, true);
             }
             else {
+              Update_Status("");
               if (menu == Info)
                 Draw_Menu(Control, CONTROL_INFO);
               else
@@ -6996,6 +7033,9 @@
       case Confirm:   sd_item_flag = false; Confirm_Control();      break;
       case Keyboard:  sd_item_flag = false; Keyboard_Control();     break;
       case Locked:    sd_item_flag = false; HMI_ScreenLock();       break;
+      #if HAS_SHORTCUTS
+        case Short_cuts : sd_item_flag = false; HMI_Move_Z();       break;
+      #endif
     }
   }
 

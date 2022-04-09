@@ -25,7 +25,6 @@
 //#define DEBUG_DWIN 1
 
 #include "../../../core/types.h"
-//#include "../../../core/macros.h"
 #include "../common/dwin_color.h"
 
 
@@ -53,6 +52,8 @@
 #endif
 
 #define HAS_ES_DIAG 1
+
+#define HAS_SHORTCUTS 1
 
 #ifndef DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW
   #define DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW
@@ -199,7 +200,6 @@ typedef struct {
     #endif
     
     #if EXTJYERSUI
-      //TERN_(HAS_FILAMENT_SENSOR, bool Runout_active_state = FIL_RUNOUT_STATE);
       #if ENABLED(NOZZLE_PARK_FEATURE)
           xyz_int_t Park_point = DEF_NOZZLE_PARK_POINT;
       #endif
