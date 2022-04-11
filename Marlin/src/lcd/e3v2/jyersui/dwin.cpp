@@ -1258,7 +1258,7 @@
       if ((update_z = axis_should_home(Z_AXIS) && ui.get_blink()))
         DWIN_Draw_String(true, DWIN_FONT_MENU, GetColor(HMI_datas.coordinates_text, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), 205, 459, F("  -?-  "));
       else
-        DWIN_Draw_FloatValue(true, true, 0, DWIN_FONT_MENU, GetColor(HMI_datas.coordinates_text, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), 3, 2, 205, 459, (current_position.z>=0) ? current_position.z : 0);
+        DWIN_Draw_FloatValue(true, true, 0, DWIN_FONT_MENU, GetColor(HMI_datas.coordinates_text, Color_White), GetColor(HMI_datas.background, Color_Bg_Black), 3, 2, 205, 459, (current_position.z>=0) ? (((!HAS_BED_PROBE) && printing) ? (current_position.z - zoffsetvalue) : current_position.z) : 0);
     }
     DWIN_UpdateLCD();
   }
@@ -7443,9 +7443,13 @@
 
   void CrealityDWINClass::CPU_type() {
     std::string cputype = CPU_TYPE;
-    std::string find = cputype.substr(9,2);
     std::string search = "RE";
-    strcpy(STM_cpu, (find == search)? "RET6" : "RCT6");
+    std::string find;
+    for (uint8_t f = 0; f <=2; f += 1){
+      find = cputype.substr(f+7,2);
+      if (find == search) { strcpy(STM_cpu, "RET6"); break; }
+      else strcpy(STM_cpu, "RCT6");
+    }
   }
 
   //=============================================================================
