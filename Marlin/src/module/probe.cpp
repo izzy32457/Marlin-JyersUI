@@ -474,8 +474,7 @@ bool Probe::set_deployed(const bool deploy) {
 
   #if EITHER(Z_PROBE_SLED, Z_PROBE_ALLEN_KEY)
     if (homing_needed_error(TERN_(Z_PROBE_SLED, _BV(X_AXIS)))) {
-      SERIAL_ERROR_MSG(STR_STOP_UNHOMED);
-      stop();
+      probe_error_stop();
       return true;
     }
   #endif
