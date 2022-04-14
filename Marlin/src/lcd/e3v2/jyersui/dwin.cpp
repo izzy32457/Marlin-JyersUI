@@ -4773,7 +4773,7 @@
             #if HAS_LEVELING_HEAT
               case LEVELING_SETTINGS_HOTENDTEMP_ENA:
                 if (draw) {
-                  Draw_Menu_Item(row, ICON_SetEndTemp, GET_TEXT_F(MSG_BED_TEMPERATURE));
+                  Draw_Menu_Item(row, ICON_SetEndTemp, GET_TEXT_F(MSG_HOTEND_TEMPERATURE));
                   Draw_Checkbox(row, HMI_datas.ena_LevelingTemp_hotend);
                 }
                 else {
