@@ -56,6 +56,9 @@
  *  Z[distance] - Move the Z axis by this distance
  *  X[position] - Move to this X position, with Y
  *  Y[position] - Move to this Y position, with X
+ *  I[position] - Move to this I position (instead of NOZZLE_PARK_POINT.i)
+ *  J[position] - Move to this J position (instead of NOZZLE_PARK_POINT.j)
+ *  K[position] - Move to this K position (instead of NOZZLE_PARK_POINT.k)
  *  U[distance] - Retract distance for removal (manual reload)
  *  L[distance] - Extrude distance for insertion (manual reload)
  *  B[count]    - Number of times to beep, -1 for indefinite (if equipped with a buzzer)

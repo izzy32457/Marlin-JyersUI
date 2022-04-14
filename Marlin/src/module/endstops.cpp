@@ -587,22 +587,21 @@ void _O2 Endstops::report_states() {
         #undef _CASE_RUNOUT
       }
       //add
-      const uint8_t rm = runout.mode[i - 1],
-                    state = runout.out_state(i - 1);
+      const RunoutMode rm = runout.mode[i - 1];
+      const uint8_t outval = runout.out_state(i - 1);
       //
       #if DISABLED(SLIM_LCD_MENUS)
         SERIAL_ECHOPGM(STR_FILAMENT);
         if (i > 1) SERIAL_CHAR(' ', '0' + i);
-        //add
         SERIAL_ECHOPGM(": ");
-        if (rm == 0)
-          SERIAL_ECHOLNPGM("DISABLED");
-        else if (rm == 7) {
+        if (rm == RM_NONE)
+          SERIAL_ECHOLNPGM(STR_OFF);
+        else if (rm == RM_MOTION_SENSOR) {
           SERIAL_ECHOPGM("MOTION : ");
-          print_es_state(extDigitalRead(pin) == state);
+          print_es_state(extDigitalRead(pin) == outval);
         }
         else
-          SERIAL_ECHOLNPGM_P(extDigitalRead(pin) == state ? PSTR("MISSING") : PSTR("PRESENT"));
+          SERIAL_ECHOLNPGM_P(extDigitalRead(pin) == outval ? PSTR("OUT") : PSTR("PRESENT"));
       #else
         print_es_state(extDigitalRead(pin) == outval, F(STR_FILAMENT));
       #endif

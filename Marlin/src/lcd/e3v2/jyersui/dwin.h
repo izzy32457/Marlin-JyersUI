@@ -35,11 +35,16 @@
 
 #include "../../../inc/MarlinConfig.h"
 
+#if HAS_FILAMENT_SENSOR
+  #include "../../../feature/runout.h"
+#endif
+
 //#define DWIN_CREALITY_LCD_CUSTOM_ICONS
 //#define BOOTPERSO
 #ifndef DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW
   #define DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW
 #endif
+
 
 enum processID : uint8_t {
   Main, Print, Menu, Value, Option, File, Popup, Confirm, Keyboard, Wait, Locked, Short_cuts
@@ -260,11 +265,15 @@ public:
     static void HMI_Move_Z();
   #endif
 
-
   #if HAS_FILAMENT_SENSOR
     static void DWIN_Filament_Runout(const uint8_t extruder);
+    static void Get_Rsensormode(RunoutMode Rsmode);
   #endif
 
+  #if HAS_LEVELING_HEAT
+    static void HeatBeforeLeveling();
+  #endif
+  
   static void DWIN_Invert_Extruder();
   static void CPU_type();
 

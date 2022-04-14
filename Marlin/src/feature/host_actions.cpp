@@ -185,7 +185,6 @@ void HostUI::action(FSTR_P const fstr, const bool eol) {
             #endif
             #if HAS_FILAMENT_SENSOR
               if (runout.filament_ran_out) {                      // Disable a triggered sensor
-                //runout.enabled = false;
                 runout.enabled[active_extruder] = false;
                 runout.reset();
               }

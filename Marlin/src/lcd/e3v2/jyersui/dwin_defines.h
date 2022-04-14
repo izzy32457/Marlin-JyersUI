@@ -51,6 +51,10 @@
   #define SOUND_MENU_ITEM
 #endif
 
+#if EITHER(PREHEAT_BEFORE_LEVELING, PREHEAT_BEFORE_LEVELING_PROBE_MANUALLY) && HAS_MESH
+    #define HAS_LEVELING_HEAT 1
+#endif
+
 #define HAS_ES_DIAG 1
 
 #define HAS_SHORTCUTS 1
@@ -197,6 +201,13 @@ typedef struct {
     #endif
     #if ENABLED(BAUD_RATE_GCODE)
       bool baudratemode : 1;
+    #endif
+
+    #if HAS_LEVELING_HEAT
+      bool ena_LevelingTemp_hotend : 1;
+      bool ena_LevelingTemp_bed : 1;
+      celsius_t LevelingTemp_hotend = LEVELING_NOZZLE_TEMP;
+      celsius_t LevelingTemp_bed = LEVELING_BED_TEMP;
     #endif
     
     #if EXTJYERSUI

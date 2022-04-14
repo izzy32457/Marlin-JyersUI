@@ -43,7 +43,6 @@
   #include "../../module/temperature.h"
 #endif
 
-//#if HAS_FILAMENT_RUNOUT_DISTANCE
 #if HAS_FILAMENT_SENSOR
   #include "../../feature/runout.h"
 #endif
@@ -100,22 +99,22 @@ void menu_backlash();
 
 #if HAS_FILAMENT_SENSOR && DISABLED(SLIM_LCD_MENUS)
 
+  void set_runout_mode_none(const uint8_t e)   { runout.mode[e] = RM_NONE; runout.setup(); }
+  void set_runout_mode_high(const uint8_t e)   { runout.mode[e] = RM_OUT_ON_HIGH; runout.setup(); }
+  void set_runout_mode_low(const uint8_t e)    { runout.mode[e] = RM_OUT_ON_LOW; runout.setup(); }
+  void set_runout_mode_motion(const uint8_t e) { runout.mode[e] = RM_MOTION_SENSOR; runout.setup(); }
+
   #define RUNOUT_EDIT_ITEMS(F) do{ \
-    EDIT_ITEM_N(bool, F, MSG_RUNOUT_SENSOR, &runout.enabled[F]); \
-    ACTION_ITEM_N(F, MSG_RUNOUT_MODE_NONE, []{ set_runout_mode_none(F);}); \
-    ACTION_ITEM_N(F, MSG_RUNOUT_MODE_HIGH, []{ set_runout_mode_high(F);}); \
-    ACTION_ITEM_N(F, MSG_RUNOUT_MODE_LOW, []{ set_runout_mode_low(F);}); \
-    ACTION_ITEM_N(F, MSG_RUNOUT_MODE_MOTION, []{ set_runout_mode_motion(F);}); \
+    EDIT_ITEM(bool, MSG_RUNOUT_SENSOR, &runout.enabled[F]); \
+    ACTION_ITEM(MSG_RUNOUT_MODE_NONE,   []{ set_runout_mode_none(F);   }); \
+    ACTION_ITEM(MSG_RUNOUT_MODE_HIGH,   []{ set_runout_mode_high(F);   }); \
+    ACTION_ITEM(MSG_RUNOUT_MODE_LOW,    []{ set_runout_mode_low(F);    }); \
+    ACTION_ITEM(MSG_RUNOUT_MODE_MOTION, []{ set_runout_mode_motion(F); }); \
     editable.decimal = runout.runout_distance(F); \
-    EDIT_ITEM_FAST_N(float3, F, MSG_RUNOUT_DISTANCE_MM, &editable.decimal, 1, 999, \
+    EDIT_ITEM_FAST(float3, MSG_RUNOUT_DISTANCE_MM, &editable.decimal, 1, 999, \
       []{ runout.set_runout_distance(editable.decimal, F); }, true \
     ); \
   }while(0)
-
-  void set_runout_mode_none(uint8_t e) { runout.mode[e] = 0; runout.setRunoutState();}
-  void set_runout_mode_high(uint8_t e) { runout.mode[e] = 1; runout.setRunoutState();}
-  void set_runout_mode_low(uint8_t e) { runout.mode[e] = 2; runout.setRunoutState();}
-  void set_runout_mode_motion(uint8_t e) { runout.mode[e] = 7; runout.setRunoutState();}
 
   void menu_runout_config() {
     START_MENU();
@@ -145,6 +144,7 @@ void menu_backlash();
     END_MENU();
   }
 #endif
+
 
 
 #if DISABLED(NO_VOLUMETRICS) || ENABLED(ADVANCED_PAUSE_FEATURE)
