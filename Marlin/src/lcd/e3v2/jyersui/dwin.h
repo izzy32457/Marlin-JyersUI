@@ -211,6 +211,10 @@ public:
     static void Set_Mesh_Viewer_Status();
   #endif
 
+  #if BOTH(HAS_BED_PROBE, AUTO_BED_LEVELING_UBL)
+    void Autotilt_AfterNPrint(uint16_t NPrints);
+  #endif
+
   static FSTR_P Get_Menu_Title(uint8_t menu);
   static uint8_t Get_Menu_Size(uint8_t menu);
   static void Menu_Item_Handler(uint8_t menu, uint8_t item, bool draw=true);

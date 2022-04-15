@@ -187,6 +187,10 @@ typedef struct {
       uint64_t host_action_label_3 : 48;
     #endif
     
+    #if BOTH(HAS_BED_PROBE, AUTO_BED_LEVELING_UBL)
+      uint16_t N_Printed : 8;
+    #endif
+
     uint8_t shortcut_0 = 0;
     uint8_t shortcut_1 = 1;
 
@@ -209,7 +213,7 @@ typedef struct {
       celsius_t LevelingTemp_hotend = LEVELING_NOZZLE_TEMP;
       celsius_t LevelingTemp_bed = LEVELING_BED_TEMP;
     #endif
-    
+
     #if EXTJYERSUI
       #if ENABLED(NOZZLE_PARK_FEATURE)
           xyz_int_t Park_point = DEF_NOZZLE_PARK_POINT;
