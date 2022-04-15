@@ -589,7 +589,7 @@
 
   void CrealityDWINClass::Apply_shortcut(uint8_t shortcut) {
     switch (shortcut){
-      case Preheat_menu: Draw_Menu(Preheat); break;
+      case Preheat_menu: flag_shortcut = true; Draw_Menu(Preheat); break;
       case Cooldown: thermalManager.cooldown(); break;
       case Disable_stepper: queue.inject(F("M84")); break;
       case Autohome: Popup_Handler(Home); gcode.home_all_axes(true); Draw_Main_Menu(1); break;
@@ -605,6 +605,7 @@
         #if !HAS_BED_PROBE
           gcode.process_subcommands_now(F("M211 S0"));
         #endif
+        flag_shortcut = true;
         Draw_Menu(ZOffset);
         break;
       case M_Tramming_menu:
@@ -616,11 +617,13 @@
           level_state = planner.leveling_active;
           set_bed_leveling_enabled(false);
           #endif
+          flag_shortcut = true;
           Draw_Menu(ManualLevel);
           break;
       #if ENABLED(ADVANCED_PAUSE_FEATURE)
         case Change_Fil:
           #if ENABLED(FILAMENT_LOAD_UNLOAD_GCODES)
+            flag_shortcut = true;
             Draw_Menu(ChangeFilament);
           #else
             Draw_Menu(Prepare, PREPARE_CHANGEFIL);
@@ -1903,7 +1906,8 @@
               Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
             else {
               TERN_(HAS_LEVELING, set_bed_leveling_enabled(level_state));
-              Draw_Menu(Prepare, PREPARE_MANUALLEVEL);
+              if (flag_shortcut) { flag_shortcut = false; Draw_Main_Menu(1); }
+              else Draw_Menu(Prepare, PREPARE_MANUALLEVEL);
             }
             break;
           #if HAS_BED_PROBE
@@ -2092,7 +2096,8 @@
                 //liveadjust = false;
                 //adjustonclick = false;
                 TERN_(HAS_LEVELING, set_bed_leveling_enabled(level_state));
-                Draw_Menu(Prepare, PREPARE_ZOFFSET);
+                if (flag_shortcut) { flag_shortcut = false; Draw_Main_Menu(1); }
+                else Draw_Menu(Prepare, PREPARE_ZOFFSET);
               }
               break;
             case ZOFFSET_HOME:
@@ -2200,8 +2205,9 @@
             case PREHEAT_BACK:
               if (draw)
                 Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
-              else
-                Draw_Menu(Prepare, PREPARE_PREHEAT);
+              else {
+                if (flag_shortcut) { flag_shortcut = false; Draw_Main_Menu(1); }
+                   else Draw_Menu(Prepare, PREPARE_PREHEAT); }
               break;
             case PREHEAT_MODE:
               if (draw) {
@@ -2279,8 +2285,10 @@
             case CHANGEFIL_BACK:
               if (draw)
                 Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
-              else
-                Draw_Menu(Prepare, PREPARE_CHANGEFIL);
+              else {
+                if (flag_shortcut) { flag_shortcut = false; Draw_Main_Menu(1); }
+                else Draw_Menu(Prepare, PREPARE_CHANGEFIL);
+              }
               break;
             case CHANGEFIL_PARKHEAD:
               if (draw)
@@ -4848,7 +4856,7 @@
                 else {
                   if (mesh_conf.create_plane_from_mesh()) {
                     Confirm_Handler(NocreatePlane);
-                break;
+                  break;
                 }
                   gcode.process_subcommands_now(F("M420 S1"));
                   planner.synchronize();
