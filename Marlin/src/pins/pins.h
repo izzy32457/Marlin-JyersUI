@@ -693,6 +693,9 @@
   #include "stm32f4/pins_MKS_EAGLE.h"           // STM32F4                                env:mks_eagle
 #elif MB(ARTILLERY_RUBY)
   #include "stm32f4/pins_ARTILLERY_RUBY.h"      // STM32F4                                env:Artillery_Ruby
+#elif MB(CREALITY_V24S1_F401RC)
+  #include "stm32f4/pins_CREALITY_V24S1_F401RC.h"  // STM32F1                                env:STM32F401RC_creality
+
 
 //
 // ARM Cortex M7
@@ -731,6 +734,8 @@
   #include "esp32/pins_PANDA_M4.h"              // ESP32                                  env:PANDA
 #elif MB(MKS_TINYBEE)
   #include "esp32/pins_MKS_TINYBEE.h"           // ESP32                                  env:mks_tinybee
+#elif MB(ENWI_ESPNP)
+  #include "esp32/pins_ENWI_ESPNP.h"            // ESP32                                  env:esp32   
 
 //
 // Adafruit Grand Central M4 (SAMD51 ARM Cortex-M4)
