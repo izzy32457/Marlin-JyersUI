@@ -755,16 +755,22 @@
       // DRAW_IconWTB(ICON, (value ? ICON_Checkbox_T : ICON_Checkbox_F), 226, MBASE(row) - 3);
       DRAW_IconWB(ICON, (value ? ICON_Checkbox_T : ICON_Checkbox_F), 226, MBASE(row) - 3);
     #else                                         // Draw a basic checkbox using rectangles and lines
-      DWIN_Draw_Rectangle(1, Color_Bg_Black, 226, MBASE(row) - 3, 226 + 20, MBASE(row) - 3 + 20);
-      DWIN_Draw_Rectangle(0, Color_White, 226, MBASE(row) - 3, 226 + 20, MBASE(row) - 3 + 20);
-      if (value) {
-        DWIN_Draw_Line(Check_Color, 227, MBASE(row) - 3 + 11, 226 + 8, MBASE(row) - 3 + 17);
-        DWIN_Draw_Line(Check_Color, 227 + 8, MBASE(row) - 3 + 17, 226 + 19, MBASE(row) - 3 + 1);
-        DWIN_Draw_Line(Check_Color, 227, MBASE(row) - 3 + 12, 226 + 8, MBASE(row) - 3 + 18);
-        DWIN_Draw_Line(Check_Color, 227 + 8, MBASE(row) - 3 + 18, 226 + 19, MBASE(row) - 3 + 2);
-        DWIN_Draw_Line(Check_Color, 227, MBASE(row) - 3 + 13, 226 + 8, MBASE(row) - 3 + 19);
-        DWIN_Draw_Line(Check_Color, 227 + 8, MBASE(row) - 3 + 19, 226 + 19, MBASE(row) - 3 + 3);
-      }
+      #if ENABLED(DACAI_DISPLAY)
+        DWIN_Draw_Rectangle(1, Color_Bg_Black, 226, MBASE(row) - 1, 226 + 17, MBASE(row) - 1 + 17);
+        DWIN_Draw_Rectangle(0, Color_White, 226, MBASE(row) - 1, 226 + 17, MBASE(row) - 1 + 17);
+        DWIN_Draw_String(true, DWIN_FONT_MENU, Check_Color, Color_Bg_Black, 228, MBASE(row) - 1, value ? F("x") : F(" "));
+      #else
+        DWIN_Draw_Rectangle(1, Color_Bg_Black, 226, MBASE(row) - 3, 226 + 20, MBASE(row) - 3 + 20);
+        DWIN_Draw_Rectangle(0, Color_White, 226, MBASE(row) - 3, 226 + 20, MBASE(row) - 3 + 20);
+        if (value) {
+          DWIN_Draw_Line(TERN(AQUILA_DISPLAY, Color_Red, Check_Color), 227, MBASE(row) - 3 + 11, 226 + 8, MBASE(row) - 3 + 17);
+          DWIN_Draw_Line(TERN(AQUILA_DISPLAY, Color_Red, Check_Color), 227 + 8, MBASE(row) - 3 + 17, 226 + 19, MBASE(row) - 3 + 1);
+          DWIN_Draw_Line(TERN(AQUILA_DISPLAY, Color_Red, Check_Color), 227, MBASE(row) - 3 + 12, 226 + 8, MBASE(row) - 3 + 18);
+          DWIN_Draw_Line(TERN(AQUILA_DISPLAY, Color_Red, Check_Color), 227 + 8, MBASE(row) - 3 + 18, 226 + 19, MBASE(row) - 3 + 2);
+          DWIN_Draw_Line(TERN(AQUILA_DISPLAY, Color_Red, Check_Color), 227, MBASE(row) - 3 + 13, 226 + 8, MBASE(row) - 3 + 19);
+          DWIN_Draw_Line(TERN(AQUILA_DISPLAY, Color_Red, Check_Color), 227 + 8, MBASE(row) - 3 + 19, 226 + 19, MBASE(row) - 3 + 3);
+        }
+      #endif
     #endif
   }
 
