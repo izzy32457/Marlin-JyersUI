@@ -7495,7 +7495,7 @@
     // Filament Runout process
     void CrealityDWINClass::DWIN_Filament_Runout(const uint8_t extruder) { LCD_MESSAGE(MSG_RUNOUT_SENSOR); }
 
-    void CrealityDWINClass::Get_Rsensormode(RunoutMode Rsmode) {
+    void CrealityDWINClass::Get_Rsensormode(uint8_t Rsmode) {
       switch (Rsmode) {
            case RM_NONE: rsensormode = 0; break; // None 
            case RM_OUT_ON_HIGH: rsensormode = 1; break; // mode HIGH

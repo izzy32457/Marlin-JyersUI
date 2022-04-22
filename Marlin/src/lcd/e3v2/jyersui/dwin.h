@@ -35,9 +35,6 @@
 
 #include "../../../inc/MarlinConfig.h"
 
-#if HAS_FILAMENT_SENSOR
-  #include "../../../feature/runout.h"
-#endif
 
 //#define DWIN_CREALITY_LCD_CUSTOM_ICONS
 //#define BOOTPERSO
@@ -271,7 +268,7 @@ public:
 
   #if HAS_FILAMENT_SENSOR
     static void DWIN_Filament_Runout(const uint8_t extruder);
-    static void Get_Rsensormode(RunoutMode Rsmode);
+    static void Get_Rsensormode(uint8_t Rsmode);
   #endif
 
   #if HAS_LEVELING_HEAT
