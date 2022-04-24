@@ -33,7 +33,11 @@
 void GcodeSuite::M30() {
   if (card.isMounted()) {
     card.closefile();
-    card.removeFile(parser.string_arg);
+    if (strlen(parser.string_arg) == 1 && parser.string_arg[0] == 'B') {
+      card.purgeBinFiles();
+    } else {      
+      card.removeFile(parser.string_arg);
+    }
   }
 }
 
