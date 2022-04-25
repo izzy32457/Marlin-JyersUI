@@ -1,10 +1,10 @@
 # Contains code from: https://github.com/mriscoc/Marlin_Ender3v2/blob/42585074807fa799bdee7ced10c9d83508df6ebf/slicer%20scripts/cura/CreateJPEGThumbnail.py
-
+# For Cura 5.0
 import base64
 
 from UM.Logger import Logger
 from cura.Snapshot import Snapshot
-from PyQt5.QtCore import QByteArray, QIODevice, QBuffer
+from PyQt6.QtCore import QByteArray, QIODevice, QBuffer
 
 from ..Script import Script
 
