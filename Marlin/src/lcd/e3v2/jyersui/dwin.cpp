@@ -756,9 +756,9 @@
       DRAW_IconWB(ICON, (value ? ICON_Checkbox_T : ICON_Checkbox_F), 226, MBASE(row) - 3);
     #else // Draw a basic checkbox using rectangles and lines
       #if ENABLED(DACAI_DISPLAY)
-        DWIN_Draw_Rectangle(1, Color_Bg_Black, 226, MBASE(row) - 1, 226 + 17, MBASE(row) - 1 + 17);
-        DWIN_Draw_Rectangle(0, Color_White, 226, MBASE(row) - 1, 226 + 17, MBASE(row) - 1 + 17);
-        DWIN_Draw_String(true, DWIN_FONT_MENU, Check_Color, Color_Bg_Black, 228, MBASE(row) - 1, value ? F("x") : F(" "));
+        DWIN_Draw_Rectangle(1, Color_Bg_Black, 226, MBASE(row), 226 + 17, MBASE(row) + 17);
+        DWIN_Draw_Rectangle(0, Color_White, 226, MBASE(row), 226 + 17, MBASE(row) + 17);
+        DWIN_Draw_String(true, DWIN_FONT_MENU, Check_Color, Color_Bg_Black, 226 + 2, MBASE(row) - 1, value ? F("x") : F(" "));
       #else
         DWIN_Draw_Rectangle(1, Color_Bg_Black, 226, MBASE(row) - 3, 226 + 20, MBASE(row) - 3 + 20);
         DWIN_Draw_Rectangle(0, Color_White, 226, MBASE(row) - 3, 226 + 20, MBASE(row) - 3 + 20);
