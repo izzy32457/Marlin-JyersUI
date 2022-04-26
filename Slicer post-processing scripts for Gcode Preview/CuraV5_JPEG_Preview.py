@@ -9,7 +9,7 @@ from PyQt6.QtCore import QByteArray, QIODevice, QBuffer
 from ..Script import Script
 
 
-class Cura_JPEG_Preview(Script):
+class CuraV5_JPEG_Preview(Script):
     def __init__(self):
         super().__init__()
 
@@ -55,7 +55,7 @@ class Cura_JPEG_Preview(Script):
     def getSettingDataString(self):
         return """{
             "name": "Create JPEG Preview",
-            "key": "Cura_JPEG_Preview",
+            "key": "CuraV5_JPEG_Preview",
             "metadata": {},
             "version": 2,
             "settings":
