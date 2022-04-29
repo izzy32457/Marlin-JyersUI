@@ -234,7 +234,7 @@ typedef struct {
 
   } HMI_datas_t;
 
-  static constexpr size_t eeprom_data_size = 96;
+  static constexpr size_t eeprom_data_size = 112;
   extern HMI_datas_t HMI_datas;
 
 //
