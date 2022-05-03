@@ -216,6 +216,10 @@ typedef struct {
       celsius_t LevelingTemp_bed = LEVELING_BED_TEMP;
     #endif
 
+    #if ALL(SDSUPPORT, SDCARD_SORT_ALPHA, SDSORT_GCODE)
+      bool sdsort_alpha : 1;
+    #endif
+
     #if EXTJYERSUI
       #if ENABLED(NOZZLE_PARK_FEATURE)
           xyz_int_t Park_point = DEF_NOZZLE_PARK_POINT;

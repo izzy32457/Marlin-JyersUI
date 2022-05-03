@@ -290,16 +290,17 @@
     uint16_t NPrinted = 0;
   #endif
 
+  #if ALL(SDSUPPORT, SDCARD_SORT_ALPHA, SDSORT_GCODE)
+    bool old_sdsort;
+    bool SDremoved = false;
+  #endif
+
   //struct
   HMI_flags_t HMI_flags;
   HMI_datas_t HMI_datas;
   CrealityDWINClass CrealityDWIN;
 
   bool CrealityDWINClass::printing = false;
-
-  
-
-  
 
   #if HAS_MESH
 
@@ -803,7 +804,7 @@
         break;
       case Main:  Draw_Main_Menu((lastselection) ? last_selection : selection); break;
       case Print: Draw_Print_Screen(); break;
-      case File:  Draw_SD_List(false, (lastselection) ? last_selection : 0, (lastselection) ? scrollpos : 0, true); break;
+      case File:  DWIN_Sort_SD(card.isMounted()); Draw_SD_List(false, (lastselection) ? last_selection : 0, (lastselection) ? scrollpos : 0, true); break;
       default: break;
     }
   }
@@ -1119,6 +1120,9 @@
     else {
       Draw_Menu_Item(0, ICON_Back, GET_TEXT_F(MSG_BACK));
       sd_item_flag = false;
+      #if ALL(SDSUPPORT, SDCARD_SORT_ALPHA, SDSORT_GCODE)
+        SDremoved = true;
+      #endif
       DWIN_Draw_Rectangle(1, Color_Bg_Red, 10, MBASE(3) - 10, DWIN_WIDTH - 10, MBASE(4));
       DWIN_Draw_String(false, font16x32, Color_Yellow, Color_Bg_Red, ((DWIN_WIDTH) - 8 * 16) / 2, MBASE(3), GET_TEXT_F(MSG_NO_MEDIA));
     }
@@ -1126,6 +1130,19 @@
         DWIN_Draw_Rectangle(0, GetColor(HMI_datas.items_menu_text, Color_White), 0, MBASE(selection-scrollpos) - 18, 8, MBASE(selection-scrollpos) + 31);
     else
         DWIN_Draw_Rectangle(1, cColor, 0, MBASE(selection-scrollpos) - 18, 8, MBASE(selection-scrollpos) + 31);
+  }
+
+  void CrealityDWINClass::DWIN_Sort_SD(bool isSDMounted/*=false*/) {
+    #if ALL(SDSUPPORT, SDCARD_SORT_ALPHA, SDSORT_GCODE)
+    if (isSDMounted) {
+      if ((old_sdsort != HMI_datas.sdsort_alpha) || (SDremoved)) {
+        SDremoved = false;
+        old_sdsort = HMI_datas.sdsort_alpha;
+        card.setSortOn(true);  // To force to clear the RAM!
+        card.setSortOn(HMI_datas.sdsort_alpha);
+        }
+    }   
+    #endif
   }
 
   void CrealityDWINClass::Draw_Status_Area(bool icons/*=false*/) {
@@ -4070,7 +4087,8 @@
         #define ADVANCED_CORNER (ADVANCED_PROBE + 1)
         #define ADVANCED_LA (ADVANCED_CORNER + ENABLED(LIN_ADVANCE))
         #define ADVANCED_FILMENU (ADVANCED_LA + 1)
-        #define ADVANCED_POWER_LOSS (ADVANCED_FILMENU + ENABLED(POWER_LOSS_RECOVERY))
+        #define ADVANCED_SORT_SD (ADVANCED_FILMENU + ALL(SDSUPPORT, SDCARD_SORT_ALPHA, SDSORT_GCODE))
+        #define ADVANCED_POWER_LOSS (ADVANCED_SORT_SD + ENABLED(POWER_LOSS_RECOVERY))
         #define ADVANCED_ENDSDIAG (ADVANCED_POWER_LOSS + HAS_ES_DIAG)
         #define ADVANCED_BAUDRATE_MODE (ADVANCED_ENDSDIAG + ENABLED(BAUD_RATE_GCODE))
         #define ADVANCED_SCREENLOCK (ADVANCED_BAUDRATE_MODE + 1)
@@ -4132,6 +4150,19 @@
               else
                 Draw_Menu(Filmenu);
               break;
+          #if ALL(SDSUPPORT, SDCARD_SORT_ALPHA, SDSORT_GCODE)
+            case ADVANCED_SORT_SD:
+              if (draw) {
+                Draw_Menu_Item(row, ICON_File, GET_TEXT_F(MSG_SORT_SD));
+                Draw_Checkbox(row, HMI_datas.sdsort_alpha);
+              }
+              else {
+                old_sdsort = HMI_datas.sdsort_alpha;
+                HMI_datas.sdsort_alpha = !HMI_datas.sdsort_alpha;
+                Draw_Checkbox(row, HMI_datas.sdsort_alpha);
+              }
+              break;
+          #endif
           #if ENABLED(POWER_LOSS_RECOVERY)
             case ADVANCED_POWER_LOSS:
               if (draw) {
@@ -5910,7 +5941,7 @@
     }
     else if (encoder_diffState == ENCODER_DIFF_ENTER)
       switch (selection) {
-        case PAGE_PRINT: card.mount(); sd_item_flag = true; Draw_SD_List(); break;
+        case PAGE_PRINT: card.mount(); DWIN_Sort_SD(card.isMounted()); sd_item_flag = true; Draw_SD_List(); break;
         case PAGE_PREPARE: sd_item_flag = false; Draw_Menu(Prepare); break;
         case PAGE_CONTROL: sd_item_flag = false; Draw_Menu(Control); break;
         case PAGE_INFO_LEVELING: sd_item_flag = false; Draw_Menu(TERN(HAS_MESH, Leveling, InfoMain)); break;
@@ -6446,11 +6477,13 @@
           Draw_Main_Menu();
         }
         else {
+          DWIN_Sort_SD(card.isMounted());
           card.cdup();
           Draw_SD_List();
         }
       }
       else {
+        DWIN_Sort_SD(card.isMounted());
         card.getfilename_sorted(SD_ORDER(selection - 1, card.get_num_Files())); 
         if (card.flag.filenameIsDir) {
           card.cd(card.filename);
@@ -7175,6 +7208,7 @@
       image_cache.clear();
       #endif
       if (process == File) {
+        DWIN_Sort_SD(card.isMounted());
         sd_item_flag = true;
         Draw_SD_List();
       }
@@ -7380,8 +7414,14 @@
     #if HAS_FILAMENT_SENSOR
       Get_Rsensormode(runout.mode[0]);
     #endif
+
+    #if ALL(SDSUPPORT, SDCARD_SORT_ALPHA, SDSORT_GCODE)
+      old_sdsort = !HMI_datas.sdsort_alpha;
+    #endif
+
     shortcut0 = HMI_datas.shortcut_0;
     shortcut1 = HMI_datas.shortcut_1;
+
     #if ENABLED(HOST_ACTION_COMMANDS)
       Decode_String(HMI_datas.host_action_label_1, action1);
       Decode_String(HMI_datas.host_action_label_2, action2);
@@ -7444,6 +7484,10 @@
     
     #if BOTH(HAS_BED_PROBE, AUTO_BED_LEVELING_UBL)
       NPrinted = 0;
+    #endif
+
+    #if ALL(SDSUPPORT, SDCARD_SORT_ALPHA, SDSORT_GCODE)
+      HMI_datas.sdsort_alpha = true;
     #endif
 
     #if HAS_FILAMENT_SENSOR

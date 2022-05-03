@@ -677,6 +677,7 @@ namespace Language_en {
 
   // Extra strings for JyersUI
   #if ENABLED(DWIN_CREALITY_LCD_JYERSUI)
+    LSTR MSG_SORT_SD                        = _UxGT("Sort Files alpha");
     LSTR MSG_UBL_AUTOTILT_AFTER_N_PRINTS    = _UxGT("Tilt after N Prints");
     LSTR MSG_LIVEMOVE_Z                     = _UxGT("Live Move Z:");
     LSTR MSG_UNLOCK                         = _UxGT("Scroll to unlock.");
