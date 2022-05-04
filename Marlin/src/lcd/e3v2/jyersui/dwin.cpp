@@ -6285,7 +6285,7 @@
         if ((valuepointer == &leds.color.r) || (valuepointer == &leds.color.g) || (valuepointer == &leds.color.b))
           ApplyLEDColor();
           #if HAS_WHITE_LED
-            if ((valuepointer == &leds.color.w) ApplyLEDColor();
+            if (valuepointer == &leds.color.w) ApplyLEDColor();
           #endif
       #endif
       if (funcpointer) funcpointer();
