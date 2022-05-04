@@ -83,6 +83,15 @@ enum menuID : uint8_t {
         Steps,
       FwRetraction,
       Parkmenu,
+      #if ANY(CASE_LIGHT_MENU, LED_CONTROL_MENU)
+        Ledsmenu,
+        #if BOTH(CASE_LIGTH_MENU, CASELIGHT_USES_BRIGHTNESS)
+          CaseLightmenu,
+        #endif
+        #if ENABLED(LED_CONTROL_MENU)
+          LedControlmenu,
+        #endif
+      #endif
       Visual,
         ColorSettings,
       HostSettings,
@@ -274,6 +283,10 @@ public:
 
   #if HAS_LEVELING_HEAT
     static void HeatBeforeLeveling();
+  #endif
+
+  #if BOTH(LED_CONTROL_MENU, HAS_COLOR_LEDS)
+    static void ApplyLEDColor();
   #endif
   
   static void DWIN_Invert_Extruder();
