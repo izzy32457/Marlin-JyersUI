@@ -7674,10 +7674,10 @@
     #endif
 
     #if BOTH(LED_CONTROL_MENU, HAS_COLOR_LEDS)
-      leds.color.b = ((HMI_data.LEDColor >>  0) & 0xFF);
-      leds.color.g = ((HMI_data.LEDColor >>  8) & 0xFF);
-      leds.color.r = ((HMI_data.LEDColor >> 16) & 0xFF);
-      TERN_(HAS_WHITE_LED, leds.color.w = ((HMI_data.LEDColor >> 24) & 0xFF));
+      leds.color.b = ((HMI_datas.LEDColor >>  0) & 0xFF);
+      leds.color.g = ((HMI_datas.LEDColor >>  8) & 0xFF);
+      leds.color.r = ((HMI_datas.LEDColor >> 16) & 0xFF);
+      TERN_(HAS_WHITE_LED, leds.color.w = ((HMI_datas.LEDColor >> 24) & 0xFF));
       leds.update();
     #endif
 
