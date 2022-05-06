@@ -251,7 +251,11 @@ typedef struct {
 
   } HMI_datas_t;
 
-  static constexpr size_t eeprom_data_size = 112;
+  #if BOTH(LED_CONTROL_MENU, HAS_COLOR_LEDS)
+    static constexpr size_t eeprom_data_size = 156;
+  #else
+    static constexpr size_t eeprom_data_size = 124;
+  #endif
   extern HMI_datas_t HMI_datas;
 
 
