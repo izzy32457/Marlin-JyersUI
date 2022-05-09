@@ -1143,7 +1143,7 @@
   void CrealityDWINClass::DWIN_Sort_SD(bool isSDMounted/*=false*/) {
     #if ALL(SDSUPPORT, SDCARD_SORT_ALPHA, SDSORT_GCODE)
     if (isSDMounted) {
-      if ((old_sdsort != HMI_datas.sdsort_alpha) || (SDremoved)) {
+      if ((old_sdsort != HMI_datas.sdsort_alpha) || (SDremoved) || (!card.flag.workDirIsRoot)) {
         SDremoved = false;
         old_sdsort = HMI_datas.sdsort_alpha;
         card.setSortOn(true);  // To force to clear the RAM!
@@ -1238,8 +1238,8 @@
         static bool _leveling_active = false;
         static bool _printing_leveling_active = false;
         if (printingIsActive()) {
-          _printing_leveling_active = ((planner.leveling_active && planner.leveling_active_at_z(destination.z)) || _leveling_active);   
-          if ((_printing_leveling_active = (planner.leveling_active && planner.leveling_active_at_z(destination.z)) && ui.get_blink()))
+          _printing_leveling_active = ((planner.leveling_active && planner.leveling_active_at_z(current_position.z)) || _printing_leveling_active);   
+          if ((_printing_leveling_active = (planner.leveling_active && planner.leveling_active_at_z(current_position.z)) && ui.get_blink()))
             DWIN_Draw_Rectangle(0, GetColor(HMI_datas.status_area_text, Color_White), 187, 415, 204, 435);
           else 
             DWIN_Draw_Rectangle(0, GetColor(HMI_datas.background, Color_Bg_Black), 187, 415, 204, 435);
@@ -6726,8 +6726,8 @@
           Draw_Main_Menu();
         }
         else {
-          DWIN_Sort_SD(card.isMounted());
           card.cdup();
+		  DWIN_Sort_SD(card.isMounted());
           Draw_SD_List();
         }
       }
@@ -6736,6 +6736,7 @@
         card.getfilename_sorted(SD_ORDER(selection - 1, card.get_num_Files())); 
         if (card.flag.filenameIsDir) {
           card.cd(card.filename);
+		  DWIN_Sort_SD(card.isMounted());
           Draw_SD_List();
         }
         else {
