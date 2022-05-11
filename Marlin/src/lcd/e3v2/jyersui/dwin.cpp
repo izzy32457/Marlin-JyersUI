@@ -6296,6 +6296,11 @@
     Draw_Float(tempvalue / valueunit, selection - scrollpos, true, valueunit);
     DWIN_UpdateLCD();
 
+    if (valuepointer == &ui.brightness) {
+      *(uint8_t*)valuepointer = tempvalue / valueunit;
+      ui.refresh_brightness();
+    }
+
       switch (active_menu) {
           case Move:
             if (livemove) {
@@ -6762,6 +6767,7 @@
             {
             str_2[nb+i] = str_1[nb+i];
             }
+            str_2[nb+3] = '\0';
             sprintf_P(header2, GET_TEXT(MSG_HEADER_FILAMENT_USED), str_2);
           }
           bool has_header_layer = find_and_decode_gcode_header(card.filename, Header_Layer);
