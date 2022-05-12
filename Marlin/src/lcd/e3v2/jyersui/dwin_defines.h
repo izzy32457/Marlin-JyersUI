@@ -92,9 +92,11 @@
     #define PRINTERNAME "Aquila"
   #endif
 #elif MB(CREALITY_V423)
-  #define PRINTERNAME "Ender-2 Pro"
+    #define PRINTERNAME "Ender-2 Pro"
 #elif (MB(CREALITY_V24S1_301) || MB(CREALITY_V24S1_F401RC))
   #define PRINTERNAME "Ender-3 S1"
+#elif MB(CREALITY_V25S1)
+  #define PRINTERNAME "CR-10 Smart Pro"
 #else
   #define PRINTERNAME "Ender-3 Series"
 #endif
