@@ -162,9 +162,7 @@ void MenuEditItemBase::goto_edit_screen(
 
 #include "../../MarlinCore.h"
 
-bool printer_busy() {
-  return planner.movesplanned() || printingIsActive();
-}
+
 
 /**
  * General function to go directly to a screen

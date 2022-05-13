@@ -22,7 +22,8 @@
 #pragma once
 
 /**
- * Creality V24S1_301 (STM32F103RE / STM32F103RC) board pin assignments as found on Ender 3 S1
+ * Creality V24S1_301 (STM32F103RE / STM32F103RC) board pin assignments as found on Ender 3 S1.
+ * Also supports the STM32F4 version of the board with identical pin mapping.
  */
 
 #include "env_validate.h"
@@ -84,9 +85,10 @@
   //#define HEATER_0_PIN                   -1
   //#define HEATER_BED_PIN                 -1
   #define FAN_PIN                          -1
-  #define SPINDLE_LASER_ENA_PIN            PA0  // FET 1
-  #define SPINDLE_LASER_PWM_PIN            PA0  // Bed FET
-  #define SPINDLE_DIR_PIN                  PA0  // FET 4
+  #define SPINDLE_LASER_ENA_PIN             PC0   // FET 1
+  #define SPINDLE_LASER_PWM_PIN             PC0   // Bed FET
+  #define SPINDLE_DIR_PIN                   PC0   // FET 4
+  #define LASER_SOFT_PWM_PIN                PC0
 #endif
 
 #include "pins_CREALITY_V4.h"

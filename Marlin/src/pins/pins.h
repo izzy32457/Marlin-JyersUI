@@ -695,8 +695,8 @@
   #include "stm32f4/pins_MKS_EAGLE.h"           // STM32F4                                env:mks_eagle
 #elif MB(ARTILLERY_RUBY)
   #include "stm32f4/pins_ARTILLERY_RUBY.h"      // STM32F4                                env:Artillery_Ruby
-#elif MB(CREALITY_V24S1_F401RC)
-  #include "stm32f4/pins_CREALITY_V24S1_F401RC.h"  // STM32F1                                env:STM32F401RC_creality
+#elif MB(CREALITY_V24S1_301F4)
+  #include "stm32f4/pins_CREALITY_V24S1_301F4.h"  // STM32F1                                env:STM32F401RC_creality
 
 
 //

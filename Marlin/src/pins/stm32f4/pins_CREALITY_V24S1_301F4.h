@@ -23,9 +23,20 @@
 /**
  * Creality S1 V24S1_F401RC (STM32F403RCT6) board pin assignments
  */
-#include "env_validate.h"
+#pragma once
 
-#define __STM32F1__
+/**
+ * Creality V24S1_301F4 (STM32F401RC) board pin assignments as found on Ender 3 S1.
+ */
+
+#ifndef BOARD_INFO_NAME
+  #define BOARD_INFO_NAME "Creality V24S1-301F4"
+#endif
+#ifndef DEFAULT_MACHINE_NAME
+  #define DEFAULT_MACHINE_NAME "Ender-3 S1 F4"
+#endif
+
+#define DISABLE_DEBUG false // DISABLE_(DEBUG|JTAG) is not supported for STM32F4.
+#define ALLOW_STM32F4
+
 #include "../stm32f1/pins_CREALITY_V24S1_301.h"
-#undef DISABLE_DEBUG // DISABLE_(DEBUG|JTAG) is not supported for STM32F4.
-#undef __STM32F1__

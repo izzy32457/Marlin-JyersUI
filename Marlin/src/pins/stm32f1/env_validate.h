@@ -22,5 +22,9 @@
 #pragma once
 
 #if NOT_TARGET(__STM32F1__, STM32F1)
-  #error "Oops! Select an STM32F1 board in 'Tools > Board.'"
+  #if DISABLED(ALLOW_STM32F4)
+    #error "Oops! Select an STM32F1 board in 'Tools > Board.'"
+  #elif NOT_TARGET(STM32F4)
+    #error "Oops! Select an STM32F4 board in 'Tools > Board.'"
+  #endif
 #endif

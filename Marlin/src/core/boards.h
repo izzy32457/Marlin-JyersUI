@@ -418,7 +418,7 @@
 #define BOARD_MKS_EAGLE               4237  // MKS Eagle (STM32F407VE)
 #define BOARD_ARTILLERY_RUBY          4238  // Artillery Ruby (STM32F401RC)
 #define BOARD_FYSETC_SPIDER_V2_2      4239  // FYSETC Spider V2.2 (STM32F446VE)
-#define BOARD_CREALITY_V24S1_F401RC   4240  // Creality S1/S1_Pro (STM32F401RC)
+#define BOARD_CREALITY_V24S1_301F4   4240  // Creality S1/S1_Pro (STM32F401RC)
 
 //
 // ARM Cortex M7
