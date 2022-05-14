@@ -1,0 +1,133 @@
+For Cura:
+startGcodes (Bilinear) ->
+
+; Ender 3 Custom Start G-code
+G92 E0 ; Reset Extruder
+M220 S100 ; Reset Feedrate
+M221 S100 ; Reset Flowrate
+M104 S{material_print_temperature_layer_0, 0} ; begin heating nozzle
+M140 S{material_bed_temperature_layer_0} ; begin heating bed
+M190 S{material_bed_temperature_layer_0} ; Wait for bed temp
+M109 S{material_print_temperature_layer_0, 0} ; Wait for nozzle temp
+M280 P0 S160 ; BLTouch alarm release
+G4 P100 ; delay for BLTouch
+G28 ; home
+M420 S1
+M140 S{material_bed_temperature_layer_0} ; begin heating bed
+M190 S{material_bed_temperature_layer_0} ; Wait for bed temp
+G1 Z2.0 F3000 ; Move Z Axis up little to prevent scratching of Heat Bed
+G1 X0.1 Y20 Z0.3 F5000.0 ; Move to start position
+G1 X0.1 Y200.0 Z0.3 F1500.0 E15 ; Draw the first line
+G1 X0.4 Y200.0 Z0.3 F5000.0 ; Move to side a little
+G1 X0.4 Y20 Z0.3 F1500.0 E30 ; Draw the second line
+G92 E0 ; Reset Extruder
+
+or: 
+
+; Ender 3 Custom Start G-code
+G92 E0 ; Reset Extruder
+M220 S100 ; Reset Feedrate
+M221 S100 ; Reset Flowrate
+M104 S{material_print_temperature_layer_0, 0} ; begin heating nozzle
+M140 S{material_bed_temperature_layer_0} ; begin heating bed
+M190 S{material_bed_temperature_layer_0} ; Wait for bed temp
+M109 S{material_print_temperature_layer_0, 0} ; Wait for nozzle temp
+M280 P0 S160 ; BLTouch alarm release
+G4 P100 ; delay for BLTouch
+G28 ; home
+G29 ; Auto Bed Leveling
+M140 S{material_bed_temperature_layer_0} ; begin heating bed
+M190 S{material_bed_temperature_layer_0} ; Wait for bed temp
+G1 Z2.0 F3000 ; Move Z Axis up little to prevent scratching of Heat Bed
+G1 X0.1 Y20 Z0.3 F5000.0 ; Move to start position
+G1 X0.1 Y200.0 Z0.3 F1500.0 E15 ; Draw the first line
+G1 X0.4 Y200.0 Z0.3 F5000.0 ; Move to side a little
+G1 X0.4 Y20 Z0.3 F1500.0 E30 ; Draw the second line
+G92 E0 ; Reset Extruder
+
+endGcodes ->
+G91 ;Relative positioning
+G1 E-2 F2700 ;Retract a bit
+G1 E-2 Z0.2 F2400 ;Retract and raise Z
+G1 X5 Y5 F3000 ;Wipe out
+G1 Z10 ;Raise Z more
+G90 ;Absolute positionning
+
+G1 X0 Y230 ;Present print
+M220 S100 ; Reset Feedrate
+M221 S100 ; Reset Flowrate
+M106 S0 ;Turn-off fan
+M104 S0 ;Turn-off hotend
+M140 S0 ;Turn-off bed
+
+M84 X Y E ;Disable all steppers but Z
+
+
+For PrusaSLicer/SuperSlicer:
+startGcodes (Bilinear) ->
+
+G90 ; use absolute coordinates
+M83 ; extruder relative mode
+M220 S100 ; Reset Feedrate
+M221 S100 ; Reset Flowrate
+M104 S[first_layer_temperature] ; set extruder temp
+M140 S[first_layer_bed_temperature] ; set bed temp
+M190 S[first_layer_bed_temperature] ; wait for bed temp
+M109 S[first_layer_temperature] ; wait for extruder temp
+; Ender 3 Custom Start G-code
+G92 E0 ; Reset Extruder
+M280 P0 S160 ; BLTouch alarm release
+G4 P100 ; delay for BLTouch
+G28 ; home
+M420 S1 ;
+M140 S[first_layer_bed_temperature] ; set bed temp
+M190 S[first_layer_bed_temperature] ; wait for bed temp
+G1 Z2.0 F3000 ; Move Z Axis up little to prevent scratching of Heat Bed
+G1 X0.1 Y20 Z0.3 F5000.0 ; Move to start position
+G1 X0.1 Y200.0 Z0.3 F1500.0 E15 ; Draw the first line
+G1 X0.4 Y200.0 Z0.3 F5000.0 ; Move to side a little
+G1 X0.4 Y20 Z0.3 F1500.0 E30 ; Draw the second line
+G92 E0 ; Reset Extruder
+G1 Z2.0 F3000 ; Move Z Axis up little to prevent scratching of Heat Bed
+G1 X5 Y20 Z0.3 F5000.0 ; Move over to prevent blob squish
+
+or:
+
+G90 ; use absolute coordinates
+M83 ; extruder relative mode
+M220 S100 ; Reset Feedrate
+M221 S100 ; Reset Flowrate
+M104 S[first_layer_temperature] ; set extruder temp
+M140 S[first_layer_bed_temperature] ; set bed temp
+M190 S[first_layer_bed_temperature] ; wait for bed temp
+M109 S[first_layer_temperature] ; wait for extruder temp
+; Ender 3 Custom Start G-code
+G92 E0 ; Reset Extruder
+M280 P0 S160 ; BLTouch alarm release
+G4 P100 ; delay for BLTouch
+G28 ; home
+G29 ;
+M140 S[first_layer_bed_temperature] ; set bed temp
+M190 S[first_layer_bed_temperature] ; wait for bed temp
+G1 Z2.0 F3000 ; Move Z Axis up little to prevent scratching of Heat Bed
+G1 X0.1 Y20 Z0.3 F5000.0 ; Move to start position
+G1 X0.1 Y200.0 Z0.3 F1500.0 E15 ; Draw the first line
+G1 X0.4 Y200.0 Z0.3 F5000.0 ; Move to side a little
+G1 X0.4 Y20 Z0.3 F1500.0 E30 ; Draw the second line
+G92 E0 ; Reset Extruder
+G1 Z2.0 F3000 ; Move Z Axis up little to prevent scratching of Heat Bed
+G1 X5 Y20 Z0.3 F5000.0 ; Move over to prevent blob squish
+
+
+endGcodes ->
+
+{if max_layer_z < max_print_height}G1 Z{z_offset+min(max_layer_z+2, max_print_height)} F600 ; Move print head up{endif}
+G1 X5 Y{print_bed_max[1]*0.8} F{travel_speed*60} ; present print
+{if max_layer_z < max_print_height-10}G1 Z{z_offset+min(max_layer_z+70, max_print_height-10)} F600 ; Move print head further up{endif}
+{if max_layer_z < max_print_height*0.6}G1 Z{max_print_height*0.6} F600 ; Move print head further up{endif}
+M140 S0 ; turn off heatbed
+M104 S0 ; turn off temperature
+M107 ; turn off fan
+M220 S100 ; Reset Feedrate
+M221 S100 ; Reset Flowrate
+M84 X Y E ; disable motors
