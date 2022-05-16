@@ -2417,8 +2417,14 @@
             case HOSTACTIONS_BACK:
               if (draw) 
                 Draw_Menu_Item(row, ICON_Back, GET_TEXT_F(MSG_BACK));
-              else
-                Draw_Menu(Prepare, PREPARE_ACTIONCOMMANDS);
+              else {
+                if (flag_tune) {
+                  flag_tune = false;
+                  Redraw_Menu(false, true, true);
+                }
+                else
+                  Draw_Menu(Prepare, PREPARE_ACTIONCOMMANDS);
+              }  
               break;
             case HOSTACTIONS_1:
               if (draw) {
@@ -5543,7 +5549,8 @@
         #define TUNE_ZUP (TUNE_ZOFFSET + ENABLED(HAS_ZOFFSET_ITEM))
         #define TUNE_ZDOWN (TUNE_ZUP + ENABLED(HAS_ZOFFSET_ITEM))
         #define TUNE_FWRETRACT (TUNE_ZDOWN + ENABLED(FWRETRACT))
-        #define TUNE_CHANGEFIL (TUNE_FWRETRACT + ENABLED(FILAMENT_LOAD_UNLOAD_GCODES))
+        #define TUNE_HOSTACTIONS (TUNE_FWRETRACT + ENABLED(HOST_ACTION_COMMANDS))
+        #define TUNE_CHANGEFIL (TUNE_HOSTACTIONS + ENABLED(FILAMENT_LOAD_UNLOAD_GCODES))
         #define TUNE_FILSENSORENABLED (TUNE_CHANGEFIL + ENABLED(HAS_FILAMENT_SENSOR))
         #define TUNE_FILSENSORDISTANCE (TUNE_FILSENSORENABLED + ENABLED(HAS_FILAMENT_SENSOR))
         #define TUNE_CASELIGHT (TUNE_FILSENSORDISTANCE + ENABLED(CASE_LIGHT_MENU))
@@ -5664,7 +5671,19 @@
                 Draw_Menu_Item(row, ICON_StepE, GET_TEXT_F(MSG_AUTORETRACT), nullptr, true);
               else {
                 flag_tune = true;
+                last_pos_selection = selection;
                 Draw_Menu(FwRetraction);
+                }
+              break;
+          #endif
+          #if ENABLED(HOST_ACTION_COMMANDS)
+            case TUNE_HOSTACTIONS:
+              if (draw)
+                Draw_Menu_Item(row, ICON_SetHome, GET_TEXT_F(MSG_HOST_ACTIONS), nullptr, true);
+              else {
+                flag_tune = true;
+                last_pos_selection = selection;
+                Draw_Menu(HostActions);
                 }
               break;
           #endif
