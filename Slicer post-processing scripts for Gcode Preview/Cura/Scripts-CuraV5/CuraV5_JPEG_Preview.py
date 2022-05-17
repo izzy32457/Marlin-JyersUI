@@ -1,3 +1,5 @@
+# Contains code from: https://github.com/mriscoc/Marlin_Ender3v2/blob/42585074807fa799bdee7ced10c9d83508df6ebf/slicer%20scripts/cura/CreateJPEGThumbnail.py
+# For Cura 5.0
 import base64
 
 from UM.Logger import Logger
@@ -7,7 +9,7 @@ from PyQt6.QtCore import QByteArray, QIODevice, QBuffer
 from ..Script import Script
 
 
-class CreateThumbnail_Preview(Script):
+class CuraV5_JPEG_Preview(Script):
     def __init__(self):
         super().__init__()
 
@@ -52,46 +54,40 @@ class CreateThumbnail_Preview(Script):
 
     def getSettingDataString(self):
         return """{
-            "name": "Create Thumbnail 180x180",
-            "key": "CreateThumbnail_Preview",
+            "name": "Create JPEG Preview for V5",
+            "key": "CuraV5_JPEG_Preview",
             "metadata": {},
             "version": 2,
             "settings":
             {
-                "width":
+                "create_thumbnail":
                 {
-                    "label": "Width",
-                    "description": "Width of the generated thumbnail",
-                    "unit": "px",
-                    "type": "int",
-                    "default_value": 180,
-                    "minimum_value": "0",
-                    "minimum_value_warning": "12",
-                    "maximum_value_warning": "800"
+                    "label": "Create thumbnail",
+                    "description":"Add a small thumbnail for the file selector",
+                    "type": "bool",
+                    "default_value": true
                 },
-                "height":
+                "create_preview":
                 {
-                    "label": "Height",
-                    "description": "Height of the generated thumbnail",
-                    "unit": "px",
-                    "type": "int",
-                    "default_value": 180,
-                    "minimum_value": "0",
-                    "minimum_value_warning": "12",
-                    "maximum_value_warning": "600"
+                    "label": "Create preview",
+                    "description":"Add a preview image shown before printing",
+                    "type": "bool",
+                    "default_value": true
                 }
             }
         }"""
 
     def execute(self, data):
-        width = self.getSettingValueByKey("width")
-        height = self.getSettingValueByKey("height")
+        thumbnail_width = 50
+        thumbnail_height = 50
+        preview_width = 180
+        preview_height = 180
 
-        snapshot = self._createSnapshot(width, height)
-        if snapshot:
-            encoded_snapshot = self._encodeSnapshot(snapshot)
-            snapshot_gcode = self._convertSnapshotToGcode(
-                encoded_snapshot, width, height)
+        preview = self._createSnapshot(preview_width, preview_height)
+        if preview and self.getSettingValueByKey("create_preview"):
+            encoded_preview = self._encodeSnapshot(preview)
+            preview_gcode = self._convertSnapshotToGcode(
+                encoded_preview, preview_width, preview_height)
 
             for layer in data:
                 layer_index = data.index(layer)
@@ -100,7 +96,26 @@ class CreateThumbnail_Preview(Script):
                     if line.startswith(";Generated with Cura"):
                         line_index = lines.index(line)
                         insert_index = line_index + 1
-                        lines[insert_index:insert_index] = snapshot_gcode
+                        lines[insert_index:insert_index] = preview_gcode
+                        break
+
+                final_lines = "\n".join(lines)
+                data[layer_index] = final_lines
+
+        thumbnail = self._createSnapshot(thumbnail_width, thumbnail_height)
+        if thumbnail and self.getSettingValueByKey("create_thumbnail"):
+            encoded_thumbnail = self._encodeSnapshot(thumbnail)
+            thumbnail_gcode = self._convertSnapshotToGcode(
+                encoded_thumbnail, thumbnail_width, thumbnail_height)
+
+            for layer in data:
+                layer_index = data.index(layer)
+                lines = data[layer_index].split("\n")
+                for line in lines:
+                    if line.startswith(";Generated with Cura"):
+                        line_index = lines.index(line)
+                        insert_index = line_index + 1
+                        lines[insert_index:insert_index] = thumbnail_gcode
                         break
 
                 final_lines = "\n".join(lines)

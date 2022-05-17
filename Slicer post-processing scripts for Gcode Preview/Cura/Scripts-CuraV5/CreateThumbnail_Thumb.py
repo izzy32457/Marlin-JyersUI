@@ -18,13 +18,13 @@ class CreateThumbnail_Thumb(Script):
         except Exception:
             Logger.logException("w", "Failed to create snapshot image")
 
-    def _encodeSnapshot(self, snapshot, quality):
+    def _encodeSnapshot(self, snapshot):
         Logger.log("d", "Encoding thumbnail image...")
         try:
             thumbnail_buffer = QBuffer()
-            thumbnail_buffer.open(QBuffer.ReadWrite)
+            thumbnail_buffer.open(QBuffer.OpenModeFlag.ReadWrite)
             thumbnail_image = snapshot
-            thumbnail_image.save(thumbnail_buffer, "JPG", quality)
+            thumbnail_image.save(thumbnail_buffer, "JPG")
             base64_bytes = base64.b64encode(thumbnail_buffer.data())
             base64_message = base64_bytes.decode('ascii')
             thumbnail_buffer.close()
@@ -52,7 +52,7 @@ class CreateThumbnail_Thumb(Script):
 
     def getSettingDataString(self):
         return """{
-            "name": "CreateThumbnail_Thumb-50x50",
+            "name": "Create Thumbnail 50x50",
             "key": "CreateThumbnail_Thumb",
             "metadata": {},
             "version": 2,
@@ -89,7 +89,7 @@ class CreateThumbnail_Thumb(Script):
 
         snapshot = self._createSnapshot(width, height)
         if snapshot:
-            encoded_snapshot = self._encodeSnapshot(snapshot, 80)
+            encoded_snapshot = self._encodeSnapshot(snapshot)
             snapshot_gcode = self._convertSnapshotToGcode(
                 encoded_snapshot, width, height)
 
