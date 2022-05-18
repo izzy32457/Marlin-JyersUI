@@ -76,20 +76,20 @@ if pioutil.is_pio_build():
 		else:
 			src_filter_key = 'build_src_filter'
 
-		custom_marlin_src_filter = ' '.join(env.GetProjectOption(src_filter_key))
+		src_filter = ' '.join(env.GetProjectOption(src_filter_key))
 		# We need to remove +<*> added by default when no src_field is configured in PIO
-		custom_marlin_src_filter = re.sub(r'\+<\*>', '', src_filter)
+		src_filter = re.sub(r'\+<\*>', '', src_filter)
 		# first we need to remove the references to the same folder
 		my_srcs = re.findall(r'[+-](<.*?>)', new_srcs)
 		cur_srcs = re.findall(r'[+-](<.*?>)', src_filter)
 		for d in my_srcs:
 			if d in cur_srcs:
-				custom_marlin_src_filter = re.sub(r'[+-]' + d, '', src_filter)
+				src_filter = re.sub(r'[+-]' + d, '', src_filter)
 
-		custom_marlin_src_filter = new_srcs + ' ' + src_filter
+		src_filter = new_srcs + ' ' + src_filter
 		set_env_field(src_filter_key, [src_filter])
 		env.Replace(SRC_FILTER = src_filter)
-		custom_marlin_src_filter = ' '.join(env.GetProjectOption(src_filter_key))
+		src_filter = ' '.join(env.GetProjectOption(src_filter_key))
 		blab("Updated src_filter: " + src_filter)
 
 	def	append_src_flags(new_srcs):
