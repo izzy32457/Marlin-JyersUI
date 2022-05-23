@@ -79,7 +79,7 @@
   #define REVERSE_ENCODER_DIRECTION
 #endif
 
-#if (MB(CREALITY_V4) || MB(CREALITY_V422))
+#if MB(CREALITY_V4, CREALITY_V422, CREALITY_V431)
   #if ANY(DWIN_DISPLAY, DACAI_DISPLAY)
     #define PRINTERNAME "Ender-3 V2"
   #else
@@ -205,8 +205,8 @@ typedef struct {
       uint16_t N_Printed : 8;
     #endif
 
-    uint8_t shortcut_0 = 0;
-    uint8_t shortcut_1 = 1;
+    uint8_t shortcut_0 = Def_Shortcut_0;
+    uint8_t shortcut_1 = Def_Shortcut_1;
 
     #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW)
       bool show_gcode_thumbnails : 1;
