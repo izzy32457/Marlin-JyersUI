@@ -109,6 +109,8 @@
   #define MOTHERBOARD BOARD_CREALITY_V4 // Creality Board v4.2.2 and V4.3.1 E3V2
   //#define MOTHERBOARD BOARD_CREALITY_V427 // Creality Board v4.2.7
   //#define MOTHERBOARD BOARD_CREALITY_V423 // Creality Board v4.2.3 Ender-2 Pro
+  //#define MOTHERBOARD BOARD_CREALITY_V422 // Creality Board v4.2.2
+  //#define MOTHERBOARD BOARD_CREALITY_V431 // Creality Board v4.3.1
 #endif
 
 /**
