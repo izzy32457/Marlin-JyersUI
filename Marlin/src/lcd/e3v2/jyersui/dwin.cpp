@@ -647,6 +647,9 @@
       case ScreenL:
         DWIN_ScreenLock();
         break;
+      case Save_set:
+        AudioFeedback(settings.save());
+        break;
       default : break;
     }
   }
