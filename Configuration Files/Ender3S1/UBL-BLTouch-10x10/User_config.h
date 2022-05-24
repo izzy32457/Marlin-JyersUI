@@ -56,6 +56,23 @@
 #define DACAI_DISPLAY
 //#define AQUILA_DISPLAY
 
+ /** 
+  *    Shortcut Defaults
+  *    0: Preheat -> Preheat menu
+  *    1: Coold. -> Cooldown action
+  *    2: D. Step -> Disable Steps motors
+  *    3: HomeXYZ -> AutoHome
+  *    4: ZOffset -> Z-Offset menu
+  *    5: M.Tram. -> Manual Tramming menu
+  *    6: Chg Fil -> Changement Filament
+  *    7: Move Z -> Moze Live Z action
+  *    8: ScreenL -> ScreenLock action
+  *    9: Save -> Store Settings
+  */
+
+#define Def_Shortcut_0    0
+#define Def_Shortcut_1    1
+
 
 /**
  * Color list number :
