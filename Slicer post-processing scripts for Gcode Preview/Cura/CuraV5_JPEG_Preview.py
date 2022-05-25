@@ -10,7 +10,7 @@ from cura.CuraVersion import CuraVersion
 from ..Script import Script
 
 
-class Cura_JPEG_Preview(Script):
+class CuraV5_JPEG_Preview(Script):
     def __init__(self):
         super().__init__()
 
@@ -21,7 +21,7 @@ class Cura_JPEG_Preview(Script):
         except Exception:
             Logger.logException("w", "Failed to create snapshot image")
 
-    def _encodeSnapshot(self, snapshot, quality):
+    def _encodeSnapshot(self, snapshot):
     
         Major=0
         Minor=0
@@ -38,18 +38,12 @@ class Cura_JPEG_Preview(Script):
           
         Logger.log("d", "Encoding thumbnail image...")
         try:
-            thumbnail_buffer = QBuffer()
             if Major < 5 :
               thumbnail_buffer.open(QBuffer.ReadWrite)
             else:
               thumbnail_buffer.open(QBuffer.OpenModeFlag.ReadWrite)
-            
             thumbnail_image = snapshot
-            if Major < 5 :
-              thumbnail_image.save(thumbnail_buffer, "JPG", quality)
-            else:
-              thumbnail_image.save(thumbnail_buffer, "JPG")
-              
+            thumbnail_image.save(thumbnail_buffer, "JPG")
             base64_bytes = base64.b64encode(thumbnail_buffer.data())
             base64_message = base64_bytes.decode('ascii')
             thumbnail_buffer.close()
@@ -77,8 +71,8 @@ class Cura_JPEG_Preview(Script):
 
     def getSettingDataString(self):
         return """{
-            "name": "Create JPEG Preview",
-            "key": "Cura_JPEG_Preview",
+            "name": "Create Cura V5 JPEG Preview",
+            "key": "CuraV5_JPEG_Preview",
             "metadata": {},
             "version": 2,
             "settings":
@@ -108,7 +102,7 @@ class Cura_JPEG_Preview(Script):
 
         preview = self._createSnapshot(preview_width, preview_height)
         if preview and self.getSettingValueByKey("create_preview"):
-            encoded_preview = self._encodeSnapshot(preview, 60)
+            encoded_preview = self._encodeSnapshot(preview)
             preview_gcode = self._convertSnapshotToGcode(
                 encoded_preview, preview_width, preview_height)
 
@@ -127,7 +121,7 @@ class Cura_JPEG_Preview(Script):
 
         thumbnail = self._createSnapshot(thumbnail_width, thumbnail_height)
         if thumbnail and self.getSettingValueByKey("create_thumbnail"):
-            encoded_thumbnail = self._encodeSnapshot(thumbnail, 80)
+            encoded_thumbnail = self._encodeSnapshot(thumbnail)
             thumbnail_gcode = self._convertSnapshotToGcode(
                 encoded_thumbnail, thumbnail_width, thumbnail_height)
 
