@@ -2468,7 +2468,8 @@
         #define CONTROL_FWRETRACT (CONTROL_MOTION + ENABLED(FWRETRACT))
         #define CONTROL_PARKMENU (CONTROL_FWRETRACT + ENABLED(NOZZLE_PARK_FEATURE))
         #define CONTROL_LEDS (CONTROL_PARKMENU + ANY(CASE_LIGHT_MENU, LED_CONTROL_MENU))
-        #define CONTROL_VISUAL (CONTROL_LEDS + 1)
+        #define CONTROL_ENCODER_DIR (CONTROL_LEDS + 1)
+        #define CONTROL_VISUAL (CONTROL_ENCODER_DIR + 1)
         #define CONTROL_HOSTSETTINGS (CONTROL_VISUAL + 1)
         #define CONTROL_ADVANCED (CONTROL_HOSTSETTINGS + 1)
         #define CONTROL_SAVE (CONTROL_ADVANCED + ENABLED(EEPROM_SETTINGS))
@@ -2521,6 +2522,16 @@
                 Draw_Menu(Ledsmenu);
               break;
           #endif
+          case CONTROL_ENCODER_DIR:
+            if (draw) {
+              Draw_Menu_Item(row, ICON_Motion, GET_TEXT_F(MSG_REV_ENCODER_DIR));
+              Draw_Checkbox(row, HMI_datas.rev_encoder_dir);
+            }
+            else {
+              HMI_datas.rev_encoder_dir = !HMI_datas.rev_encoder_dir;
+              Draw_Checkbox(row, HMI_datas.rev_encoder_dir);
+            }
+            break;
           case CONTROL_VISUAL:
             if (draw)
               Draw_Menu_Item(row, ICON_PrintSize, GET_TEXT_F(MSG_VISUAL_SETTINGS), nullptr, true);
@@ -7731,6 +7742,7 @@
   void CrealityDWINClass::Reset_Settings() {
     HMI_datas.time_format_textual = false;
     HMI_datas.fan_percent = false;
+    HMI_datas.rev_encoder_dir = false;
     TERN_(AUTO_BED_LEVELING_UBL, HMI_datas.tilt_grid_size = 0);
     HMI_datas.corner_pos = 325;
     HMI_datas.cursor_color = TERN(Ext_Config_JyersUI, Def_cursor_color, 0);

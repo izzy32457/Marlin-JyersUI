@@ -232,6 +232,8 @@ typedef struct {
       bool sdsort_alpha : 1;
     #endif
 
+    bool rev_encoder_dir : 1;
+
     #if EXTJYERSUI
       #if ENABLED(NOZZLE_PARK_FEATURE)
           xyz_int_t Park_point = DEF_NOZZLE_PARK_POINT;

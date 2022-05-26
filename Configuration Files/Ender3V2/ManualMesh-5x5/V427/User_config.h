@@ -50,7 +50,8 @@
  * - DACAI Display -> New Ender3V2 / Ender3S1 display (printers sold since December 2021 (subject to change)).
  * - AQUILA Display -> LCD Display (sold by Voxelab) - 100% Compatible with DWIN Display.
  * 
- * If you haven't a DWIN Display, uncomment your type #define DACAI_DISPLAY or #define AQUILA_DISPLAY
+ * If you haven't a DWIN Display, uncomment your type #define DACAI_DISPLAY 
+ *    or #define AQUILA_DISPLAY (in this case, only if you have a Voxelab Aquila Printer!)
  */
 
 //#define DACAI_DISPLAY

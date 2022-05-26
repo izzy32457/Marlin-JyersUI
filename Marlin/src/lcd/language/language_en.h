@@ -774,6 +774,7 @@ namespace Language_en {
     LSTR MSG_INFO_BAUDRATE_CHANGED          = STR_INFO_BAUDRATE _UxGT(" rate now at %i ") STR_INFO_BAUDRATE _UxGT(", please restart Host.");
     LSTR MSG_GCODE_THUMBNAILS               = _UxGT("Show file Thumbnails");
     LSTR MSG_EXTRUDER_INVERT                = _UxGT("Invert E Direction");
+    LSTR MSG_REV_ENCODER_DIR                = _UxGT("Invert Encoder Dir");
     LSTR MSG_HOST_ACTIONS                   = _UxGT("Host Actions");
     LSTR MSG_RESUME_PRINT2                  = _UxGT("Looks like the last");
     LSTR MSG_RESUME_PRINT3                  = _UxGT("print was interrupted.");
