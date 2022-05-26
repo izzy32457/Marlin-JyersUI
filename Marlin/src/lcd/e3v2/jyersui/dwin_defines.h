@@ -205,8 +205,8 @@ typedef struct {
       uint16_t N_Printed : 8;
     #endif
 
-    uint8_t shortcut_0 = Def_Shortcut_0;
-    uint8_t shortcut_1 = Def_Shortcut_1;
+    uint8_t shortcut_0 = TERN(Ext_Config_JyersUI, Def_Shortcut_0, 0);
+    uint8_t shortcut_1 = TERN(Ext_Config_JyersUI, Def_Shortcut_1, 1);
 
     #if ENABLED(DWIN_CREALITY_LCD_JYERSUI_GCODE_PREVIEW)
       bool show_gcode_thumbnails : 1;
