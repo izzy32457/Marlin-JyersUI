@@ -147,7 +147,7 @@
 // UI element defines and constants
 #define DWIN_FONT_MENU font8x16
 #define DWIN_FONT_STAT font10x20
-#define DWIN_FONT_HEAD font10x20
+#define DWIN_FONT_HEAD font12x24
 #define DWIN_FONT_ALERT font10x20
 #define STATUS_Y 352
 #define LCD_WIDTH (DWIN_WIDTH / 8)
