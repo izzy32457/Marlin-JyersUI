@@ -4195,6 +4195,14 @@
               else
                 Modify_Option(HMI_datas.coordinates_split_line, color_names, Custom_Colors);
               break;
+            case COLORSETTINGS_CHECKBOX_CHECK_MARK:
+              if (draw) {
+                Draw_Menu_Item(row, ICON_MaxSpeed, F("Check Mark"));
+                Draw_Option(HMI_datas.checkbox_check_mark, color_names, row, false, true);
+              }
+              else
+                Modify_Option(HMI_datas.checkbox_check_mark, color_names, Custom_Colors);
+              break;
           } // switch (item)
         break;
 
