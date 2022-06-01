@@ -150,7 +150,7 @@ extern char Hostfilename[66];
 #define Color_Light_Brown   0x6204
 #define Color_Black         0x0000
 #define Color_Grey          0x18E3
-#define Check_Color         0x4E5C  // Check-box check color
+#define Check_Color         Color_Green //0x4E5C  // Check-box check color
 #define Confirm_Color       0x34B9
 #define Cancel_Color        0x3186
 // Custom icons
