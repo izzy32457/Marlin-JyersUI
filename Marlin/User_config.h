@@ -54,7 +54,7 @@
  *    or #define AQUILA_DISPLAY (in this case, only if you have a Voxelab Aquila Printer!)
  */
 
-//#define DACAI_DISPLAY
+#define DACAI_DISPLAY
 //#define AQUILA_DISPLAY
 
 
