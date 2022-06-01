@@ -113,6 +113,7 @@
   #define Def_status_area_percent        8
   #define Def_coordinates_text           8
   #define Def_coordinates_split_line     8
+  #define Def_checkbox_check_mark        8
 
 
 
