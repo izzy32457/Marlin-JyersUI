@@ -96,12 +96,12 @@
   #define Def_popup_highlight            5
   #define Def_popup_txt                  8
   #define Def_popup_bg                   15
-  #define Def_ico_confirm_txt            8
-  #define Def_ico_confirm_bg             15
-  #define Def_ico_cancel_txt             6
-  #define Def_ico_cancel_bg              15
-  #define Def_ico_continue_txt           8
-  #define Def_ico_continue_bg            15
+  #define Def_ico_confirm_txt            15
+  #define Def_ico_confirm_bg             9
+  #define Def_ico_cancel_txt             3
+  #define Def_ico_cancel_bg              6
+  #define Def_ico_continue_txt           9
+  #define Def_ico_continue_bg            3
   #define Def_print_screen_txt           8
   #define Def_print_filename             5
   #define Def_progress_bar               8
