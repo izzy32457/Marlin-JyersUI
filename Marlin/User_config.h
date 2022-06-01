@@ -88,7 +88,7 @@
   #define Def_items_menu_text            8
   #define Def_icons_menu_text            8
   #define Def_background                 15
-  #define Def_menu_top_bg                8
+  #define Def_menu_top_bg                9
   #define Def_menu_top_txt               3
   #define Def_select_txt                 3
   #define Def_select_bg                  9
