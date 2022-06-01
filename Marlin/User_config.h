@@ -73,7 +73,7 @@
   */
 
 #define Def_Shortcut_0    0
-#define Def_Shortcut_1    1
+#define Def_Shortcut_1    3
 
 
 /**
@@ -83,36 +83,36 @@
  */
 
 
-  #define Def_cursor_color               0
-  #define Def_menu_split_line            0
-  #define Def_items_menu_text            0
-  #define Def_icons_menu_text            0
-  #define Def_background                 0
-  #define Def_menu_top_bg                0
-  #define Def_menu_top_txt               0
-  #define Def_select_txt                 0
-  #define Def_select_bg                  0
-  #define Def_highlight_box              0
-  #define Def_popup_highlight            0
-  #define Def_popup_txt                  0
-  #define Def_popup_bg                   0
-  #define Def_ico_confirm_txt            0
-  #define Def_ico_confirm_bg             0
-  #define Def_ico_cancel_txt             0
-  #define Def_ico_cancel_bg              0
-  #define Def_ico_continue_txt           0
-  #define Def_ico_continue_bg            0
-  #define Def_print_screen_txt           0
-  #define Def_print_filename             0
-  #define Def_progress_bar               0
-  #define Def_progress_percent           0
-  #define Def_remain_time                0
-  #define Def_elapsed_time               0
-  #define Def_status_bar_text            0
-  #define Def_status_area_text           0
-  #define Def_status_area_percent        0
-  #define Def_coordinates_text           0
-  #define Def_coordinates_split_line     0
+  #define Def_cursor_color               5
+  #define Def_menu_split_line            8
+  #define Def_items_menu_text            8
+  #define Def_icons_menu_text            8
+  #define Def_background                 15
+  #define Def_menu_top_bg                8
+  #define Def_menu_top_txt               3
+  #define Def_select_txt                 3
+  #define Def_select_bg                  9
+  #define Def_highlight_box              8
+  #define Def_popup_highlight            5
+  #define Def_popup_txt                  8
+  #define Def_popup_bg                   15
+  #define Def_ico_confirm_txt            8
+  #define Def_ico_confirm_bg             15
+  #define Def_ico_cancel_txt             6
+  #define Def_ico_cancel_bg              15
+  #define Def_ico_continue_txt           8
+  #define Def_ico_continue_bg            15
+  #define Def_print_screen_txt           8
+  #define Def_print_filename             5
+  #define Def_progress_bar               8
+  #define Def_progress_percent           8
+  #define Def_remain_time                8
+  #define Def_elapsed_time               8
+  #define Def_status_bar_text            8
+  #define Def_status_area_text           8
+  #define Def_status_area_percent        8
+  #define Def_coordinates_text           8
+  #define Def_coordinates_split_line     8
 
 
 
