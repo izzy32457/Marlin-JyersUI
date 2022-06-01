@@ -768,19 +768,19 @@
       DRAW_IconWB(ICON, (value ? ICON_Checkbox_T : ICON_Checkbox_F), 226, MBASE(row) - 3);
     #else // Draw a basic checkbox using rectangles and lines
       #if ENABLED(DACAI_DISPLAY)
-        DWIN_Draw_Rectangle(1, Color_Bg_Black, 226, MBASE(row), 226 + 17, MBASE(row) + 17);
-        DWIN_Draw_Rectangle(0, Color_White, 226, MBASE(row), 226 + 17, MBASE(row) + 17);
-        DWIN_Draw_String(true, DWIN_FONT_MENU, Check_Color, Color_Bg_Black, 226 + 2, MBASE(row) - 1, value ? F("x") : F(" "));
+        DWIN_Draw_Rectangle(1, GetColor(HMI_datas.background, Color_Bg_Black), 226, MBASE(row), 226 + 17, MBASE(row) + 17);
+        DWIN_Draw_Rectangle(0, GetColor(HMI_datas.highlight_box, Color_White), 226, MBASE(row), 226 + 17, MBASE(row) + 17);
+        DWIN_Draw_String(true, DWIN_FONT_MENU, GetColor(HMI_datas.checkbox_check_mark, Check_Color), GetColor(HMI_datas.background, Color_Bg_Black), 226 + 2, MBASE(row) - 1, value ? F("x") : F(" "));
       #else
-        DWIN_Draw_Rectangle(1, Color_Bg_Black, 226, MBASE(row) - 3, 226 + 20, MBASE(row) - 3 + 20);
-        DWIN_Draw_Rectangle(0, Color_White, 226, MBASE(row) - 3, 226 + 20, MBASE(row) - 3 + 20);
+        DWIN_Draw_Rectangle(1, GetColor(HMI_datas.background, Color_Bg_Black), 226, MBASE(row) - 3, 226 + 20, MBASE(row) - 3 + 20);
+        DWIN_Draw_Rectangle(0, GetColor(HMI_datas.highlight_box, Color_White), 226, MBASE(row) - 3, 226 + 20, MBASE(row) - 3 + 20);
         if (value) {
-          DWIN_Draw_Line(TERN(AQUILA_DISPLAY, Color_Red, Check_Color), 227, MBASE(row) - 3 + 11, 226 + 8, MBASE(row) - 3 + 17);
-          DWIN_Draw_Line(TERN(AQUILA_DISPLAY, Color_Red, Check_Color), 227 + 8, MBASE(row) - 3 + 17, 226 + 19, MBASE(row) - 3 + 1);
-          DWIN_Draw_Line(TERN(AQUILA_DISPLAY, Color_Red, Check_Color), 227, MBASE(row) - 3 + 12, 226 + 8, MBASE(row) - 3 + 18);
-          DWIN_Draw_Line(TERN(AQUILA_DISPLAY, Color_Red, Check_Color), 227 + 8, MBASE(row) - 3 + 18, 226 + 19, MBASE(row) - 3 + 2);
-          DWIN_Draw_Line(TERN(AQUILA_DISPLAY, Color_Red, Check_Color), 227, MBASE(row) - 3 + 13, 226 + 8, MBASE(row) - 3 + 19);
-          DWIN_Draw_Line(TERN(AQUILA_DISPLAY, Color_Red, Check_Color), 227 + 8, MBASE(row) - 3 + 19, 226 + 19, MBASE(row) - 3 + 3);
+          DWIN_Draw_Line(TERN(AQUILA_DISPLAY, Color_Red, GetColor(HMI_datas.checkbox_check_mark, Check_Color)), 227, MBASE(row) - 3 + 11, 226 + 8, MBASE(row) - 3 + 17);
+          DWIN_Draw_Line(TERN(AQUILA_DISPLAY, Color_Red, GetColor(HMI_datas.checkbox_check_mark, Check_Color)), 227 + 8, MBASE(row) - 3 + 17, 226 + 19, MBASE(row) - 3 + 1);
+          DWIN_Draw_Line(TERN(AQUILA_DISPLAY, Color_Red, GetColor(HMI_datas.checkbox_check_mark, Check_Color)), 227, MBASE(row) - 3 + 12, 226 + 8, MBASE(row) - 3 + 18);
+          DWIN_Draw_Line(TERN(AQUILA_DISPLAY, Color_Red, GetColor(HMI_datas.checkbox_check_mark, Check_Color)), 227 + 8, MBASE(row) - 3 + 18, 226 + 19, MBASE(row) - 3 + 2);
+          DWIN_Draw_Line(TERN(AQUILA_DISPLAY, Color_Red, GetColor(HMI_datas.checkbox_check_mark, Check_Color)), 227, MBASE(row) - 3 + 13, 226 + 8, MBASE(row) - 3 + 19);
+          DWIN_Draw_Line(TERN(AQUILA_DISPLAY, Color_Red, GetColor(HMI_datas.checkbox_check_mark, Check_Color)), 227 + 8, MBASE(row) - 3 + 19, 226 + 19, MBASE(row) - 3 + 3);
         }
       #endif
     #endif
@@ -3929,7 +3929,8 @@
         #define COLORSETTINGS_PROGRESS_STATUS_PERCENT (COLORSETTINGS_PROGRESS_STATUS_AREA + 1)
         #define COLORSETTINGS_PROGRESS_COORDINATES (COLORSETTINGS_PROGRESS_STATUS_PERCENT + 1)
         #define COLORSETTINGS_PROGRESS_COORDINATES_LINE (COLORSETTINGS_PROGRESS_COORDINATES + 1)
-        #define COLORSETTINGS_TOTAL COLORSETTINGS_PROGRESS_COORDINATES_LINE
+        #define COLORSETTINGS_CHECKBOX_CHECK_MARK (COLORSETTINGS_PROGRESS_COORDINATES_LINE + 1)
+        #define COLORSETTINGS_TOTAL COLORSETTINGS_CHECKBOX_CHECK_MARK
 
         switch (item) {
           case COLORSETTINGS_BACK:
@@ -6441,6 +6442,7 @@
           case COLORSETTINGS_PROGRESS_STATUS_PERCENT: HMI_datas.status_area_percent = tempvalue; break;
           case COLORSETTINGS_PROGRESS_COORDINATES: HMI_datas.coordinates_text = tempvalue; break;
           case COLORSETTINGS_PROGRESS_COORDINATES_LINE: HMI_datas.coordinates_split_line = tempvalue; break;
+          case COLORSETTINGS_CHECKBOX_CHECK_MARK: HMI_datas.checkbox_check_mark = tempvalue; break;
         }
         Redraw_Screen();
       }
@@ -7775,6 +7777,7 @@
     HMI_datas.status_area_percent = TERN(Ext_Config_JyersUI, Def_status_area_percent, 0);
     HMI_datas.coordinates_text = TERN(Ext_Config_JyersUI, Def_coordinates_text, 0);
     HMI_datas.coordinates_split_line = TERN(Ext_Config_JyersUI, Def_coordinates_split_line, 0);
+    HMI_datas.checkbox_check_mark = TERN(Ext_Config_JyersUI, Def_checkbox_check_mark, 0);
     #if ENABLED(HOST_ACTION_COMMANDS)
       HMI_datas.host_action_label_1 = 0;
       HMI_datas.host_action_label_2 = 0;

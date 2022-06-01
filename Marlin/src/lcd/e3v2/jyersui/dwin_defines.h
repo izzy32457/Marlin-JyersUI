@@ -195,6 +195,7 @@ typedef struct {
     uint8_t status_area_percent     : 4;
     uint8_t coordinates_text        : 4;
     uint8_t coordinates_split_line  : 4;
+    uint8_t checkbox_check_mark     : 4;
     #if ENABLED(HOST_ACTION_COMMANDS)
       uint64_t host_action_label_1 : 48;
       uint64_t host_action_label_2 : 48;
